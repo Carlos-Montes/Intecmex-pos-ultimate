@@ -1,0 +1,187 @@
+:root{
+    --gris: #6f6e72
+    --azul: #068DA5
+
+    --negro: #000000
+    --verde: #0c9612
+
+    --button-primary: #B91C1C
+    --button-primary-hover: #991B1B;
+    --label-white: #FFF
+    --background-white: #FFF
+}
+
+*
+    margin: 0px
+    padding: 0px
+    -webkit-touch-callout: none !important
+    -webkit-user-drag: none
+    transition: all 0.2s ease
+    &::-webkit-scrollbar
+        display: none
+
+.ts
+    -webkit-transition: all 0.3s ease
+    transition: all 0.3s ease
+
+.mtop4
+    margin-top: 4px
+
+.mtop8
+    margin-top: 8px
+
+.mtop16
+    margin-top: 16px
+
+.mtop24
+    margin-top: 24px
+
+.mtop32
+    margin-top: 32px
+
+
+.sh
+    box-shadow: 0 0.25rem 1.125rem rgba(75, 70, 92, 0.2)
+    -webkit-box-shadow: 0 0.25rem 1.125rem rgba(75, 70, 92, 0.2)
+    -moz-box-shadow: 0 0.25rem 1.125rem rgba(75, 70, 92, 0.2)
+
+.form-control
+.form-select
+.form-date
+    &:focus
+        box-shadow: none
+        outline: none
+.form-select
+    &:focus
+        border: 1px solid var(--button-primary)
+.form
+    label
+        color: var(--label-white)
+        display: flex
+        font-size: 0.88rem
+        margin-bottom: 6px
+        width: 100%
+    input 
+        box-sizing: border-box
+        border: 1px solid #dbdade
+        border-radius: .375rem
+        color: #6f6b7d
+        font-size: 0.9375rem
+        padding: 9px 12px
+        width: 100%
+        &:focus
+        &:active
+            outline: none
+        &:focus
+            border: 1px solid var(--button-primary)
+    input[type=submit]
+        display: grid
+        box-sizing: border-box
+        background-color: var(--button-primary)
+        border: 1px solid var(--button-primary)
+        color: var(--blanco)
+        font-size: 0.9375rem
+        letter-spacing: .43px
+        padding: 9px 12px
+        transition: all .135s ease-in-out
+        cursor: pointer
+        text-align: center
+        width: 100%
+        &:hover
+            background-color: var(--button-primary-hover)
+            border: 1px solid var(--button-primary-hover)
+    .actions_right
+        display: flex
+        justify-content: right 
+        a
+            font-weight: 400
+.form-check
+    .form-check-input
+        &:checked
+            background-color: var(--button-primary)
+            border-color: var(--button-primary)
+        &:focus
+            box-shadow: none
+            outline: none
+.loader_action
+    align-items: center
+    display: none
+    background-color: rgba(0,0,0, .5)
+    justify-content: center
+    height: 100vh
+    position: fixed
+    width: 100%
+    z-index: 999990
+    .action
+        align-items: center
+        display: flex
+        background-color: #7A1111
+        border-radius: 8px
+        box-sizing: border-box
+        justify-content: center
+        padding: 16px
+        overflow: hidden
+        width: 330px
+        .col
+            display: block
+            flex: initial
+            color: var(--label-white)
+            float: left
+            &:first-child
+                width: 40px
+                img
+                    display: block
+                    width: 100%
+            &:last-child
+                margin-left: 5%
+                position: relative
+                width: calc(95% - 40px)
+
+.loader_action_animation_show
+    animation-timing-function: ease-in-out
+    animation: action_show 0.3s forwards
+
+.loader_action_animation_hide
+    animation-timing-function: ease-in-out
+    animation: action_hide 0.3s forwards
+
+.align-center
+    display: flex
+    justify-content: center
+
+.hide
+    display: none !important
+
+.pulse-element
+    animation: pulse 0.5s infinite
+    transform-origin: center
+
+@keyframes pulse {
+    0% {
+       transform: scale(1) 
+    }
+    50% {
+        transform: scale(1.4)  
+    }
+    100% {
+        transform: scale(1)    
+    }
+}
+
+@keyframes action_show {
+    0% {
+       opacity 0 
+    }
+    100% {
+        opacity 1    
+    }
+}
+
+@keyframes action_hide {
+    0% {
+       opacity 1
+    }
+    100% {
+        opacity 0   
+    }
+}
