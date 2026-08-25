@@ -1,11 +1,10 @@
 <?php
 
 return [
-    'app_name' => 'Intecmex POS Canicerias',
-    'app_version' => '1.0.0',
-    'business_address' => 'Jafra Logística',
+    'app_name' => 'Intecmex POS Carnicerias',
+    'business_address' => 'Temoaya, Estado de México',
     'business_phone' => '7894561230',
-    'email_from' => 'MailRelay@jafraco.onmicrosoft.com',
-    'cdn_path' => env('CDN_PATH', 'C:\www\Intecmex-POS-Canicerias\CDN'),
+    'email_from' => 'sendmail@intecmex.com',
+    'cdn_path' => 'C:/www/Intecmex-POS-Canicerias/CDN',
     'cdn' => 'http://cdnpos.test',
 ];

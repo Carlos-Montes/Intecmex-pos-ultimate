@@ -11,9 +11,9 @@
         @show
         <li>
             <a href="{{ url('/profile/edit') }}" class="avatar">
-                <span>{{ explode(' ', Auth::user()->name)[0] }}</span>
+                <span>Bienvenido, {{ Auth::user()->name }}</span>
                 @if(is_null(Auth::user()->avatar))
-                    <img src="{{ url('/static/web/images/general/default-avatar.png') }}">
+                    <img src="{{ url('/static/images/general/default-avatar.png') }}">
                 @else
                     <img src="{{ getFileUrl(Auth::user()->avatar, '64') }}">
                 @endif

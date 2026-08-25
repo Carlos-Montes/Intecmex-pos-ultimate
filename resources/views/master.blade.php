@@ -28,7 +28,7 @@
     {{-- SCRIPTS GLOBAL --}}
     <script src="{{ url('/static/js/app.js?v='.time()) }}"></script>
     <script src="{{ url('/static/js/lang.js?v='.time()) }}"></script>
-    <script src="{{ url('/static/libs/ckeditor/ckeditor.js') }}"></script>
+    {{-- <script src="{{ url('/static/libs/ckeditor/ckeditor.js') }}"></script> --}}
 
     {{-- ICONS BOOSTRAP --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
