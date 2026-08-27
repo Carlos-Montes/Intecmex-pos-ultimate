@@ -1,0 +1,99 @@
+body
+    background-color: #020B24
+    font-family: 'Public Sans', sans-serif
+    font-size: 14px
+    margin: 0px
+    padding: 0px
+
+.page_error_404
+    align-items: center
+    display: flex
+    height: 100vh
+    max-height: 100vh
+    justify-content: center
+    width 100%
+
+.connect
+    display: flex
+    height: 100vh
+    width: 100%
+    .col
+        box-sizing: border-box
+        display: flex
+        height: 100vh
+        width: 100%
+        &:first-child
+            padding: 32px 0px 32px 32px
+            width: 56%
+        &:last-child
+            width: 44%
+    .cover
+        align-items: center
+        background-color: #f8f9fa
+        box-sizing: border-box
+        border-radius: 1.125rem
+        display: flex
+        height: 100%
+        justify-content: center
+        width: 100%
+        clip-path: polygon(100% 0%, 88% 12%, 96% 25%, 86% 38%, 95% 50%, 86% 62%, 96% 75%, 88% 88%, 100% 100%, 0 100%, 0 0);
+        img
+            display: block
+            height: auto
+            width: 80%
+    .box
+        align-items: center
+        display: flex
+        justify-content: center
+        box-sizing: border-box
+        padding: 3rem
+        width: 100%
+        .in
+            width: 100%
+            max-width: 400px
+            .logo
+                display: flex
+                justify-content: center
+                width: 100%
+                img
+                    display: block
+                    width: 220px
+            h3
+                color: var(--background-white)
+                font-weight: 500
+                font-size: 1.625rem
+                margin: 0px
+                margin-top: 4px
+            p
+                color: #bcbbbe
+                font-size: 1.1em
+                margin: 0px
+                margin-top: 4px
+            a
+                color: var(--gris)
+                text-decoration: none
+
+// RESPONSIVE CODE
+@media screen and (max-width 992px)
+    .connect
+       .col
+            &:first-child
+                display: none
+            &:last-child
+                width: 100%
+        .box
+            .in
+                .logo
+                    width: 100%
+                    img
+                        width: 180px
+                h3
+                    color: var(--negro)
+                    font-size: 1.225rem
+                p
+                    color: var(--negro)
+                    font: 0.8em
+
+    .page_error_404
+        img
+            max-width: 300px
