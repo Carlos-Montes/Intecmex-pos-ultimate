@@ -5,6 +5,8 @@ use App\Http\Controllers\ConnectController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\FinancesController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\Api\ConnectController as ApiConnectController;
 use App\Http\Controllers\Api\AccountController as ApiAccountController;
@@ -33,6 +35,14 @@ Route::middleware('auth')->group(function(){
     Route::prefix('categories')->group(function(){
         Route::get('/list', [CategoriesController::class, 'getCategories'])->name('categories');
         Route::get('/{id}/subs', [CategoriesController::class, 'getSubCategories'])->name('subcategories');
+    });
+
+    Route::prefix('inventory')->group(function(){
+        Route::get('/initial', [InventoryController::class, 'getInventory'])->name('inventory');
+    });
+
+    Route::prefix('finances')->group(function(){
+        Route::get('/list/{type}', [FinancesController::class, 'getFinances'])->name('finances');
     });
 
     Route::prefix('settings')->group(function(){

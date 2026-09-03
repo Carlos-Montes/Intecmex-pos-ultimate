@@ -89,6 +89,18 @@ function gender($id = null){
     endif;
 }
 
+function getFinances($type = null){
+    $f = [
+        '0' => 'Gastos',
+        '1' => 'Cuentas Contables',
+    ];
+    if(!is_null($type)):
+        return $f[$type];
+    else:
+        return $f;
+    endif;
+}
+
 function getFileUrl($data, $prefix = null){
     $data = json_decode($data, true);
 
