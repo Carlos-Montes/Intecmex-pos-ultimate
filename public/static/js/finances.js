@@ -19,6 +19,16 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    var edit_buttons_expense = document.getElementsByClassName("btn-edit-expense");
+    if (edit_buttons_expense) {
+        Array.from(edit_buttons_expense).forEach(function (btn) {
+            btn.addEventListener("click", function (e) {
+                e.preventDefault();
+                edit_expense(btn);
+            });
+        });
+    }
+
     var btn_cancel = document.getElementById("btn_account_cancel");
 
     if (btn_cancel) {
@@ -158,4 +168,20 @@ function expense_add() {
     };
 
     http.send(new FormData(document.getElementById("form_expense_add")));
+}
+
+function edit_expense(btn) {
+    expense_edit_id = btn.getAttribute("data-id");
+
+    document.querySelector('#form_expense_add select[name="account_id"]').value = btn.getAttribute("data-account_id");
+    document.querySelector('#form_expense_add input[name="supplier_id"]').value = btn.getAttribute("data-supplier_id");
+    document.querySelector('#form_expense_add input[name="concept"]').value = btn.getAttribute("data-concept");
+    document.querySelector('#form_expense_add input[name="amount"]').value = btn.getAttribute("data-amount");
+    document.querySelector('#form_expense_add input[name="date"]').value = btn.getAttribute("data-date");
+    document.querySelector('#form_expense_add textarea[name="observations"]').value = btn.getAttribute("data-observations");
+
+    var submit_btn = document.querySelector('#form_expense_add button[type="submit"]');
+    submit_btn.textContent = "Actualizar Gasto";
+
+    document.getElementById("btn_expense_cancel").classList.remove("hide");
 }

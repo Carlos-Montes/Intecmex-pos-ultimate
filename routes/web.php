@@ -66,4 +66,6 @@ Route::prefix('api-js')->group(function(){
     Route::post('/account/{id}/edit', [ApiFinancesController::class, 'postAccountsEdit'])->name('api.accounts.edit');
     Route::get('/account/{id}/delete', [ApiFinancesController::class, 'getAccountsDelete'])->name('api.accounts.delete');
     Route::post('/expenses/add', [ApiFinancesController::class, 'postExpensesAdd'])->name('api.expenses.add');
+    Route::post('/expense/{id}/edit', [ApiFinancesController::class, 'postExpensesEdit'])->name('api.expenses.edit');
+    Route::get('/expense/{id}/delete', [ApiFinancesController::class, 'getExpensesDelete'])->name('api.expenses.delete');
 });

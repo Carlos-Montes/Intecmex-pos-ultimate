@@ -179,8 +179,15 @@
                                     <td>{{ $expense->observations }}</td>
                                     <td class="form-medium">
                                         <div class="opts">
-                                            <a href="#" class="edit btn-edit-expense" data-id="{{ $expense->id }}">
-                                                <i class="bi bi-pencil-square"></i>
+                                            <a href="#" class="edit btn-edit-expense" 
+                                                data-id="{{ $expense->id }}"
+                                                data-account_id="{{ $expense->account_id }}"
+                                                data-supplier_id="{{ $expense->supplier_id }}"
+                                                data-concept="{{ $expense->concept }}"
+                                                data-amount="{{ $expense->amount }}"
+                                                data-date="{{ $expense->date }}"
+                                                data-observations="{{ $expense->observations }}">
+                                                    <i class="bi bi-pencil-square"></i>
                                             </a>
                                             <a href="#" class="deleted btn-deleted" data-action="delete" data-path="api-js/expense" data-object="{{ $expense->id }}">
                                                 <i class="bi bi-trash2-fill"></i>
