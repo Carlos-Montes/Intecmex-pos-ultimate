@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Account;
-
+use App\Models\Expense;
 use Validator;
 
 class FinancesController extends Controller
@@ -79,5 +79,41 @@ class FinancesController extends Controller
         if($account->delete()){
             return back()->with('message', 'Se eliminó correctamente la cuenta contable.')->with('typealert', 'primary');
         }
+    }
+
+    public function postExpensesAdd(Request $request){
+        // Validamos que los campos obligatorios no vengan vacíos
+        $rules = [
+            'account_id' => 'required',
+            'amount' => 'required',
+            'date' => 'required',
+        ];
+
+        $messages = [
+            'account_id.required' => 'La cuenta contable es requerida',
+            'amount.required' => 'El monto es requerido',
+            'date.required' => 'La fecha es requerida',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if($validator->fails()){
+            return response()->json(['type' => 'error', 'title' => 'Ha ocurrido un error.', 'msg' => 'Completa toda la información correctamente.', 'msgs' => json_encode($validator->errors()->all())]);
+        }
+
+        // Guardamos en la base de datos
+        $expense = new Expense;
+        $expense->account_id = $request->input('account_id');
+        $expense->supplier_id = $request->input('supplier_id');
+        $expense->concept = $request->input('concept');
+        $expense->amount = $request->input('amount');
+        $expense->date = $request->input('date');
+        $expense->observations = $request->input('observations');
+
+        if($expense->save()){
+            return response()->json(['type' => 'success', 'title' => config('intecmex.app_name'), 'msg' => 'Se guardó correctamente el gasto.']);
+        }
+
+        return response()->json(['type' => 'error', 'title' => 'Ha ocurrido un error.', 'msg' => 'No se pudo guardar el gasto.']);
     }
 }

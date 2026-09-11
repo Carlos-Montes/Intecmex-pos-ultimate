@@ -51,6 +51,7 @@ Route::middleware('auth')->group(function(){
         Route::post('/',[ApiSettingsController::class, 'postSettings'])->name('settings');
         Route::get('/clear',[ApiSettingsController::class, 'getSettingsClear'])->name('platform_settings_clear');
     });
+
 });
 
 
@@ -64,4 +65,5 @@ Route::prefix('api-js')->group(function(){
     Route::post('/accounts/add', [ApiFinancesController::class, 'postAccountsAdd'])->name('api.accounts.add');
     Route::post('/account/{id}/edit', [ApiFinancesController::class, 'postAccountsEdit'])->name('api.accounts.edit');
     Route::get('/account/{id}/delete', [ApiFinancesController::class, 'getAccountsDelete'])->name('api.accounts.delete');
+    Route::post('/expenses/add', [ApiFinancesController::class, 'postExpensesAdd'])->name('api.expenses.add');
 });

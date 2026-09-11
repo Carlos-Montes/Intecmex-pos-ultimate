@@ -27,6 +27,23 @@ document.addEventListener("DOMContentLoaded", function () {
             cancel_account();
         });
     }
+    var form_expense_add = document.getElementById("form_expense_add");
+
+    if (form_expense_add) {
+        form_expense_add.addEventListener("submit", function (e) {
+            e.preventDefault(); // ¡Esto evita la pantalla roja de error!
+            expense_add();
+        });
+    }
+
+    var btn_expense_cancel = document.getElementById("btn_expense_cancel");
+
+    if (btn_expense_cancel) {
+        btn_expense_cancel.addEventListener("click", function (e) {
+            e.preventDefault();
+            cancel_expense();
+        });
+    }
 });
 
 var account_edit_id = null;
@@ -91,4 +108,54 @@ function finances_add() {
     };
 
     http.send(new FormData(document.getElementById("form_account_add")));
+}
+
+var expense_edit_id = null;
+
+function cancel_expense() {
+    expense_edit_id = null;
+    document.getElementById("form_expense_add").reset();
+
+    var submit_btn = document.querySelector('#form_expense_add button[type="submit"]');
+    submit_btn.textContent = "Guardar Gasto";
+
+    document.getElementById("btn_expense_cancel").classList.add("hide");
+}
+
+function expense_add() {
+    loader_action_status("show");
+    
+    var url = "";
+    if (expense_edit_id) {
+        url = base + "/api-js/expense/" + expense_edit_id + "/edit";
+    } else {
+        url = base + "/api-js/expenses/add"; // Esta será tu nueva ruta
+    }
+
+    var http = new XMLHttpRequest();
+    http.open("POST", url, true);
+    http.setRequestHeader("X-CSRF-TOKEN", csrftoken);
+
+    http.onreadystatechange = function () {
+        if (this.readyState == "4" && this.status == "200") {
+            var data = JSON.parse(this.responseText);
+
+            if (data.type == "success") {
+                window.location.reload(); // Recarga para mostrar el gasto nuevo en la tabla
+            } else {
+                mdalert(data);
+            }
+        }
+
+        if (this.status != "200" && this.readyState == "4") {
+            mdalert({
+                title: lang["app_name"],
+                type: "error",
+                msg: lang["error"],
+            });
+        }
+        loader_action_status("hide");
+    };
+
+    http.send(new FormData(document.getElementById("form_expense_add")));
 }
