@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\ConnectController as ApiConnectController;
 use App\Http\Controllers\Api\AccountController as ApiAccountController;
 use App\Http\Controllers\Api\SettingsController as ApiSettingsController;
 use App\Http\Controllers\Api\CategoriesController as ApiCategoriesController;
+use App\Http\Controllers\Api\FinancesController as ApiFinancesController;
 
 
 Route::middleware('guest')->group(function(){
@@ -60,4 +61,7 @@ Route::prefix('api-js')->group(function(){
     Route::post('/categorie/{id}/edit', [ApiCategoriesController::class, 'postCategoriesEdit'])->name('api.categories.edit');
     Route::get('/categorie/{id}/delete', [ApiCategoriesController::class, 'getCategoriesDelete'])->name('api.categories.delete');
     Route::get('/subcategorie/{id}/delete', [ApiCategoriesController::class, 'getSubcategoriesDelete'])->name('api.subcategories.delete');
+    Route::post('/accounts/add', [ApiFinancesController::class, 'postAccountsAdd'])->name('api.accounts.add');
+    Route::post('/account/{id}/edit', [ApiFinancesController::class, 'postAccountsEdit'])->name('api.accounts.edit');
+    Route::get('/account/{id}/delete', [ApiFinancesController::class, 'getAccountsDelete'])->name('api.accounts.delete');
 });
