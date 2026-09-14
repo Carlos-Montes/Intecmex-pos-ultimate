@@ -21,7 +21,6 @@ Route::middleware('guest')->group(function(){
     });
 });
 
-/**  SYSTEM AUTH  */
 Route::middleware('auth')->group(function(){
     Route::prefix('connect')->group(function(){
         Route::get('/logout', [ConnectController::class, 'getLogout'])->name('logout');

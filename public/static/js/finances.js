@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (form_expense_add) {
         form_expense_add.addEventListener("submit", function (e) {
-            e.preventDefault(); // ¡Esto evita la pantalla roja de error!
+            e.preventDefault();
             expense_add();
         });
     }
@@ -139,7 +139,7 @@ function expense_add() {
     if (expense_edit_id) {
         url = base + "/api-js/expense/" + expense_edit_id + "/edit";
     } else {
-        url = base + "/api-js/expenses/add"; // Esta será tu nueva ruta
+        url = base + "/api-js/expenses/add"; 
     }
 
     var http = new XMLHttpRequest();
@@ -151,7 +151,7 @@ function expense_add() {
             var data = JSON.parse(this.responseText);
 
             if (data.type == "success") {
-                window.location.reload(); // Recarga para mostrar el gasto nuevo en la tabla
+                window.location.reload();
             } else {
                 mdalert(data);
             }
