@@ -125,6 +125,11 @@ document.addEventListener('DOMContentLoaded', function(){
         btn_deleted[i].addEventListener("click", delete_object);
     }
 
+    btn_inactive = document.getElementsByClassName("btn-inactive");
+    for (i = 0; i < btn_inactive.length; i++) {
+        btn_inactive[i].addEventListener("click", inactive_object);
+    }
+
 
 });
 
@@ -157,3 +162,24 @@ function delete_object(e) {
         });
     }
 }
+
+
+function inactive_object(e) {
+    e.preventDefault();
+    var object = this.getAttribute("data-object");
+    var action = this.getAttribute("data-action");
+    var path = this.getAttribute("data-path");
+    var url = base + "/" + path + "/" + object + "/" + action;
+
+    if (action == "inactive") {
+        mdalert({
+            title: "¿Estás seguro de que deseas desactivar este elemento?",
+            type: "inactive",
+            msg: "Esta acción desactivará este elemento. Podrás volver a activarlo posteriormente.",
+            actions: JSON.stringify([
+                { url: url, name: "Si, Desactivar", type: "danger" },
+            ]),
+        });
+    }
+}
+

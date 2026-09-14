@@ -13,10 +13,10 @@ class FirstSeeder extends Seeder
     public function run(): void
     {
         DB::table('users')->insert([
-            'name' => 'Carlos Montes',
-            'email' => 'carlos_montes@jafra.com.mx',
+            'name' => 'leonardo',
+            'email' => 'leonardo@intecmex.com',
             'password' => Hash::make('password'),
-            'gender' => '2'
+            'gender' => '1'
         ]);
     }
 }

@@ -112,3 +112,34 @@ function getFileUrl($data, $prefix = null){
     
     return $url;
 }
+
+
+function generate_avatar($username){
+    $initials = "";
+    $words = explode(' ', $username);
+
+    if(!empty($words[0])){
+        $initials .= strtoupper(substr($words[0], 0, 1));
+    }
+
+    if(count($words) > 1 && !empty($words[0])){
+        $initials .= strtoupper(substr($words[1], 0, 1));
+    }
+
+    return $initials;
+}
+
+
+function getUsersStatus($id = null){
+    $status = [
+        '0' => 'Activo',
+        '1' => 'Inactivo',
+        '100' => 'Suspendido',
+    ];
+
+    if(!is_null($id)):
+        return $status[$id];
+    else:
+        return $status;
+    endif;
+}

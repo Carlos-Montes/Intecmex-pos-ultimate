@@ -12,9 +12,13 @@
                             <button class="nav-link active w-100" id="v-pills-company-tab" data-bs-toggle="pill" data-bs-target="#v-pills-company" type="button" role="tab" aria-controls="v-pills-company" aria-selected="true">
                                 <i class="bi bi-building"></i> Empresa
                             </button>
+                            <button class="nav-link w-100" id="v-pills-permissions-tab" data-bs-toggle="pill" data-bs-target="#v-pills-permissions" type="button" role="tab" aria-controls="v-pills-permissions" aria-selected="true">
+                                <i class="bi bi-list-check"></i> Permisos
+                            </button>
                             <button class="nav-link w-100" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="true">
                                 <i class="bi bi-life-preserver"></i> Configuración
                             </button>
+
                         </div>
                     </div>
                 </div>
