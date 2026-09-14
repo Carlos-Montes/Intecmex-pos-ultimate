@@ -8,6 +8,8 @@ use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\FinancesController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\PosController;
+use App\Http\Controllers\ReportesController;
 use App\Http\Controllers\Api\ConnectController as ApiConnectController;
 use App\Http\Controllers\Api\AccountController as ApiAccountController;
 use App\Http\Controllers\Api\SettingsController as ApiSettingsController;
@@ -44,6 +46,10 @@ Route::middleware('auth')->group(function(){
     Route::prefix('finances')->group(function(){
         Route::get('/list/{type}', [FinancesController::class, 'getFinances'])->name('finances');
     });
+
+    Route::get('/pos', [PosController::class, 'getHome'])->name('pos');
+
+    Route::get('/reports', [ReportesController::class, 'getHome'])->name('reportes');
 
     Route::prefix('settings')->group(function(){
         Route::get('/', [SettingsController::class, 'getSettings'])->name('settings');
