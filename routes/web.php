@@ -10,11 +10,14 @@ use App\Http\Controllers\FinancesController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\PosController;
+use App\Http\Controllers\ReportesController;
 use App\Http\Controllers\Api\ConnectController as ApiConnectController;
 use App\Http\Controllers\Api\AccountController as ApiAccountController;
 use App\Http\Controllers\Api\SettingsController as ApiSettingsController;
 use App\Http\Controllers\Api\CategoriesController as ApiCategoriesController;
 use App\Http\Controllers\Api\UsersController as ApiUsersController;
+use App\Http\Controllers\Api\FinancesController as ApiFinancesController;
 
 
 Route::middleware('guest')->group(function(){
@@ -23,7 +26,6 @@ Route::middleware('guest')->group(function(){
     });
 });
 
-/**  SYSTEM AUTH  */
 Route::middleware('auth')->group(function(){
     Route::prefix('connect')->group(function(){
         Route::get('/logout', [ConnectController::class, 'getLogout'])->name('logout');
@@ -51,6 +53,9 @@ Route::middleware('auth')->group(function(){
     Route::prefix('products')->group(function(){
         Route::get('/{status}', [ProductsController::class, 'getProductos'])->name('product');
     });
+    Route::get('/pos', [PosController::class, 'getHome'])->name('pos');
+
+    Route::get('/reports', [ReportesController::class, 'getHome'])->name('reportes');
 
     Route::prefix('settings')->group(function(){
         Route::get('/', [SettingsController::class, 'getSettings'])->name('settings');
@@ -78,4 +83,10 @@ Route::prefix('api-js')->group(function(){
     Route::get('/categorie/{id}/delete', [ApiCategoriesController::class, 'getCategoriesDelete'])->name('api.categories.delete');
     Route::get('/subcategorie/{id}/delete', [ApiCategoriesController::class, 'getSubcategoriesDelete'])->name('api.subcategories.delete');
 
+    Route::post('/accounts/add', [ApiFinancesController::class, 'postAccountsAdd'])->name('api.accounts.add');
+    Route::post('/account/{id}/edit', [ApiFinancesController::class, 'postAccountsEdit'])->name('api.accounts.edit');
+    Route::get('/account/{id}/delete', [ApiFinancesController::class, 'getAccountsDelete'])->name('api.accounts.delete');
+    Route::post('/expenses/add', [ApiFinancesController::class, 'postExpensesAdd'])->name('api.expenses.add');
+    Route::post('/expense/{id}/edit', [ApiFinancesController::class, 'postExpensesEdit'])->name('api.expenses.edit');
+    Route::get('/expense/{id}/delete', [ApiFinancesController::class, 'getExpensesDelete'])->name('api.expenses.delete');
 });
