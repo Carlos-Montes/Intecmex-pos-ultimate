@@ -9,7 +9,7 @@ use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\FinancesController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UsersController;
-use App\Http\Controllers\ProductosController;
+use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\Api\ConnectController as ApiConnectController;
 use App\Http\Controllers\Api\AccountController as ApiAccountController;
 use App\Http\Controllers\Api\SettingsController as ApiSettingsController;
@@ -49,7 +49,7 @@ Route::middleware('auth')->group(function(){
     });
 
     Route::prefix('products')->group(function(){
-        Route::get('/{status}', [ProductosController::class, 'getProductos'])->name('product');
+        Route::get('/{status}', [ProductsController::class, 'getProductos'])->name('product');
     });
 
     Route::prefix('settings')->group(function(){

@@ -17,7 +17,7 @@
             </a>
         </li>
         <li>
-            <a href="{{ url('/') }}" class="lk-dashboard">
+            <a href="{{ url('/products/1') }}" class="lk-dashboard">
                 <i class="bi bi-boxes"></i>
                 <span> Productos</span>
             </a>
