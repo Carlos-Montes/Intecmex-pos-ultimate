@@ -18,6 +18,7 @@ use App\Http\Controllers\Api\SettingsController as ApiSettingsController;
 use App\Http\Controllers\Api\CategoriesController as ApiCategoriesController;
 use App\Http\Controllers\Api\UsersController as ApiUsersController;
 use App\Http\Controllers\Api\FinancesController as ApiFinancesController;
+use App\Http\Controllers\Api\ProductController as ApiProdcutController;
 
 
 Route::middleware('guest')->group(function(){
@@ -51,11 +52,20 @@ Route::middleware('auth')->group(function(){
     });
 
     Route::prefix('products')->group(function(){
-        Route::get('/{status}', [ProductsController::class, 'getProductos'])->name('product');
+        Route::get('/{status}', [ProductsController::class, 'getProducts'])->name('product');
+        Route::get('/list/{type}', [ProductsController::class, 'getProductsType'])->name('product_type');
     });
+
+    Route::prefix('product')->group(function(){
+        Route::get('/add', [ProductsController::class, 'getProductsAdd'])->name('product_add');
+        Route::get('/{id}/edit', [ProductsController::class, 'getProductsEdit'])->name('product_add');
+    });
+
     Route::get('/pos', [PosController::class, 'getHome'])->name('pos');
 
-    Route::get('/reports', [ReportesController::class, 'getHome'])->name('reportes');
+    Route::prefix('reports')->group(function(){
+       Route::get('/', [ReportesController::class, 'getHome'])->name('reports');
+    });
 
     Route::prefix('settings')->group(function(){
         Route::get('/', [SettingsController::class, 'getSettings'])->name('settings');
@@ -88,5 +98,7 @@ Route::prefix('api-js')->group(function(){
     Route::get('/account/{id}/delete', [ApiFinancesController::class, 'getAccountsDelete'])->name('api.accounts.delete');
     Route::post('/expenses/add', [ApiFinancesController::class, 'postExpensesAdd'])->name('api.expenses.add');
     Route::post('/expense/{id}/edit', [ApiFinancesController::class, 'postExpensesEdit'])->name('api.expenses.edit');
+    Route::post('/product/add', [ApiProdcutController::class, 'postProductAdd'])->name('api.product.add');
     Route::get('/expense/{id}/delete', [ApiFinancesController::class, 'getExpensesDelete'])->name('api.expenses.delete');
+    Route::get('/load/subcategories/{parent}', [ApiProdcutController::class, 'getSubCategories'])->name('api.subcategory.search');
 });

@@ -143,3 +143,17 @@ function getUsersStatus($id = null){
         return $status;
     endif;
 }
+
+function getProducts($id = null){
+    $product = [
+        '1' => 'Unidades',
+        '2' => 'Marcas',
+        '3' => 'Imprimir etiquetas'
+    ];
+
+    if(!is_null($id)):
+        return $product[$id];
+    else:
+        return $product;
+    endif;
+}

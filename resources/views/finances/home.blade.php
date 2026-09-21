@@ -4,11 +4,12 @@
     <script src="{{ url('/static/js/finances.js?v=' . time()) }}"></script>
 @endsection
 
+@section('subRouter')finances_{{ $type }}@endsection
+
 @section('content')
 
     @if($type == 1)
     <div class="row">
-
         <div class="col-md-4">
             <div class="panel mtop16 sh">
                 <div class="panel-header">

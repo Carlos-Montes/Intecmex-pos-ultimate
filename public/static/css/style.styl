@@ -324,6 +324,45 @@ ul.pagination
             margin-bottom: 0px
             i
                 color: var(--button-primary)
+        ul
+            display inline-block
+            float right
+            margin-right 12px
+            li
+                display inline-block
+                position relative
+                a
+                    color #333
+                    display inline-block
+                    padding 10px
+                    text-decoration: none
+                    &:hover
+                        background-color #f6f6f6
+                        color #222
+                        text-decoration none
+                    i
+                            color  #17202A
+                ul
+                    background-color #fff
+                    border 1px solid #f0f0f0
+                    display none
+                    float none
+                    position absolute
+                    right -16px
+                    width 200px
+                    li
+                        display inline-block
+                        border-bottom 1px solid #f0f0f0
+                        width 100%
+                        &:last-child
+                            border-bottom 0px
+                        a
+                            display block
+                            width value
+                            text-decoration: none
+                &:hover
+                    ul
+                        display block
     .panel-nav
         border-bottom: 1px solid #dbdade
         display: flex
@@ -367,6 +406,11 @@ ul.pagination
                 justify-content: center
                 img
                     width 50%
+        .form_search
+            display: none
+            margin-bottom: 16px
+            .btn
+                width 100%
                     
                 
 a.file_uploader_trigger

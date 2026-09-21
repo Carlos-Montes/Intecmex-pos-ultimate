@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     var edit_buttons_expense = document.getElementsByClassName("btn-edit-expense");
+
     if (edit_buttons_expense) {
         Array.from(edit_buttons_expense).forEach(function (btn) {
             btn.addEventListener("click", function (e) {
@@ -37,6 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
             cancel_account();
         });
     }
+    
     var form_expense_add = document.getElementById("form_expense_add");
 
     if (form_expense_add) {

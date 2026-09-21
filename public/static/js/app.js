@@ -36,7 +36,49 @@ document.addEventListener('DOMContentLoaded', function () {
     if (route_active.length > 0) {
         route_active[0].classList.add('active');
     }
+    
 });
+
+$(document).ready(function () {
+    editor_init('editor');
+});
+
+function editor_init(field) {
+    CKEDITOR.replace(field, {
+        removePlugins: 'cloudservices,easyimage',
+        toolbar: [
+            {
+                name: 'clipboard',
+                items: [
+                    'Cut', 'Copy', 'Paste', 'PasteText',
+                    '-', 'Undo', 'Redo'
+                ]
+            },
+            {
+                name: 'basicstyles',
+                items: [
+                    'Bold',
+                    'Italic',
+                    'BulletedList',
+                    'Strike',
+                    'Image',
+                    'Link',
+                    'Unlink',
+                    'Blockquote'
+                ]
+            },
+            {
+                name: 'document',
+                items: [
+                    'CodeSnippet',
+                    'EmojiPanel',
+                    'Preview',
+                    'Source'
+                ]
+            }
+        ]
+    });
+}
 
 // Loader component
 function loader_action_status(status) {

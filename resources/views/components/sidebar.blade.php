@@ -17,10 +17,28 @@
             </a>
         </li>
         <li>
-            <a href="{{ url('/products/1') }}" class="lk-dashboard">
-                <i class="bi bi-boxes"></i>
-                <span> Productos</span>
+            <a href="#" class="lk-product lk-product_add lk-product_type sidebar_accordion" data-target="accordion_products">
+                <i class="bi bi-boxes"></i> 
+                <span>Productos</span>
+                <span class="row-icon" id="row_icon_accordion_products"><i class="bi bi-caret-right-fill"></i></span>
             </a>
+            
+            <ul id="accordion_products" class="accordin_ul">
+                <li>
+                    <a href="{{ url('/products/1') }}" id="side_lk_users_all">
+                        <i class="bi bi-circle"></i>
+                        Lista de productos
+                    </a>
+                </li>
+                @foreach (getProducts() as $key => $role)
+                <li>
+                    <a href="{{ url('/products/list/'.$key) }}" id="side_lk_products_{{ $key }}">
+                        <i class="bi bi-circle"></i>
+                        {{ $role }}
+                    </a>
+                </li>
+                @endforeach
+            </ul>
         </li>
         <li>
             <a href="{{ url('/pos') }}" class="lk-pos">

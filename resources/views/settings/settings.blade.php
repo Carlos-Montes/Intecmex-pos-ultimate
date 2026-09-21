@@ -18,7 +18,6 @@
                             <button class="nav-link w-100" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="true">
                                 <i class="bi bi-life-preserver"></i> Configuración
                             </button>
-
                         </div>
                     </div>
                 </div>

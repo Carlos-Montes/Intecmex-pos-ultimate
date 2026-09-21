@@ -87,8 +87,6 @@ class UsersController extends Controller{
         }
     }
 
-
-
     public function getUserInactive($id){
         $user = User::find($id);
         $user->status = 1;
@@ -96,6 +94,5 @@ class UsersController extends Controller{
             return back()->with('message', 'Se elimino correctamente el usuario.')->with('typealert', 'success');
         endif;
     }
-
 
 }

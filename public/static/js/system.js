@@ -129,8 +129,6 @@ document.addEventListener('DOMContentLoaded', function(){
     for (i = 0; i < btn_inactive.length; i++) {
         btn_inactive[i].addEventListener("click", inactive_object);
     }
-
-
 });
 
 function imageprew(input, toprew){
@@ -162,7 +160,6 @@ function delete_object(e) {
         });
     }
 }
-
 
 function inactive_object(e) {
     e.preventDefault();

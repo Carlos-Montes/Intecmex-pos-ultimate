@@ -17,16 +17,11 @@ class Controller extends BaseController
     /**
      * Método para almacenar imágenes
      */
-    public function postFileUploadCdn(
-        $field,
-        $suggestion_name,
-        $request,
-        $thumbnails = null
-    ) {
+    public function postFileUploadCdn( $field, $suggestion_name, $request, $thumbnails = null) {
         $path = date('Y/m/d');
 
         $file = $request->file($field);
-
+    
         if (! $file) {
             return json_encode([
                 'upload' => 'error',
