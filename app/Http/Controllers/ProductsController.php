@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Models\Product, App\Models\Categorie;
+use App\Models\Product, App\Models\Categorie, App\Models\Unit;
 
 class ProductsController extends Controller
 {
@@ -30,7 +30,8 @@ class ProductsController extends Controller
     public function getProductsType($type){
         switch ($type) {
             case '1':
-                $data = ['type' => $type];
+                $unit = Unit::get();
+                $data = ['type' => $type, 'listUnits' => $unit];
                 return view('units.home', $data);
                 break;
             case '2':
