@@ -4,6 +4,8 @@
     <script src="{{ url('/static/js/product.js?v=' . time()) }}"></script>
 @endsection
 
+@section('subRouter')products_{{ 'all' }}@endsection
+
 @section('content')
     <div class="container-fluid">
         <div class="panel mtop16 sh">
@@ -14,17 +16,25 @@
             </div>
             <div class="panel-body">
                 <div class="inside">
-                    <form action="{{ url('/api-js/product/add') }}" method="post" class="form" autocomplete="off" files="true" enctype="multipart/form-data">
-                        @csrf
+                    <form action="#" method="post" class="form" autocomplete="off" files="true" enctype="multipart/form-data" id="form_product_add">
                         <input type="hidden" name="autocomplete">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-8">
                                 <label for="name">Nombre del producto: </label>
                                 <input type="text" name="name" class="disableac" value="{{ old('name') }}"  required>
                             </div>
+                            <div class="col-md-3">
+                                <label for="code">Código de sistema</label>
+                                <input type="text" name="code" id="code" value="{{ old('code') }}" class="disableac" required readonly >
+                            </div>
+                            <div class="col-md-1">
+                                <button type="button" id="generate_code" class="btn btn-generate">
+                                    <i class="bi bi-arrow-clockwise"></i>
+                                </button>
+                            </div>
                         </div>
                         <div class="row mtop16">
-                            <div class="col-md-6">
+                            <div class="col-md-3">
                                 <label for="category">Categoría</label>
                                 <select name="category" class="form-select" id="category">
                                     @foreach($cats as $value => $label)
@@ -35,12 +45,36 @@
                                 </select>
                                 <input type="hidden" name="subcategory_actual" value="0" id="subcategory_actual">
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-3">
                                 <label for="subcategory">Subcategoría</label>
                                 <select name="subcategory" class="form-select" id="subcategory" required></select>
                             </div>
+                            <div class="col-md-3">
+                                <label for="unit">Unidad</label>
+                                <select name="unit" class="form-select" id="unit">
+                                    @foreach($unit as $value => $label)
+                                        <option value="{{ $value }}" {{ $value == 0 ? 'selected' : '' }}>
+                                            {{ $label }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="brand">Marca</label>
+                                <select name="brand" class="form-select" id="brand">
+                                    @foreach($brand as $value => $label)
+                                        <option value="{{ $value }}" {{ $value == 0 ? 'selected' : '' }}>
+                                            {{ $label }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                         <div class="row mtop16">
+                            <div class="col-md-3">
+                                <label for="indiscount">Precio de venta:</label>
+                                <input type="text" name="sale" class="disableac">
+                            </div>
                             <div class="col-md-3">
                                 <label for="indiscount">¿En Descuento?:</label>
                                 <select name="indiscount" class="form-select">
@@ -52,14 +86,11 @@
                                 <label for="discount">Descuento</label>
                                 <input type="number" name="discount" min="0.00" step="any" placeholder="0.0" class="disableac">
                             </div>
-                            <div class="col-md-3">
-                                <label for="code">Codígo de sistema</label>
-                                <input type="text" name="code" value="{{ old('code') }}" class="disableac" required>
-                            </div>
-                            <div class="col-md-3">
+                           <div class="col-md-3">
                                 <label for="image">Imagen Destacada</label>
                                 <input type="file" name="icon" id="icon" class="form-control" accept="image/*" >
                             </div>
+                            
                         </div>
                         <div class="row mtop16">
                             <div class="col-md-12">

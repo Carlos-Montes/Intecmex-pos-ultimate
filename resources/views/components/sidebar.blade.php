@@ -25,7 +25,7 @@
             
             <ul id="accordion_products" class="accordin_ul">
                 <li>
-                    <a href="{{ url('/products/1') }}" id="side_lk_users_all">
+                    <a href="{{ url('/products/1') }}" id="side_lk_products_all">
                         <i class="bi bi-circle"></i>
                         Lista de productos
                     </a>
@@ -64,10 +64,27 @@
             </ul>
         </li>
         <li>
-            <a href="{{ url('/inventory/initial') }}" class="lk-inventory">
-                <i class="bi bi-card-checklist"></i>
-                <span> Inventario</span>
+            <a href="#" class="lk-inventory sidebar_accordion" data-target="accordion_inventory">
+                <i class="bi bi-people"></i> 
+                <span>Inventario</span>
+                <span class="row-icon" id="row_icon_accordion_inventory"><i class="bi bi-caret-right-fill"></i></span>
             </a>
+            <ul id="accordion_inventory" class="accordin_ul">
+                <li>
+                    <a href="{{ url('/inventory/all') }}" id="side_lk_inventory_all">
+                        <i class="bi bi-circle"></i>
+                        Lista de productos
+                    </a>
+                </li>
+                @foreach (getInventory() as $key => $role)
+                <li>
+                    <a href="{{ url('/inventory/list/'.$key) }}" id="side_lk_inventory_{{ $key }}">
+                        <i class="bi bi-circle"></i>
+                        {{ $role }}
+                    </a>
+                </li>
+                @endforeach
+            </ul>
         </li>
         <li>
             <a href="#" class="lk-users_list lk-users_views sidebar_accordion" data-target="accordion_users">

@@ -20,6 +20,7 @@ use App\Http\Controllers\Api\UsersController as ApiUsersController;
 use App\Http\Controllers\Api\FinancesController as ApiFinancesController;
 use App\Http\Controllers\Api\ProductController as ApiProductController;
 use App\Http\Controllers\Api\UnitsControllers as ApiUnitsController;
+use App\Http\Controllers\Api\BrandsController as ApiBrandsController;
 
 Route::middleware('guest')->group(function(){
     Route::prefix('connect')->group(function(){
@@ -103,7 +104,12 @@ Route::prefix('api-js')->group(function(){
     Route::post('/units/add', [ApiUnitsController::class, 'postUnitsAdd'])->name('api.units.add');
     Route::post('/units/{id}/edit', [ApiUnitsController::class, 'postUnitsEdit'])->name('api.units.edit');
 
+    Route::post('/brands/add', [ApiBrandsController::class, 'postBrandsAdd'])->name('api.brands.add');
+    Route::post('/brands/{id}/edit', [ApiBrandsController::class, 'postBrandsEdit'])->name('api.brands.edit');
+    
+
     Route::get('/expense/{id}/delete', [ApiFinancesController::class, 'getExpensesDelete'])->name('api.expenses.delete');
     Route::get('/load/subcategories/{parent}', [ApiProductController::class, 'getSubCategories'])->name('api.subcategory.search');
     Route::get('/units/{id}/delete', [ApiUnitsController::class, 'postUnitsDelete'])->name('api.units.delete');
+    Route::get('/brands/{id}/delete', [ApiBrandsController::class, 'postBrandsDelete'])->name('api.brands.delete');
 });

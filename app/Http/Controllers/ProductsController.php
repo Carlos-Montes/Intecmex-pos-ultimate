@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Models\Product, App\Models\Categorie, App\Models\Unit;
+use App\Models\Product, App\Models\Categorie, App\Models\Unit, App\Models\Brand;
 
 class ProductsController extends Controller
 {
@@ -35,7 +35,8 @@ class ProductsController extends Controller
                 return view('units.home', $data);
                 break;
             case '2':
-                $data = ['type' => $type];
+                $brands = Brand::get();
+                $data = ['type' => $type, 'listBrands' => $brands];
                 return view('brands.home', $data);
                 break;
             case '3':
@@ -48,7 +49,9 @@ class ProductsController extends Controller
 
     public function getProductsAdd(){
         $cats = Categorie::where('status', '1')->where('parent_id', '0')->pluck('name', 'id');
-        $data = ['cats' => $cats];
+        $unit = Unit::where('status', '1')->pluck('name', 'id');
+        $brand = Brand::where('status', '1')->pluck('name', 'id');
+        $data = ['cats' => $cats, 'unit' => $unit, 'brand' => $brand];
         return view('products.add', $data);
     }
 

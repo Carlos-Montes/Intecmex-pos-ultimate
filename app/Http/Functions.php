@@ -157,3 +157,16 @@ function getProducts($id = null){
         return $product;
     endif;
 }
+
+function getInventory($id = null){
+    $product = [
+        '0' => 'Calcular Merma',
+    ];
+
+    if(!is_null($id)):
+        return $product[$id];
+    else:
+        return $product;
+    endif;
+}
+

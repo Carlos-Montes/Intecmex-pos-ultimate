@@ -20,7 +20,7 @@ class ProductController extends Controller
 
     public function postProductAdd(Request $request){
         $ac = $request->input('autocomplete');
-
+        dd($request->all());
         $rules = [
             'name_'.$ac => 'required',
             'code_'.$ac => 'required',
@@ -37,7 +37,8 @@ class ProductController extends Controller
         $validator = Validator::make($request->all(), $rules, $messages);
 
         if ($validator->fails()) {
-            return back()->withErrors($validator)->with('message', 'Se ha producido un error.')->with('typealert', 'danger')->withInput();
+            $data = ['type' => 'error', 'title' => 'Ha ocurrido un error.', 'msg' => 'Completa la información', 'msgs' => json_encode($validator->errors()->all())];
+            return response()->json($data);
         }
 
         $product = new Product;
