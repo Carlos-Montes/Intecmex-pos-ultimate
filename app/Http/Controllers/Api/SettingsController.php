@@ -33,7 +33,7 @@ class SettingsController extends Controller{
     }
 
     public function getSettingsClear(Request $request){
-        Artisan::call('cache:clear');
+        // Artisan::call('cache:clear');
         Artisan::call('view:clear');
         Artisan::call('config:cache');
         return redirect('http://'.$request->getHost().'/settings')->with('message', 'Las configuraciones fueron guardadas con éxito.')->with('typealert', 'success');

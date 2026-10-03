@@ -4,6 +4,8 @@
     <script src="{{ url('/static/js/product.js?v=' . time()) }}"></script>
 @endsection
 
+@section('subRouter')products_{{ 'all' }}@endsection
+
 @section('content')
     <div class="container-fluid">
         <div class="panel mtop16 sh">
@@ -82,3 +84,4 @@
         </div>
     </div>
 @endsection
+
