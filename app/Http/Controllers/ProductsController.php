@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Models\Product, App\Models\Categorie, App\Models\Unit, App\Models\Brand;
 
+use Validator;
+
 class ProductsController extends Controller
 {
     public function getProducts($status){ 
@@ -61,6 +63,34 @@ class ProductsController extends Controller
         $data = ['cats' => $cats, 'p' => $p];
         return view('products.edit', $data);
     }
+
+    public function postProductSearch(Request $request){
+        $rules = [
+            'search' => 'required'
+        ];
+
+        $messages = [
+            'search.required' => 'El campo de consulta es requerido.'
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if($validator->fails()):
+            return redirect('/products/1')->withErrors($validator)->with('message', 'Se ha producido un error.')->with('typealert', 'warning')->withInput();
+        else:
+            switch ($request->input('filter')):
+                case '0':
+                    $products = Product::with(['cat'])->where('name', 'LIKE', '%'.$request->input('search').'%')->where('status', $request->input('status'))->orderBy('id', 'desc')->get();
+                    break;
+                case '1':
+                    $products = Product::with(['cat'])->where('code', $request->input('search'))->orderBy('id', 'desc')->get();
+                    break;
+            endswitch;
+            $data = ['products' => $products];
+            return view('products.search', $data);
+        endif;
+    }
+
+    
 }
 
 

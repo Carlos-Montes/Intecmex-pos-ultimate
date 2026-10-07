@@ -470,7 +470,93 @@ a.file_uploader_trigger
     &:hover
         background-color: #057faf
         color: #fff
-        
+
+.labels-preview
+    width 100%
+    background #eef1f5
+    border-radius 8px
+    padding 35px
+    display flex
+    justify-content center
+    align-items flex-start
+    overflow auto
+    box-sizing border-box
+
+.labels-page-preview
+    width 210mm
+    background #fff
+    padding 12mm
+    box-sizing border-box
+    box-shadow 0 5px 25px rgba(0, 0, 0, .15)
+    display flex
+    flex-wrap wrap
+    align-content flex-start
+    gap 5mm
+    position relative
+
+.label-preview
+    width 50mm
+    height 30mm
+    background #fff
+    border 1px dashed #b8bec8
+    box-sizing border-box
+    padding 3mm
+    display flex
+    flex-direction column
+    justify-content center
+    align-items center
+    text-align center
+    overflow hidden
+
+.label-company
+    font-size 10px
+    font-weight 700
+    text-transform uppercase
+    margin-bottom 2mm
+
+.label-product
+    width 100%
+    font-size 11px
+    font-weight 600
+    text-transform uppercase
+    line-height 1.2
+    white-space nowrap
+    overflow hidden
+    text-overflow ellipsis
+
+.label-barcode
+    margin-top 2mm
+    width 100%
+    display flex
+    justify-content center
+    align-items center
+
+.barcode-real
+    display block
+    width 90%
+    max-width 45mm
+    height 12mm
+
+.print-labels
+    display: flex
+    justify-content: end
+    .btn-printer-labels
+        display: grid
+        box-sizing: border-box
+        background-color: var(--print-labels)
+        border: 1px solid var(--print-labels)
+        color: var(--label-white)
+        font-size: 0.9375rem
+        letter-spacing: .43px
+        padding: 9px 12px
+        margin-top: 16px
+        transition: all .135s ease-in-out
+        cursor: pointer
+        text-align: center
+        width 25%
+        &:hover
+            background-color: #0A76AD
+            border: 1px solid #0A76AD
 
 @media screen and (max-width: 992px)
     .wrapper
@@ -494,6 +580,7 @@ a.file_uploader_trigger
 
     .opts
         display: flex
+    
 
 @media screen and (max-width: 1280px)
     .mini-profile

@@ -21,6 +21,7 @@ use App\Http\Controllers\Api\FinancesController as ApiFinancesController;
 use App\Http\Controllers\Api\ProductController as ApiProductController;
 use App\Http\Controllers\Api\UnitsControllers as ApiUnitsController;
 use App\Http\Controllers\Api\BrandsController as ApiBrandsController;
+use App\Http\Controllers\Api\PrintController as ApiPrintController;
 
 Route::middleware('guest')->group(function(){
     Route::prefix('connect')->group(function(){
@@ -55,11 +56,13 @@ Route::middleware('auth')->group(function(){
     Route::prefix('products')->group(function(){
         Route::get('/{status}', [ProductsController::class, 'getProducts'])->name('product');
         Route::get('/list/{type}', [ProductsController::class, 'getProductsType'])->name('product_type');
+        
     });
 
     Route::prefix('product')->group(function(){
         Route::get('/add', [ProductsController::class, 'getProductsAdd'])->name('product_add');
         Route::get('/{id}/edit', [ProductsController::class, 'getProductsEdit'])->name('product_add');
+        Route::post('/search', [ProductsController::class, 'postProductSearch'])->name('product.search');
     });
 
     Route::get('/pos', [PosController::class, 'getHome'])->name('pos');
@@ -99,8 +102,10 @@ Route::prefix('api-js')->group(function(){
     Route::get('/account/{id}/delete', [ApiFinancesController::class, 'getAccountsDelete'])->name('api.accounts.delete');
     Route::post('/expenses/add', [ApiFinancesController::class, 'postExpensesAdd'])->name('api.expenses.add');
     Route::post('/expense/{id}/edit', [ApiFinancesController::class, 'postExpensesEdit'])->name('api.expenses.edit');
-    Route::post('/product/add', [ApiProductController::class, 'postProductAdd'])->name('api.product.add');
 
+    Route::post('/product/add', [ApiProductController::class, 'postProductAdd'])->name('api.product.add');
+    Route::post('/product/edit', [ApiProductController::class, 'postProductEdit'])->name('api.product.edit');
+    
     Route::post('/units/add', [ApiUnitsController::class, 'postUnitsAdd'])->name('api.units.add');
     Route::post('/units/{id}/edit', [ApiUnitsController::class, 'postUnitsEdit'])->name('api.units.edit');
 
@@ -112,4 +117,7 @@ Route::prefix('api-js')->group(function(){
     Route::get('/load/subcategories/{parent}', [ApiProductController::class, 'getSubCategories'])->name('api.subcategory.search');
     Route::get('/units/{id}/delete', [ApiUnitsController::class, 'postUnitsDelete'])->name('api.units.delete');
     Route::get('/brands/{id}/delete', [ApiBrandsController::class, 'postBrandsDelete'])->name('api.brands.delete');
+    Route::get('load/product-by-code/{code}', [ApiPrintController::class, 'getSearchProduct'])->name('api.print.code');
+    Route::get('/barcode/{code}', [ApiPrintController::class, 'generateBarcode'])->name('api.print.barcode');
+
 });

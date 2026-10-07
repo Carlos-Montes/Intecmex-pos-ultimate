@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var btn_search = document.getElementById('btn_search');
     var category = document.getElementById('category');
 	var form_product = document.getElementById('form_product_add');
+    var form_edit_product = document.getElementById('form_product_id');
 
     if(btn_search){
         btn_search.addEventListener('click', function(e){
@@ -45,6 +46,13 @@ document.addEventListener("DOMContentLoaded", function () {
             products_add();
         });
 	}
+
+    if(form_edit_product){
+        form_edit_product.addEventListener("submit", function (e) {
+            e.preventDefault();
+            products_edit();
+        });
+    }
 
 	document.getElementById('generate_code').addEventListener('click', function () {
         const codigo = Math.floor(100000 + Math.random() * 900000);
@@ -104,4 +112,34 @@ function products_add(){
     };
 
     http.send(new FormData(document.getElementById("form_product_add")));
+}
+
+
+function products_edit(){
+    loader_action_status("show");
+
+    url = base + "/api-js/product/edit";
+
+    var http = new XMLHttpRequest();
+    http.open("POST", url, true);
+    http.setRequestHeader("X-CSRF-TOKEN", csrftoken);
+
+    http.onreadystatechange = function () {
+        if (this.readyState == "4" && this.status == "200") {
+            data = this.responseText;
+            data = JSON.parse(data);
+            mdalert(data);
+        }
+
+        if (this.status != "200") {
+            mdalert({
+                title: lang["name"],
+                type: "error",
+                msg: lang["error"],
+            });
+        }
+        loader_action_status("hide");
+    };
+
+    http.send(new FormData(document.getElementById("form_product_id")));
 }

@@ -8,6 +8,7 @@
     --according-panel: #c85d05
     --label-black: #000000
     --label-primary: #B91C1C;
+    --print-labels: #235DA8
 }
 
 *
@@ -90,6 +91,7 @@
             background-color: var(--button-primary-hover)
             border: 1px solid var(--button-primary-hover)
     button[type=submit]
+    button[type=button]
         display: grid
         box-sizing: border-box
         background-color: var(--button-primary)
@@ -170,6 +172,7 @@
 .pulse-element
     animation: pulse 0.5s infinite
     transform-origin: center
+
 
 @keyframes pulse {
     0% {

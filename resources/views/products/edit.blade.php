@@ -1,5 +1,11 @@
 @extends('master')
 
+@section('custom_js')
+    <script src="{{ url('/static/js/product.js?v=' . time()) }}"></script>
+@endsection
+
+@section('subRouter')products_{{ 'all' }}@endsection
+
 @section('content')
     <div class="container-fluid">
         <div class="row">
@@ -12,9 +18,9 @@
                     </div>
                     <div class="panel-body">
                         <div class="inside">
-                            <form action="{{ url('/api-js/product/edit') }}" method="post" class="form" autocomplete="off" files="true" enctype="multipart/form-data">
-                                @csrf
+                            <form action="/" method="post" class="form" autocomplete="off" files="true" enctype="multipart/form-data" id="form_product_id">
                                 <input type="hidden" name="autocomplete">
+                                <input type="hidden" name="id" value="{{ $p->id }}">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <label for="name">Nombre del producto: </label>
@@ -56,15 +62,27 @@
                                     </div>
                                 </div>
                                 <div class="row mtop16">
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
+                                        <label for="indiscount">Precio de venta:</label>
+                                        <input type="text" name="sale" value="{{ $p->price }}" class="disableac">
+                                    </div>
+                                    <div class="col-md-4">
                                         <label for="code">Codígo de sistema</label>
-                                        <input type="text" name="code" value="{{ $p->code }}" class="disableac" required>
+                                        <input type="text" name="codes" value="{{ $p->code }}" class="disableac" disabled>
+                                        <input type="hidden" name="code" value="{{ $p->code }}">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="code">Estado</label>
+                                        <select name="status" class="form-select">
+                                            <option value="0" @selected($p->status == 0)>Borrador</option>
+                                            <option value="1" @selected($p->status == 1)>Publico</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="row mtop16">
                                     <div class="col-md-12">
                                         <label for="description">Descripción</label>
-                                        <textarea name="content" id="editor" class="form-control disableac" value="{{ $p->content }}" required></textarea>
+                                        <textarea name="content" id="editor" class="form-control" value="{{ $p->content }}" required></textarea>
                                     </div>
                                 </div>
                                 <div class="row mtop16 d-flex justify-content-end">

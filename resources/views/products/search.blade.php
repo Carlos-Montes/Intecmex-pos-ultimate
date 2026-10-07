@@ -38,7 +38,7 @@
             <div class="row mtop16">
                 <div class="inside">
                     <div class="form_search" id="form_search">
-                        <form action="{{ url('/product/search') }}" class="form" method="POST">
+                        <form action="{{ url('/products/search') }}" class="form">
                             @csrf
                             <div class="row">
                                 <div class="col-md-4">
@@ -72,7 +72,6 @@
                                 <td><strong>ID</strong></td>
                                 <td></td>
                                 <td><strong>Nombre</strong></td>
-                                <td><strong>Código</strong></td>
                                 <td><strong>Precio Min</strong></td>
                                 <td><strong>Inventario</strong></td>
                                 <td></td>
@@ -84,7 +83,6 @@
                                     <td width="50">{{ $key->id }}</td>
                                     <td width="150"><img src="{{ getFileUrl($key->image, '256') }}" width="50" height="50"></td>
                                     <td>{{ $key->name }}</td>
-                                    <td>{{ $key->code }}</td>
                                     <td>{{ config('intecmex.currency') }} {{ $key->price }}</td>
                                     <td></td>
                                     <td width="180">

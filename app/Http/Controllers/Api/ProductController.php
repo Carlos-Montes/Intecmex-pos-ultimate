@@ -48,7 +48,7 @@ class ProductController extends Controller
         $product->code = e($request->input('code_'.$ac));
         $product->name = e($request->input('name_'.$ac));
         $product->slug = Str::slug($request->input('name_'.$ac));
-        $product->sale = e($request->input('sale_'.$ac));
+        $product->price = e($request->input('sale_'.$ac));
         $product->category_id = $request->input('category');
         $product->subcategory_id = $request->input('subcategory');
         $product->image = $this->postFileUploadCdn('icon',null,$request,[[64, 64, '64'],[256, 256, '256']]);
@@ -57,7 +57,63 @@ class ProductController extends Controller
         $product->content = e($request->input('content_'.$ac));
 
         if ($product->save()) {
-            return redirect('/product/'.$product->id.'/edit')->with('message', 'Guardado con éxito.')->with('typealert', 'success');
+            $actions = [
+                    [
+                        'url' => url('/product/'.$product->id.'/edit'),
+                        'name' => 'Seguir',
+                        'type' => 'primary sl',
+                    ],
+                ];
+            $data = ['type' => 'success', 'title' => config('intecmex.app_name'), 'msg' => 'Se registro correctamente el producto.', 'actions' => json_encode($actions), 'additional' => json_encode(['hideclose' => true])];
+            return response()->json($data);
+        }
+    }
+
+
+    public function postProductEdit(Request $request){
+        $ac = $request->input('autocomplete');
+
+        $rules = [
+            'name_'.$ac => 'required',
+            'code' => 'required',
+            'sale_'.$ac => 'required'
+        ];
+
+        $messages = [
+            'name_'.$ac.'.required' => 'El nombre del producto es requerido',
+            'sale_'.$ac.'.required' => 'El precio del producto es requerido',
+            'code.required' => 'El código del producto es requerido',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            $data = ['type' => 'error', 'title' => 'Ha ocurrido un error.', 'msg' => 'Completa la información', 'msgs' => json_encode($validator->errors()->all())];
+            return response()->json($data);
+        }
+
+        $product = Product::findOrFail($request->id);
+        $product->status = $request->input('status');
+        $product->code = e($request->input('code'));
+        $product->name = e($request->input('name_'.$ac));
+        $product->slug = Str::slug($request->input('name_'.$ac));
+        $product->price = e($request->input('sale_'.$ac));
+        $product->category_id = $request->input('category');
+        $product->subcategory_id = $request->input('subcategory');
+        $product->in_discount = $request->input('indiscount');
+        $product->discount = $request->input('discount_'.$ac);
+        $product->content = e($request->input('content'));
+
+        if ($product->save()) {
+            $actions = [
+                    [
+                        'url' => url('/products/1'),
+                        'name' => 'Seguir',
+                        'type' => 'primary sl',
+                    ],
+                ];
+            $data = ['type' => 'success', 'title' => config('intecmex.app_name'), 'msg' => 'Se registro correctamente el producto.', 'actions' => json_encode($actions), 'additional' => json_encode(['hideclose' => true])];
+            return response()->json($data);
         }
     }
 }
