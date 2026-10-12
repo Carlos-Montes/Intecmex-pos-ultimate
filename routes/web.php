@@ -22,6 +22,7 @@ use App\Http\Controllers\Api\ProductController as ApiProductController;
 use App\Http\Controllers\Api\UnitsControllers as ApiUnitsController;
 use App\Http\Controllers\Api\BrandsController as ApiBrandsController;
 use App\Http\Controllers\Api\PrintController as ApiPrintController;
+use App\Http\Controllers\Api\InventoryController as ApiInventoryController;
 
 Route::middleware('guest')->group(function(){
     Route::prefix('connect')->group(function(){
@@ -46,7 +47,7 @@ Route::middleware('auth')->group(function(){
     });
 
     Route::prefix('inventory')->group(function(){
-        Route::get('/initial', [InventoryController::class, 'getInventory'])->name('inventory');
+        Route::get('/{status}', [InventoryController::class, 'getInventory'])->name('inventory');
     });
 
     Route::prefix('finances')->group(function(){
@@ -111,6 +112,8 @@ Route::prefix('api-js')->group(function(){
 
     Route::post('/brands/add', [ApiBrandsController::class, 'postBrandsAdd'])->name('api.brands.add');
     Route::post('/brands/{id}/edit', [ApiBrandsController::class, 'postBrandsEdit'])->name('api.brands.edit');
+
+    Route::post('/weight/add', [ApiInventoryController::class, 'posWeightAdd'])->name('api.weight.add');
     
 
     Route::get('/expense/{id}/delete', [ApiFinancesController::class, 'getExpensesDelete'])->name('api.expenses.delete');
@@ -121,3 +124,4 @@ Route::prefix('api-js')->group(function(){
     Route::get('/barcode/{code}', [ApiPrintController::class, 'generateBarcode'])->name('api.print.barcode');
 
 });
+

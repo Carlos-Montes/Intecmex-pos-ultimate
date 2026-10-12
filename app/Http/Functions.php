@@ -161,6 +161,7 @@ function getProducts($id = null){
 function getInventory($id = null){
     $product = [
         '0' => 'Calcular Merma',
+        '1' => 'Ajustar Inventario'
     ];
 
     if(!is_null($id)):
@@ -170,3 +171,16 @@ function getInventory($id = null){
     endif;
 }
 
+
+function getCategorieLiveWeight($id = null){
+    $category = [
+        '0' => 'Cerdo',
+        '1' => 'Res'
+    ];
+
+    if(!is_null($id)):
+        return $category[$id];
+    else:
+        return $category;
+    endif;
+}

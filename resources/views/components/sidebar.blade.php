@@ -64,16 +64,16 @@
             </ul>
         </li>
         <li>
-            <a href="#" class="lk-inventory sidebar_accordion" data-target="accordion_inventory">
+            <a href="#" class="lk-inventory lk-live_weight sidebar_accordion" data-target="accordion_inventory">
                 <i class="bi bi-people"></i> 
                 <span>Inventario</span>
                 <span class="row-icon" id="row_icon_accordion_inventory"><i class="bi bi-caret-right-fill"></i></span>
             </a>
             <ul id="accordion_inventory" class="accordin_ul">
                 <li>
-                    <a href="{{ url('/inventory/all') }}" id="side_lk_inventory_all">
+                    <a href="{{ url('/inventory/live-weight') }}" id="side_lk_inventory_live_weight">
                         <i class="bi bi-circle"></i>
-                        Lista de productos
+                        Agregar Peso Vivo
                     </a>
                 </li>
                 @foreach (getInventory() as $key => $role)

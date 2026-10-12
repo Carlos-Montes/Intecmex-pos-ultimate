@@ -33,7 +33,8 @@
     {{-- ICONS BOOSTRAP --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/evo-calendar@1.1.2/evo-calendar/css/evo-calendar.min.css"/>
-    
+    @section('custom_css')
+    @show
 </head>
 <body>
     @include('components.loader_action')
