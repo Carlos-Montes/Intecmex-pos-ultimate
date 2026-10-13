@@ -114,7 +114,7 @@ Route::prefix('api-js')->group(function(){
     Route::post('/brands/{id}/edit', [ApiBrandsController::class, 'postBrandsEdit'])->name('api.brands.edit');
 
     Route::post('/weight/add', [ApiInventoryController::class, 'posWeightAdd'])->name('api.weight.add');
-    
+    Route::post('/weight/update', [ApiInventoryController::class, 'posWeightEdit'])->name('api.weight.edit');
 
     Route::get('/expense/{id}/delete', [ApiFinancesController::class, 'getExpensesDelete'])->name('api.expenses.delete');
     Route::get('/load/subcategories/{parent}', [ApiProductController::class, 'getSubCategories'])->name('api.subcategory.search');
@@ -122,6 +122,6 @@ Route::prefix('api-js')->group(function(){
     Route::get('/brands/{id}/delete', [ApiBrandsController::class, 'postBrandsDelete'])->name('api.brands.delete');
     Route::get('load/product-by-code/{code}', [ApiPrintController::class, 'getSearchProduct'])->name('api.print.code');
     Route::get('/barcode/{code}', [ApiPrintController::class, 'generateBarcode'])->name('api.print.barcode');
-
+    Route::get('/load/animals/{date}', [ApiInventoryController::class, 'getSearchAnimalsDate'])->name('api.inventory.animals');
 });
 

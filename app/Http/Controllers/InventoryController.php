@@ -16,7 +16,10 @@ class InventoryController extends Controller
                 $data = ['count_pig' => $pig, 'count_cattle' => $cattle];
                 return view('inventory.live_weight', $data);
                 break;
-            
+            case '0':
+                $data = ['type' => $status];
+                return view('inventory.shrinkage_calculation', $data);
+                break;
             default:
                 # code...
                 break;

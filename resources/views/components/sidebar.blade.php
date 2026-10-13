@@ -78,7 +78,7 @@
                 </li>
                 @foreach (getInventory() as $key => $role)
                 <li>
-                    <a href="{{ url('/inventory/list/'.$key) }}" id="side_lk_inventory_{{ $key }}">
+                    <a href="{{ url('/inventory/'.$key) }}" id="side_lk_inventory_{{ $key }}">
                         <i class="bi bi-circle"></i>
                         {{ $role }}
                     </a>

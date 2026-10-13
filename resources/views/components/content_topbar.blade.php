@@ -9,6 +9,10 @@
     <ul>
         @section('topbar_main')
         @show
+         <li>
+            {{ \Carbon\Carbon::setLocale('es') }}
+            <a>📅 {{ now()->translatedFormat('l, d \d\e F \d\e Y') }}</a>
+        </li>
         <li>
             <a href="{{ url('/profile/edit') }}" class="avatar">
                 <span>Bienvenido, {{ Auth::user()->name }}</span>

@@ -6,31 +6,6 @@
 
 @section('content')
     <div class="pos-app">
-
-        {{-- ENCABEZADO --}}
-        <header class="pos-header">
-            <div class="pos-title">
-                <div class="pos-title-icon">🏪</div>
-                <div>
-                    <h1>POS - Punto de Venta</h1>
-                    <span>Carnicería</span>
-                </div>
-            </div>
-
-            <div class="pos-header-info">
-                <span>📅 {{ now()->translatedFormat('l, d \d\e F \d\e Y') }}</span>
-                <span>🕒 <strong id="pos-clock"></strong></span>
-            </div>
-
-            <div class="pos-user">
-                <div class="pos-user-avatar">👤</div>
-                <div>
-                    <strong>{{ auth()->user()->name ?? 'Administrador' }}</strong>
-                    <small>Administrador</small>
-                </div>
-            </div>
-        </header>
-
         {{-- PANEL PRINCIPAL --}}
         <main class="pos-layout">
 
@@ -327,21 +302,6 @@
 
             </aside>
         </main>
-
-        {{-- PIE --}}
-        <footer class="pos-footer">
-            <div class="footer-status">
-                <span class="status-dot online"></span>
-                <span>Sistema en línea</span>
-                <span class="footer-separator"></span>
-                <span>Versión 1.0.0</span>
-            </div>
-
-            <div class="footer-shortcuts">
-                Atajos: F2 Pausar | F3 Cancelar | F4 Cobrar
-            </div>
-        </footer>
-
     </div>
 @endsection
    
