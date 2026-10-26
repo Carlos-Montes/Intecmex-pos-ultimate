@@ -12,22 +12,13 @@
 
 @section('content')
     <div class="merma-app">
-
-        {{-- ENCABEZADO --}}
         <header class="merma-header">
             <aside class="merma-warning">
                 <span class="warning-icon">ⓘ</span>
-                <p>
-                    Este proceso calculará el peso final (canal) restando
-                    el porcentaje de merma al peso vivo registrado.
-                    Al guardar, el peso canal se enviará al inventario.
-                </p>
+                <p> Este proceso calculará el peso final (canal) restando el porcentaje de merma al peso vivo registrado. Al guardar, el peso canal se enviará al inventario.</p>
             </aside>
         </header>
-
-        {{-- INDICADORES --}}
         <section class="merma-summary">
-
             <article class="merma-summary-card d-flex">
                 <div class="summary-animal pig">📊</div>
                 <div class="summary-label d-flex">
@@ -35,7 +26,6 @@
                     <input type="date" name="search_pig_res" id="search_pig_res" class="form-control">
                 </div>
             </article>
-
             <article class="merma-summary-card">
                 <div class="summary-animal pig">🐖</div>
                 <div class="summary-label">
@@ -44,7 +34,6 @@
                 </div>
                 <strong class="summary-number" id="pig-strong"> 0 </strong>
             </article>
-
             <article class="merma-summary-card">
                 <div class="summary-animal cow">🐄</div>
                 <div class="summary-label">
@@ -53,17 +42,11 @@
                 </div>
                 <strong class="summary-number" id="res-strong"> 0 </strong>
             </article>
-
         </section>
-
-        {{-- TRES COLUMNAS --}}
         <section class="merma-workspace">
-
-            {{-- SELECCIÓN DEL ANIMAL --}}
             <article class="merma-panel animal-panel">
                 <div class="merma-panel-heading">
                     <span class="panel-icon">☷</span>
-
                     <div>
                         <h2>Seleccionar animal</h2>
                         <p>Elige un animal registrado en peso vivo</p>
@@ -81,7 +64,6 @@
                     <select id="animal-record" name="animal_id">
                         <option value="">Selecciona una fecha primero</option>
                     </select>
-
                     <small id="animal-date">Sin animal seleccionado</small>
                 </div>
                 <div class="animal-detail-card">
@@ -101,16 +83,11 @@
                     </div>
                     <div class="animal-detail-row">
                         <span>Estado</span>
-                        <span class="merma-badge pending" id="animal-status">
-                            Pendiente de merma
-                        </span>
+                        <span class="merma-badge pending" id="animal-status"> Pendiente de merma </span>
                     </div>
                 </div>
             </article>
-
-            {{-- CÁLCULO --}}
             <article class="merma-panel calculation-panel">
-
                 <div class="merma-panel-heading">
                     <span class="panel-icon">▦</span>
                     <div>
@@ -118,7 +95,6 @@
                         <p>Ingresa el porcentaje de merma</p>
                     </div>
                 </div>
-
                 <div class="merma-metric live">
                     <span class="metric-icon">💧</span>
                     <strong>Peso vivo (registrado)</strong>
@@ -131,32 +107,21 @@
                     </label>
 
                     <div class="percentage-input">
-                        <input type="number" id="merma-percentage" min="0" max="100" step="0.1"
-                            value="25">
+                        <input type="number" id="merma-percentage" name="merma_percentage" min="0" max="100" step="0.1" inputmode="decimal">
                         <span>%</span>
-                    </div>
-
-                    <div class="percentage-presets">
-                        <button type="button" data-percent="20">20%</button>
-                        <button type="button" data-percent="25" class="active">25%</button>
-                        <button type="button" data-percent="28">28%</button>
-                        <button type="button" data-percent="30">30%</button>
-                        <button type="button" data-percent="0" class="other-percent">
-                            Otro %
-                        </button>
                     </div>
                 </div>
 
                 <div class="merma-metric loss">
                     <span class="metric-icon">💧</span>
                     <strong>Kg perdidos (merma)</strong>
-                    <output id="calc-loss-weight">47.50 Kg</output>
+                    <output id="calc-loss-weight">00.00 Kg</output>
                 </div>
 
                 <div class="merma-metric final">
                     <span class="metric-icon">🥩</span>
                     <strong>Peso canal (final)</strong>
-                    <output id="calc-final-weight">142.50 Kg</output>
+                    <output id="calc-final-weight">00.00 Kg</output>
                 </div>
 
                 <button type="button" class="btn-save-merma" id="btn-save-merma">
@@ -177,39 +142,39 @@
                 </div>
 
                 <div class="weight-visual-card">
-                    <span class="weight-visual-icon live-icon">💧</span>
+                    <span class="weight-visual-icon live-icon">🥩</span>
                     <div class="weight-visual-content">
                         <strong>Peso vivo</strong>
-                        <h3 id="visual-live-weight">190.00 Kg</h3>
+                        <h3 id="visual-live-weight">0.00 Kg</h3>
                         <div class="weight-bar">
-                            <span id="bar-live" class="bar-live"></span>
+                            <span id="bar-live" class="bar-live" style="width: 0%"></span>
                         </div>
                     </div>
-                    <b>100%</b>
+                    <b>0%</b>
                 </div>
 
                 <div class="weight-visual-card">
                     <span class="weight-visual-icon loss-icon">💧</span>
                     <div class="weight-visual-content">
                         <strong>Merma</strong>
-                        <h3 id="visual-loss-weight">47.50 Kg</h3>
+                        <h3 id="visual-loss-weight">0.00 Kg</h3>
                         <div class="weight-bar">
-                            <span id="bar-loss" class="bar-loss"></span>
+                            <span id="bar-loss" class="bar-loss" style="width: 0%"></span>
                         </div>
                     </div>
-                    <b id="visual-loss-percent">25%</b>
+                    <b id="visual-loss-percent">0%</b>
                 </div>
 
                 <div class="weight-visual-card">
                     <span class="weight-visual-icon final-icon">🥩</span>
                     <div class="weight-visual-content">
                         <strong>Peso canal (final)</strong>
-                        <h3 id="visual-final-weight">142.50 Kg</h3>
+                        <h3 id="visual-final-weight">0.00 Kg</h3>
                         <div class="weight-bar">
-                            <span id="bar-final" class="bar-final"></span>
+                            <span id="bar-final" class="bar-final" style="width: 0%"></span>
                         </div>
                     </div>
-                    <b id="visual-final-percent">75%</b>
+                    <b id="visual-final-percent">0%</b>
                 </div>
 
                 <div class="merma-info">
@@ -253,5 +218,5 @@
             </div>
         </section>
     </div>
-    @include('inventory.components.modal-edit-inventory');
+    @include('inventory.components.modal-edit-inventory')
 @endsection
