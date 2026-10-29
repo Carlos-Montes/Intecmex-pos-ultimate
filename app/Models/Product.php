@@ -5,19 +5,36 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Product extends Model{
-    
-	use SoftDeletes;
+class Product extends Model
+{
+    use SoftDeletes;
 
     protected $dates = ['deleted_at'];
-	protected $table = 'products';
-	protected $hidden = ['created_at', 'updated_at'];
 
-    public function cat(){
-		return $this->hasOne(Categorie::class, 'id', 'category_id')->withTrashed();
-	}
+    protected $table = 'products';
 
-	public function getSubcategory(){
-		return $this->hasOne(Categorie::class, 'id', 'subcategory_id');
-	}
+    protected $hidden = ['created_at', 'updated_at'];
+
+    public function cat()
+    {
+        return $this->hasOne(Categorie::class, 'id', 'category_id')->withTrashed();
+    }
+
+    public function getSubcategory()
+    {
+        return $this->hasOne(Categorie::class, 'id', 'subcategory_id');
+    }
+
+    public function meatInventory()
+    {
+        return $this->hasOne(MeatInventory::class, 'product_id');
+    }
+
+    public function meatDistributionDetails()
+    {
+        return $this->hasMany(
+            MeatDistributionDetail::class,
+            'product_id'
+        );
+    }
 }

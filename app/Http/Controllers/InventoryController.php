@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Models\Weight;
+use App\Models\Weight, App\Models\Product;
 
 class InventoryController extends Controller
 {
@@ -19,6 +19,11 @@ class InventoryController extends Controller
             case '0':
                 $data = ['type' => $status];
                 return view('inventory.shrinkage_calculation', $data);
+                break;
+            case '1':
+                $product = Product::with('meatInventory')->where('status', '1')->get();
+                $data = ['type' => $status, 'product' => $product];
+                return view('inventory.adjust_inventory', $data);
                 break;
             default:
                 # code...

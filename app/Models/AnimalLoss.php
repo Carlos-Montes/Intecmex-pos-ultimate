@@ -28,4 +28,12 @@ class AnimalLoss extends Model
             'live_weight_id'
         );
     }
+
+    public function distributions()
+    {
+        return $this->hasMany(
+            MeatDistribution::class,
+            'animal_merma_id'
+        );
+    }
 }

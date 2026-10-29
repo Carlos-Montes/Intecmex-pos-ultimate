@@ -13,7 +13,15 @@ return new class extends Migration
     {
         Schema::create('meat_distributions', function (Blueprint $table) {
             $table->id();
+
+            $table->foreignId('animal_merma_id')
+                ->constrained('animal_mermas')
+                ->restrictOnDelete();
+
+            $table->string('user')->nullable();
             $table->timestamps();
+
+            $table->index('animal_merma_id');
         });
     }
 

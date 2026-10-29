@@ -13,7 +13,16 @@ return new class extends Migration
     {
         Schema::create('meat_inventories', function (Blueprint $table) {
             $table->id();
+
+            $table->foreignId('product_id')
+                ->constrained('products')
+                ->restrictOnDelete();
+
+            $table->decimal('quantity_kg', 10, 2)->default(0);
+
             $table->timestamps();
+
+            $table->unique('product_id');
         });
     }
 

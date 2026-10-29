@@ -86,7 +86,7 @@
                                     <td>{{ $key->name }}</td>
                                     <td>{{ $key->code }}</td>
                                     <td>{{ config('intecmex.currency') }} {{ $key->price }}</td>
-                                    <td></td>
+                                    <td> <strong> {{ number_format((float) ($key->meatInventory->quantity_kg ?? 0), 2) }} kg </strong></td>
                                     <td width="180">
                                         <div class="opts">
                                             <a href="{{ url('product/'.$key->id.'/edit') }}" data-toggle="tooltip" data-placement="top" title="Editar" class="edit">

@@ -117,7 +117,9 @@ Route::prefix('api-js')->group(function(){
     Route::post('/weight/update', [ApiInventoryController::class, 'posWeightEdit'])->name('api.weight.edit');
 
     Route::post('/merma/save', [ApiInventoryController::class, 'postAnimalMerma'])->name('api.merma.add');
+    Route::post('/save/meat-distribution', [ApiInventoryController::class, 'postWeightAnimals'])->name('api.weight.add');
 
+    
     Route::get('/expense/{id}/delete', [ApiFinancesController::class, 'getExpensesDelete'])->name('api.expenses.delete');
     Route::get('/load/subcategories/{parent}', [ApiProductController::class, 'getSubCategories'])->name('api.subcategory.search');
     Route::get('/units/{id}/delete', [ApiUnitsController::class, 'postUnitsDelete'])->name('api.units.delete');
@@ -125,6 +127,7 @@ Route::prefix('api-js')->group(function(){
     Route::get('load/product-by-code/{code}', [ApiPrintController::class, 'getSearchProduct'])->name('api.print.code');
     Route::get('/barcode/{code}', [ApiPrintController::class, 'generateBarcode'])->name('api.print.barcode');
     Route::get('/load/animals/{date}', [ApiInventoryController::class, 'getSearchAnimalsDate'])->name('api.inventory.animals');
+    Route::get('/load/weight/{type}', [ApiInventoryController::class, 'getSearchAnimalsWeight'])->name('api.inventory.weight');
 
 });
 
