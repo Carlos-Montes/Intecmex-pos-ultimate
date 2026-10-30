@@ -87,7 +87,7 @@
             </ul>
         </li>
         <li>
-            <a href="#" class="lk-users_list lk-users_views sidebar_accordion" data-target="accordion_users">
+            <a href="#" class="lk-users_list lk-users_views lk-users_permissions sidebar_accordion" data-target="accordion_users">
                 <i class="bi bi-people"></i> 
                 <span>Usuarios</span>
                 <span class="row-icon" id="row_icon_accordion_users"><i class="bi bi-caret-right-fill"></i></span>

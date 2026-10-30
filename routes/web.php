@@ -23,6 +23,7 @@ use App\Http\Controllers\Api\UnitsControllers as ApiUnitsController;
 use App\Http\Controllers\Api\BrandsController as ApiBrandsController;
 use App\Http\Controllers\Api\PrintController as ApiPrintController;
 use App\Http\Controllers\Api\InventoryController as ApiInventoryController;
+use App\Http\Controllers\Api\CashRegisterController as ApiCashRegisterController;
 
 Route::middleware('guest')->group(function(){
     Route::prefix('connect')->group(function(){
@@ -129,5 +130,7 @@ Route::prefix('api-js')->group(function(){
     Route::get('/load/animals/{date}', [ApiInventoryController::class, 'getSearchAnimalsDate'])->name('api.inventory.animals');
     Route::get('/load/weight/{type}', [ApiInventoryController::class, 'getSearchAnimalsWeight'])->name('api.inventory.weight');
 
+    Route::get('/status', [ApiCashRegisterController::class, 'getStatus'])->name('api.cash-register.status');
+    Route::post('/open', [ApiCashRegisterController::class, 'postOpen'])->name('api.cash-register.open');
+    Route::get('/pos/products', [PosController::class, 'getProducts'])->name('api.pos.products');
 });
-

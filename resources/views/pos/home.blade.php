@@ -1,11 +1,80 @@
 @extends('master')
 
 @section('custom_css')
-    <link rel="stylesheet" href="{{ url('/static/css/pos.css?v='.time()) }}">
+    <link rel="stylesheet" href="{{ url('/static/css/pos.css?v=' . time()) }}">
+@endsection
+
+@section('custom_js')
+    <script>
+        window.cashRegisterRoutes = {
+            status: @json(route('api.cash-register.status')),
+            open: @json(route('api.cash-register.open')),
+            products: @json(route('api.pos.products'))
+        };
+    </script>
+
+    <script src="{{ url('/static/js/pos.js?v=' . time()) }}"></script>
 @endsection
 
 @section('content')
     <div class="pos-app">
+
+        {{-- INFORMACIÓN DE CAJA ABIERTA --}}
+        @if ($session)
+            <div class="pos-cash-info">
+                <span>🟢 Caja abierta</span>
+                <strong>{{ $session->account->name }}</strong>
+                <small>
+                    Apertura: ${{ number_format($session->opening_amount, 2) }}
+                    | Responsable: {{ $session->user->name }}
+                </small>
+            </div>
+        @endif
+
+        {{-- MODAL OBLIGATORIO DE APERTURA --}}
+        @unless ($session)
+            <div id="cash-opening-overlay" class="cash-opening-overlay">
+                <div class="cash-opening-modal">
+
+                    <div class="cash-opening-icon">💰</div>
+
+                    <h2>Apertura de caja</h2>
+
+                    <p>
+                        Para comenzar a trabajar en el punto de venta,
+                        primero debes abrir la caja.
+                    </p>
+
+                    <form id="form-open-cash">
+                        @csrf
+
+                        <div class="cash-form-group">
+                            <label for="cash-account">Cuenta contable</label>
+
+                            <select id="cash-account" name="account_id" required>
+                                <option value="">Cargando cuentas...</option>
+                            </select>
+                        </div>
+
+                        <div class="cash-form-group">
+                            <label for="cash-opening-amount">
+                                Monto inicial de efectivo
+                            </label>
+
+                            <input type="number" id="cash-opening-amount" name="opening_amount" min="0" step="0.01"
+                                placeholder="0.00" required>
+                        </div>
+
+                        <div id="cash-opening-error" class="cash-opening-error" hidden></div>
+
+                        <button type="submit" id="btn-open-cash" disabled>
+                            Abrir caja
+                        </button>
+                    </form>
+                </div>
+            </div>
+        @endunless
+
         {{-- PANEL PRINCIPAL --}}
         <main class="pos-layout">
 
@@ -22,8 +91,8 @@
                         </label>
 
                         <div class="scale-weight-box">
-                            <input id="scale-weight" type="text" value="0.000" readonly
-                                aria-label="Peso recibido de la báscula">
+                            <input id="scale-weight" type="number" min="0" step="0.001"
+                                aria-label="Capturar peso manualmente">
                             <span>KG</span>
                         </div>
                     </div>
@@ -31,6 +100,7 @@
                     <div class="scale-status">
                         <div class="scale-status-text">
                             <span id="scale-indicator" class="status-dot offline"></span>
+
                             <strong id="scale-status-label">
                                 Báscula desconectada
                             </strong>
@@ -59,143 +129,19 @@
 
                 {{-- CATEGORÍAS --}}
                 <nav class="pos-categories" aria-label="Categorías">
-                    <button class="category-btn active" data-category="all">Todos</button>
-                    <button class="category-btn" data-category="Res">Res</button>
-                    <button class="category-btn" data-category="Cerdo">Cerdo</button>
-                    <button class="category-btn" data-category="Pollo">Pollo</button>
-                    <button class="category-btn" data-category="Embutidos">Embutidos</button>
-                    <button class="category-btn" data-category="Otros">Otros</button>
+                    <button type="button" class="category-btn active" data-category="all"> Todos </button>
+
+                    @foreach ($categories as $category)
+                        <button type="button" class="category-btn" data-category="{{ $category->id }}">
+                            {{ $category->name }} </button>
+                    @endforeach
                 </nav>
 
-                {{-- TARJETAS DE PRODUCTOS --}}
+                {{-- PRODUCTOS DE DEMOSTRACIÓN --}}
                 <div class="products-grid" id="products-grid">
-
-                    @php
-                        $demoProducts = [
-                            [
-                                'id' => 1,
-                                'name' => 'Bistec',
-                                'code' => 'RES001',
-                                'category' => 'Res',
-                                'price' => 220,
-                                'image' => null,
-                            ],
-                            [
-                                'id' => 2,
-                                'name' => 'Costilla',
-                                'code' => 'RES002',
-                                'category' => 'Res',
-                                'price' => 180,
-                                'image' => null,
-                            ],
-                            [
-                                'id' => 3,
-                                'name' => 'Molida',
-                                'code' => 'RES003',
-                                'category' => 'Res',
-                                'price' => 170,
-                                'image' => null,
-                            ],
-                            [
-                                'id' => 4,
-                                'name' => 'Arrachera',
-                                'code' => 'RES004',
-                                'category' => 'Res',
-                                'price' => 290,
-                                'image' => null,
-                            ],
-                            [
-                                'id' => 5,
-                                'name' => 'Diezmillo',
-                                'code' => 'RES005',
-                                'category' => 'Res',
-                                'price' => 210,
-                                'image' => null,
-                            ],
-                            [
-                                'id' => 6,
-                                'name' => 'Suadero',
-                                'code' => 'RES006',
-                                'category' => 'Res',
-                                'price' => 160,
-                                'image' => null,
-                            ],
-                            [
-                                'id' => 7,
-                                'name' => 'Aguja',
-                                'code' => 'RES007',
-                                'category' => 'Res',
-                                'price' => 190,
-                                'image' => null,
-                            ],
-                            [
-                                'id' => 8,
-                                'name' => 'Chamorro',
-                                'code' => 'RES008',
-                                'category' => 'Res',
-                                'price' => 150,
-                                'image' => null,
-                            ],
-                            [
-                                'id' => 9,
-                                'name' => 'Filete',
-                                'code' => 'RES009',
-                                'category' => 'Res',
-                                'price' => 320,
-                                'image' => null,
-                            ],
-                            [
-                                'id' => 10,
-                                'name' => 'T-Bone',
-                                'code' => 'RES010',
-                                'category' => 'Res',
-                                'price' => 340,
-                                'image' => null,
-                            ],
-                            [
-                                'id' => 11,
-                                'name' => 'Chorizo',
-                                'code' => 'EMB001',
-                                'category' => 'Embutidos',
-                                'price' => 160,
-                                'image' => null,
-                            ],
-                            [
-                                'id' => 12,
-                                'name' => 'Longaniza',
-                                'code' => 'EMB002',
-                                'category' => 'Embutidos',
-                                'price' => 155,
-                                'image' => null,
-                            ],
-                        ];
-                    @endphp
-
-                    @foreach ($demoProducts as $product)
-                        <button type="button" class="product-card" data-id="{{ $product['id'] }}"
-                            data-name="{{ $product['name'] }}" data-code="{{ $product['code'] }}"
-                            data-category="{{ $product['category'] }}" data-price="{{ $product['price'] }}">
-
-                            <div class="product-image">
-                                @if ($product['image'])
-                                    <img src="{{ $product['image'] }}" alt="{{ $product['name'] }}">
-                                @else
-                                    <div class="product-placeholder">🥩</div>
-                                @endif
-                            </div>
-
-                            <div class="product-info">
-                                <strong>{{ $product['name'] }}</strong>
-
-                                <span class="product-price">
-                                    ${{ number_format($product['price'], 2) }} / kg
-                                </span>
-
-                                <small>{{ $product['code'] }}</small>
-                            </div>
-                        </button>
-                    @endforeach
-
+                    <div class="products-loading">
+                        Cargando productos...
+                    </div>
                 </div>
 
                 <div class="products-empty" id="products-empty" hidden>
@@ -265,11 +211,21 @@
 
                     <div class="total-line">
                         <span>Descuento</span>
+                        <div class="ticket-manual-field">
+                            <select id="discount-type">
+                                <option value="percent">%</option>
+                                <option value="amount">$</option>
+                            </select>
+                            <input type="number" id="discount-value" value="0" min="0" step="0.01">
+                        </div>
                         <strong id="ticket-discount">$0.00</strong>
                     </div>
 
                     <div class="total-line">
-                        <span>IVA</span>
+                        <span>IVA (%)</span>
+                        <div class="ticket-manual-field">
+                            <input type="number" id="tax-value" value="0" min="0" step="0.01" placeholder="0">
+                        </div>
                         <strong id="ticket-tax">$0.00</strong>
                     </div>
 
@@ -304,5 +260,3 @@
         </main>
     </div>
 @endsection
-   
-

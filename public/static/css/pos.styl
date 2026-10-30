@@ -668,3 +668,183 @@
   .pos-footer
     align-items flex-start
     flex-direction column
+
+
+.pos-cash-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px 20px;
+    background: #ecfdf5;
+    border-bottom: 1px solid #a7f3d0;
+    color: #065f46;
+    flex-wrap: wrap;
+}
+
+.pos-cash-info span {
+    font-weight: 700;
+}
+
+.pos-cash-info small {
+    color: #047857;
+}
+
+.pos-app {
+    position: relative;
+}
+
+.cash-opening-overlay {
+     position: absolute;
+    inset: 0;
+    z-index: 1000;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(3px);
+
+    border-radius: 12px;
+    padding: 20px;
+
+}
+
+.cash-opening-modal {
+    width: 100%;
+    max-width: 430px;
+    background: #fff;
+    border-radius: 18px;
+    padding: 30px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, .25);
+}
+
+.cash-opening-icon {
+    font-size: 42px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.cash-opening-modal h2 {
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.cash-opening-modal p {
+    text-align: center;
+    color: #64748b;
+    margin-bottom: 25px;
+}
+
+.cash-form-group {
+    margin-bottom: 18px;
+}
+
+.cash-form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 7px;
+}
+
+.cash-form-group input,
+.cash-form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 9px;
+    outline: none;
+}
+
+.cash-form-group input:focus,
+.cash-form-group select:focus {
+    border-color: #2563eb;
+}
+
+#btn-open-cash {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 9px;
+    background: #2563eb;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+#btn-open-cash:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+}
+
+.cash-opening-error {
+    color: #b91c1c;
+    background: #fee2e2;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.ticket-manual-field {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.ticket-manual-field select,
+.ticket-manual-field input {
+    height: 34px;
+    border: 1px solid #dce2e8;
+    border-radius: 6px;
+    background: #fff;
+    padding: 0 8px;
+    font-size: 13px;
+}
+
+.ticket-manual-field select {
+    width: 58px;
+    font-weight: 700;
+}
+
+.ticket-manual-field input {
+    width: 85px;
+    text-align: right;
+}
+
+.products-loading {
+    grid-column: 1 / -1;
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    color: #64748b;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: .3px;
+}
+
+.products-loading::before {
+    content: "";
+    width: 42px;
+    height: 42px;
+    border: 4px solid #e2e8f0;
+    border-top-color: #16a34a;
+    border-radius: 50%;
+    animation: products-spin .8s linear infinite;
+}
+
+.products-loading::after {
+    content: "Preparando catálogo...";
+    color: #94a3b8;
+    font-size: 12px;
+    font-weight: 400;
+    margin-top: -12px;
+}
+
+@keyframes products-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
