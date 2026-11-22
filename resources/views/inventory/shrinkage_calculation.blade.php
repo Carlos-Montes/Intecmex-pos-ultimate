@@ -85,6 +85,10 @@
                         <span>Estado</span>
                         <span class="merma-badge pending" id="animal-status"> Pendiente de merma </span>
                     </div>
+                    <div class="animal-detail-row">
+                        <span>Proveedor</span>
+                        <strong id="supplier-animal">—</strong>
+                    </div>
                 </div>
             </article>
             <article class="merma-panel calculation-panel">

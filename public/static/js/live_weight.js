@@ -320,9 +320,10 @@ function update_animal_details(animal, type) {
     const dateLabel = document.getElementById("animal-date");
     const detailDate = document.getElementById("animal-detail-date");
     const weight = document.getElementById("animal-live-weight");
+    const supplier = document.getElementById('supplier-animal');
     const calc = document.getElementById("calc-live-weight");
 
-    if (!emoji || !title || !dateLabel || !detailDate || !weight || !calc) {
+    if (!emoji || !title || !dateLabel || !detailDate || !weight || !calc || !supplier) {
         return;
     }
 
@@ -332,6 +333,7 @@ function update_animal_details(animal, type) {
         dateLabel.textContent = "";
         detailDate.textContent = "—";
         weight.textContent = "0.00";
+        supplier.textContent = "—";
         calc.textContent = "0.00 Kg";
         return;
     }
@@ -345,12 +347,12 @@ function update_animal_details(animal, type) {
         : animal.registration_date || "—";
 
     emoji.textContent = emojiValue;
-    title.textContent =
-        `${name} #${String(animal.id).padStart(4, "0")}`;
+    title.textContent = `${name} #${String(animal.id).padStart(4, "0")}`;
 
     dateLabel.textContent = `Registrado el ${formattedDate}`;
     detailDate.textContent = formattedDate;
     weight.textContent = Number(animal.weight).toFixed(2);
+    supplier.textContent = animal.supplier?.name || "—";
     calc.textContent = Number(animal.weight).toFixed(2) + " Kg";
 }
 

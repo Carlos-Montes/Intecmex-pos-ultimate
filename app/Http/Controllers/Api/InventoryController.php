@@ -10,6 +10,7 @@ use DB;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Validator;
+use App\Models\User;
 
 class InventoryController extends Controller
 {
@@ -34,6 +35,7 @@ class InventoryController extends Controller
         } else {
             $w = new Weight;
             $w->user = Auth::user()->id;
+            $w->supplier_id = $request->input('supplier_id');
             $w->categorie = $request->input('category');
             $w->weight = $request->input('weight_'.$ac);
             $w->status = 0;
@@ -87,8 +89,8 @@ class InventoryController extends Controller
 
     public function getSearchAnimalsDate(Request $request, $date)
     {
-        $pig = Weight::where('categorie', '0')->where('status', 0)->where('registration_date', $date)->get();
-        $cattle = Weight::where('categorie', '1')->where('status', 0)->where('registration_date', $date)->get();
+        $pig = Weight::with('supplier:id,name')->where('categorie', '0')->where('status', 0)->where('registration_date', $date)->get();
+        $cattle = Weight::with('supplier:id,name')->where('categorie', '1')->where('status', 0)->where('registration_date', $date)->get();
         $data = ['pig' => $pig, 'cattle' => $cattle];
 
         return response()->json($data);

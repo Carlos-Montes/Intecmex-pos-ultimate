@@ -20,7 +20,13 @@
                         <div class="inside">
                             <form action="/" class="form" autocomplete="off" id="form_live_weight">
                                 <input type="hidden" name="autocomplete">
-                                <label for="category">Selecciona una categoría</label>
+                                <label for="supplier">Selecciona un proveedor</label>
+                                <select name="supplier_id" id="supplier_id" class="form-select">
+                                    @foreach ($supplier as $item => $key)
+                                        <option value="{{ $item }}">{{ $key }}</option>
+                                    @endforeach
+                                </select>
+                                <label for="category" class="mtop16">Selecciona una categoría</label>
                                 <select name="category" id="category" class="form-select">
                                     @foreach (getCategorieLiveWeight() as $item => $label)
                                         <option value="{{ $item }}"> {{ $label }}</option>
