@@ -30,4 +30,7 @@ class UsersController extends Controller
         return view('users.users_permissions', $data);
     }
 
+    public function getNewUser(){
+        return view('users.new_user');
+    }
 }

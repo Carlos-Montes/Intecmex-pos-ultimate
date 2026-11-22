@@ -95,4 +95,164 @@ class UsersController extends Controller{
         endif;
     }
 
+
+    public function postAddNewUser(Request $request){
+
+        switch ($request->input('type_user')) {
+            case '0':
+                return $this->postUserAdministraitorAndVendor($request);
+                break;
+            case '1':
+                return $this->postUserAdministraitorAndVendor($request);
+                break;
+            case '2':
+                return $this->postUserCustomer($request);
+                break;
+            case '3':
+                return $this->postUserSupplier($request);
+                break;
+        }
+
+    }
+
+    public function postUserAdministraitorAndVendor($request){
+        $ac = $request->input('autocomplete');
+     
+        $rules = [
+                'name_'.$ac => 'required',
+                'password_'.$ac => 'required|min:8',
+                'password_confirmation_'.$ac => 'required|min:8',
+                'email_'.$ac => 'required|email|unique:users,email'
+            ];
+
+        $messages = [
+            'name_'.$ac.'.required' => 'El nombre es requerido',
+            'password_'.$ac.'.required' => 'La contraseña es requerida',
+            'password_'.$ac.'.min' => 'La contraseña debe tener al menos 8 caracteres',
+            'password_confirmation_'.$ac.'.required' => 'La confirmación de contraseña es requerida',
+            'password_confirmation_'.$ac.'.min' => 'La confirmación de contraseña debe tener al menos 8 caracteres',
+            'email_'.$ac.'.required' => 'El correo electrónico es requerido',
+            'email_'.$ac.'.email' => 'Ingresa un correo electrónico válido',
+            'email_'.$ac.'.unique' => 'Este correo electrónico ya se encuentra registrado en el sistema. Por favor, ingresa uno diferente.'
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            $data = ['type' => 'error', 'title' => 'Ha ocurrido un error.', 'msg' => 'Completa la información', 'msgs' => json_encode($validator->errors()->all())];
+            return response()->json($data);
+        }else{
+            $u = new User;
+            $u->status = 0;
+            $u->role = $request->input('type_user');
+            $u->name = $request->input('name_'.$ac);
+            $u->email = $request->input('email_'.$ac);
+            $u->phone = $request->input('phone_'.$ac);
+            $u->password = Hash::make($request->input('password_'.$ac));
+            $u->gender = $request->input('gender');
+            if($u->save()):
+                $actions = [
+                    [
+                        'url' => url('/users/list/all'),
+                        'name' => 'Seguir',
+                        'type' => 'primary sl',
+                    ],
+                ];
+                $data = ['type' => 'success', 'title' => config('intecmex.app_name'), 'msg' => 'Se creo correctamente el usuario.', 'actions' => json_encode($actions), 'additional' => json_encode(['hideclose' => true])];
+                return response()->json($data);
+            endif;
+        }
+    }
+
+
+    public function postUserCustomer($request){
+        $ac = $request->input('autocomplete');
+     
+        $rules = [
+                'customer_name_'.$ac => 'required',
+                'customer_phone_'.$ac => 'required',
+                'customer_email_'.$ac => 'required|email|unique:users,email',
+                'customer_discount_'.$ac => 'required'
+            ];
+
+        $messages = [
+            'customer_name_'.$ac.'.required' => 'El nombre es requerido',
+            'customer_email_'.$ac.'.required' => 'El correo electrónico es requerido',
+            'customer_email_'.$ac.'.email' => 'Ingresa un correo electrónico válido',
+            'customer_email_'.$ac.'.unique' => 'Este correo electrónico ya se encuentra registrado en el sistema. Por favor, ingresa uno diferente.',
+            'customer_phone_'.$ac.'.required' => 'El telefono es requerido',
+            'customer_discount_'.$ac.'.required' => 'El descuento es requerido'
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            $data = ['type' => 'error', 'title' => 'Ha ocurrido un error.', 'msg' => 'Completa la información', 'msgs' => json_encode($validator->errors()->all())];
+            return response()->json($data);
+        }else{
+            $u = new User;
+            $u->status = 0;
+            $u->role = $request->input('type_user');
+            $u->name = $request->input('customer_name_'.$ac);
+            $u->email = $request->input('customer_email_'.$ac);
+            $u->phone = $request->input('customer_phone_'.$ac);
+            $u->indiscount = $request->input('customer_discount_'.$ac);
+            if($u->save()):
+                 $actions = [
+                    [
+                        'url' => url('/users/list/all'),
+                        'name' => 'Seguir',
+                        'type' => 'primary sl',
+                    ],
+                ];
+                $data = ['type' => 'success', 'title' => config('intecmex.app_name'), 'msg' => 'Se creo correctamente el usuario.', 'actions' => json_encode($actions), 'additional' => json_encode(['hideclose' => true])];
+                return response()->json($data);
+            endif;
+        }
+    }
+    
+
+    public function postUserSupplier($request){
+        $ac = $request->input('autocomplete');
+     
+        $rules = [
+                'supplier_name_'.$ac => 'required',
+                'supplier_phone_'.$ac => 'required',
+                'supplier_email_'.$ac => 'required|email|unique:users,email'
+            ];
+
+        $messages = [
+            'supplier_name_'.$ac.'.required' => 'El nombre del proveedor es requerido',
+            'supplier_email_'.$ac.'.required' => 'El correo electrónico del proveedor es requerido',
+            'supplier_email_'.$ac.'.email' => 'Ingresa un correo electrónico válido',
+            'supplier_email_'.$ac.'.unique' => 'Este correo electrónico ya se encuentra registrado en el sistema. Por favor, ingresa uno diferente.',
+            'supplier_phone_'.$ac.'.required' => 'El telefono del proveedor es requerido',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            $data = ['type' => 'error', 'title' => 'Ha ocurrido un error.', 'msg' => 'Completa la información', 'msgs' => json_encode($validator->errors()->all())];
+            return response()->json($data);
+        }else{
+            $u = new User;
+            $u->status = 0;
+            $u->role = $request->input('type_user');
+            $u->name = $request->input('supplier_name_'.$ac);
+            $u->email = $request->input('supplier_email_'.$ac);
+            $u->phone = $request->input('supplier_phone_'.$ac);
+            if($u->save()):
+                 $actions = [
+                    [
+                        'url' => url('/users/list/all'),
+                        'name' => 'Seguir',
+                        'type' => 'primary sl',
+                    ],
+                ];
+                $data = ['type' => 'success', 'title' => config('intecmex.app_name'), 'msg' => 'Se creo correctamente el usuario.', 'actions' => json_encode($actions), 'additional' => json_encode(['hideclose' => true])];
+                return response()->json($data);
+            endif;
+        }
+    }
+
 }

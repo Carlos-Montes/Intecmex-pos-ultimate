@@ -310,6 +310,50 @@ ul.pagination
             .avatar_6
                 background-color: #2e86ab
 
+.new-user
+    display flex
+    align-items center
+    justify-content flex-end
+
+    .a-link
+        display inline-flex
+        align-items center
+        justify-content center
+        gap 10px
+        padding 12px 22px
+        background #252c35
+        color #fff
+        border-radius 8px
+        font-size 14px
+        font-weight 600
+        text-decoration none
+        letter-spacing .2px
+        transition all .25s ease
+        box-shadow 0 3px 8px rgba(37, 44, 53, .15)
+
+        &:before
+            content '+'
+            display flex
+            align-items center
+            justify-content center
+            width 22px
+            height 22px
+            border-radius 6px
+            background rgba(255, 255, 255, .15)
+            font-size 19px
+            font-weight 400
+            line-height 1
+
+        &:hover
+            background #2a5d9f
+            color #fff
+            transform translateY(-2px)
+            box-shadow 0 5px 14px rgba(42, 93, 159, .25)
+
+        &:active
+            transform translateY(0)
+            box-shadow none
+
 .hide-in-desktop
     display: none
 

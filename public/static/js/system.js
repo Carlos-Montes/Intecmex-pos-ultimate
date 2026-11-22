@@ -70,13 +70,18 @@ document.addEventListener('DOMContentLoaded', function(){
         });
     }
 
-    if(sidebar_active != ""){
+    if (sidebar_active != "") {
         accordion_ul_active = document.getElementById(sidebar_active);
-        if(accordion_ul_active){
+
+        if (accordion_ul_active) {
             accordion_ul_active.style.display = 'block';
-            active_arrow = document.querySelector('[data-target="'+sidebar_active+'"]').getElementsByClassName('row-icon')[0];
+            accordion_ul_active.style.height = 'auto';
+
+            active_arrow = document.querySelector('[data-target="' + sidebar_active + '"]')
+                .getElementsByClassName('row-icon')[0];
+
             active_arrow.style.transition = 'all 0.1s ease';
-            active_arrow.style.transition = 'rotate(90deg)';
+            active_arrow.style.transform = 'rotate(90deg)';
         }
     }
     // END SIDEBAR

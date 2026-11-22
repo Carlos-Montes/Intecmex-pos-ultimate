@@ -83,6 +83,7 @@ Route::middleware('auth')->group(function(){
         Route::get('/list/{type}', [UsersController::class, 'getUsers'])->name('users_list');
         Route::get('/{id}/view', [UsersController::class, 'getUsersViews'])->name('users_views');
         Route::get('/{id}/permissions', [UsersController::class, 'getUsersPermissions'])->name('users_permissions');
+        Route::get('/new_user', [UsersController::class, 'getNewUser'])->name('new_user');
     });
 });
 
@@ -96,6 +97,8 @@ Route::prefix('api-js')->group(function(){
     Route::post('/form_user_edit_password_{id}', [ApiUsersController::class, 'postUserEditPassword'])->name('api.users.edit.password');
     Route::post('/form_permissions_users_{id}', [ApiUsersController::class, 'postUserEditPermissions'])->name('api.users.edit.permissions');
     Route::get('/form_inactive_user_{id}/inactive', [ApiUsersController::class, 'getUserInactive'])->name('api.users.inactive');
+    Route::post('/users/add', [ApiUsersController::class, 'postAddNewUser'])->name('api.users.add');
+
     Route::get('/categorie/{id}/delete', [ApiCategoriesController::class, 'getCategoriesDelete'])->name('api.categories.delete');
     Route::get('/subcategorie/{id}/delete', [ApiCategoriesController::class, 'getSubcategoriesDelete'])->name('api.subcategories.delete');
 
@@ -120,7 +123,6 @@ Route::prefix('api-js')->group(function(){
     Route::post('/merma/save', [ApiInventoryController::class, 'postAnimalMerma'])->name('api.merma.add');
     Route::post('/save/meat-distribution', [ApiInventoryController::class, 'postWeightAnimals'])->name('api.weight.add');
 
-    
     Route::get('/expense/{id}/delete', [ApiFinancesController::class, 'getExpensesDelete'])->name('api.expenses.delete');
     Route::get('/load/subcategories/{parent}', [ApiProductController::class, 'getSubCategories'])->name('api.subcategory.search');
     Route::get('/units/{id}/delete', [ApiUnitsController::class, 'postUnitsDelete'])->name('api.units.delete');
@@ -133,4 +135,5 @@ Route::prefix('api-js')->group(function(){
     Route::get('/status', [ApiCashRegisterController::class, 'getStatus'])->name('api.cash-register.status');
     Route::post('/open', [ApiCashRegisterController::class, 'postOpen'])->name('api.cash-register.open');
     Route::get('/pos/products', [PosController::class, 'getProducts'])->name('api.pos.products');
+
 });
