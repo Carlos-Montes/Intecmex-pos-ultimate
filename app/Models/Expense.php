@@ -17,4 +17,9 @@ class Expense extends Model
         'date',
         'observations'
     ];
+
+    public function provider(){
+        return $this->hasOne(User::class, 'id', 'supplier_id');
+    }
+
 }

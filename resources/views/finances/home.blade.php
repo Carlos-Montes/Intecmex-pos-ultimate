@@ -121,7 +121,11 @@
                             </select>
 
                             <label for="supplier_id" class="mtop16">Proveedor:</label>
-                            <input type="text" name="supplier_id" placeholder="Nombre del proveedor">
+                            <select name="supplier_id" id="supplier_id" class="form-select">
+                                @foreach ($providers as $item => $key)
+                                    <option value="{{ $item }}">{{ $key }}</option>
+                                @endforeach
+                            </select>
 
                             <label for="concept" class="mtop16">Concepto:</label>
                             <input type="text" name="concept" placeholder="Concepto del gasto">
@@ -174,7 +178,7 @@
                                         @endphp
                                         {{ $cuenta ? $cuenta->name : 'N/A' }}
                                     </td>
-                                    <td>{{ $expense->supplier_id }}</td>
+                                    <td>{{ $expense->provider->name }}</td>
                                     <td>{{ $expense->concept }}</td>
                                     <td class="text-danger">${{ number_format((float)$expense->amount, 2) }}</td>
                                     <td>{{ $expense->observations }}</td>

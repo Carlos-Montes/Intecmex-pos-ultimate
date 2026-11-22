@@ -3,14 +3,15 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Account;
 use App\Models\Expense;
+use Illuminate\Http\Request;
 use Validator;
 
 class FinancesController extends Controller
 {
-    public function postAccountsAdd(Request $request){
+    public function postAccountsAdd(Request $request)
+    {
         $rules = [
             'account_number' => 'required',
             'name' => 'required',
@@ -25,7 +26,7 @@ class FinancesController extends Controller
 
         $validator = Validator::make($request->all(), $rules, $messages);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json(['type' => 'error', 'title' => 'Ha ocurrido un error.', 'msg' => 'Completa toda la información correctamente.', 'msgs' => json_encode($validator->errors()->all())]);
         }
 
@@ -35,14 +36,24 @@ class FinancesController extends Controller
         $account->balance = $request->input('balance');
         $account->status = $request->input('status');
 
-        if($account->save()){
-            return response()->json(['type' => 'success', 'title' => config('intecmex.app_name'), 'msg' => 'Se creó correctamente la cuenta contable.']);
+        if ($account->save()) {
+            $actions = [
+                [
+                    'url' => url('/finances/list/1'),
+                    'name' => 'Seguir',
+                    'type' => 'primary sl',
+                ],
+            ];
+            $data = ['type' => 'success', 'title' => config('intecmex.app_name'), 'msg' => 'Se creó correctamente la cuenta contable.', 'actions' => json_encode($actions), 'additional' => json_encode(['hideclose' => true])];
+
+            return response()->json($data);
         }
 
         return response()->json(['type' => 'error', 'title' => 'Ha ocurrido un error.', 'msg' => 'No se pudo guardar la cuenta.']);
     }
 
-    public function postAccountsEdit(Request $request, $id){
+    public function postAccountsEdit(Request $request, $id)
+    {
         $rules = [
             'account_number' => 'required',
             'name' => 'required',
@@ -57,7 +68,7 @@ class FinancesController extends Controller
 
         $validator = Validator::make($request->all(), $rules, $messages);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json(['type' => 'error', 'title' => 'Ha ocurrido un error.', 'msg' => 'Completa toda la información correctamente.', 'msgs' => json_encode($validator->errors()->all())]);
         }
 
@@ -67,21 +78,32 @@ class FinancesController extends Controller
         $account->balance = $request->input('balance');
         $account->status = $request->input('status');
 
-        if($account->save()){
-            return response()->json(['type' => 'success', 'title' => config('intecmex.app_name'), 'msg' => 'Se actualizó correctamente la cuenta contable.']);
+        if ($account->save()) {
+            $actions = [
+                [
+                    'url' => url('/finances/list/1'),
+                    'name' => 'Seguir',
+                    'type' => 'primary sl',
+                ],
+            ];
+            $data = ['type' => 'success', 'title' => config('intecmex.app_name'), 'msg' => 'Se actualizó correctamente la cuenta contable.', 'actions' => json_encode($actions), 'additional' => json_encode(['hideclose' => true])];
+
+            return response()->json($data);
         }
 
         return response()->json(['type' => 'error', 'title' => 'Ha ocurrido un error.', 'msg' => 'No se pudo actualizar la cuenta.']);
     }
 
-    public function getAccountsDelete($id){
+    public function getAccountsDelete($id)
+    {
         $account = Account::find($id);
-        if($account->delete()){
+        if ($account->delete()) {
             return back()->with('message', 'Se eliminó correctamente la cuenta contable.')->with('typealert', 'primary');
         }
     }
 
-    public function postExpensesAdd(Request $request){
+    public function postExpensesAdd(Request $request)
+    {
         $rules = [
             'account_id' => 'required',
             'amount' => 'required',
@@ -96,7 +118,7 @@ class FinancesController extends Controller
 
         $validator = Validator::make($request->all(), $rules, $messages);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json(['type' => 'error', 'title' => 'Ha ocurrido un error.', 'msg' => 'Completa toda la información correctamente.', 'msgs' => json_encode($validator->errors()->all())]);
         }
 
@@ -108,37 +130,48 @@ class FinancesController extends Controller
         $expense->date = $request->input('date');
         $expense->observations = $request->input('observations');
 
-        if($expense->save()){
+        if ($expense->save()) {
             $account = Account::find($expense->account_id);
-            if($account){
+            if ($account) {
                 $account->balance -= $expense->amount;
                 $account->save();
             }
-            return response()->json(['type' => 'success', 'title' => config('intecmex.app_name'), 'msg' => 'Se guardó correctamente el gasto.']);
+
+            $actions = [
+                [
+                    'url' => url('/finances/list/0'),
+                    'name' => 'Seguir',
+                    'type' => 'primary sl',
+                ],
+            ];
+            $data = ['type' => 'success', 'title' => config('intecmex.app_name'), 'msg' => 'Se guardó correctamente el gasto.', 'actions' => json_encode($actions), 'additional' => json_encode(['hideclose' => true])];
+
+            return response()->json($data);
         }
 
         return response()->json(['type' => 'error', 'title' => 'Ha ocurrido un error.', 'msg' => 'No se pudo guardar el gasto.']);
     }
 
-    public function postExpensesEdit($id, Request $request){
+    public function postExpensesEdit($id, Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'account_id' => 'required',
             'amount' => 'required',
             'date' => 'required',
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json(['type' => 'error', 'title' => 'Error', 'msg' => 'Completa la información requerida.']);
         }
 
         $expense = Expense::find($id);
-        if(!$expense){
+        if (! $expense) {
             return response()->json(['type' => 'error', 'title' => 'Error', 'msg' => 'Gasto no encontrado.']);
         }
 
         $oldAccount = Account::find($expense->account_id);
-        if($oldAccount){
-            $oldAccount->balance += $expense->amount; 
+        if ($oldAccount) {
+            $oldAccount->balance += $expense->amount;
             $oldAccount->save();
         }
 
@@ -149,27 +182,40 @@ class FinancesController extends Controller
         $expense->date = $request->input('date');
         $expense->observations = $request->input('observations');
 
-        if($expense->save()){
+        if ($expense->save()) {
             $account = Account::find($expense->account_id);
-            if($account){
+            if ($account) {
                 $account->balance = $account->balance - $expense->amount;
                 $account->save();
             }
-            return response()->json(['type' => 'success', 'title' => config('intecmex.app_name'), 'msg' => 'Se guardó correctamente el gasto.']);
+
+            $actions = [
+                [
+                    'url' => url('/finances/list/0'),
+                    'name' => 'Seguir',
+                    'type' => 'primary sl',
+                ],
+            ];
+            $data = ['type' => 'success', 'title' => config('intecmex.app_name'), 'msg' => 'Se actualizo correctamente el gasto.', 'actions' => json_encode($actions), 'additional' => json_encode(['hideclose' => true])];
+
+            return response()->json($data);
+
         }
     }
 
-    public function getExpensesDelete($id){
+    public function getExpensesDelete($id)
+    {
         $expense = Expense::find($id);
-        if($expense){
+        if ($expense) {
             $account = Account::find($expense->account_id);
-            if($account){
+            if ($account) {
                 $account->balance += $expense->amount;
                 $account->save();
             }
 
             $expense->delete();
         }
+
         return back();
     }
 }

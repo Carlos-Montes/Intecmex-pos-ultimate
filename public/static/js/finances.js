@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
             cancel_account();
         });
     }
-    
+
     var form_expense_add = document.getElementById("form_expense_add");
 
     if (form_expense_add) {
@@ -100,13 +100,9 @@ function finances_add() {
 
     http.onreadystatechange = function () {
         if (this.readyState == "4" && this.status == "200") {
-            data = JSON.parse(this.responseText);
-
-            if (data.type == "success") {
-                window.location.reload();
-            } else {
-                mdalert(data);
-            }
+            data = this.responseText;
+            data = JSON.parse(data);
+            mdalert(data);
         }
 
         if (this.status != "200") {
@@ -136,12 +132,12 @@ function cancel_expense() {
 
 function expense_add() {
     loader_action_status("show");
-    
+
     var url = "";
     if (expense_edit_id) {
         url = base + "/api-js/expense/" + expense_edit_id + "/edit";
     } else {
-        url = base + "/api-js/expenses/add"; 
+        url = base + "/api-js/expenses/add";
     }
 
     var http = new XMLHttpRequest();
@@ -150,13 +146,9 @@ function expense_add() {
 
     http.onreadystatechange = function () {
         if (this.readyState == "4" && this.status == "200") {
-            var data = JSON.parse(this.responseText);
-
-            if (data.type == "success") {
-                window.location.reload();
-            } else {
-                mdalert(data);
-            }
+            data = this.responseText;
+            data = JSON.parse(data);
+            mdalert(data);
         }
 
         if (this.status != "200" && this.readyState == "4") {
