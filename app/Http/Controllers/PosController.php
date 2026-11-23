@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CashRegisterSession;
+use App\Models\Product;
 use Illuminate\Support\Facades\DB;
 
 class PosController extends Controller
@@ -10,6 +11,7 @@ class PosController extends Controller
     public function getHome()
     {
         $session = CashRegisterSession::with(['account', 'user'])
+            ->where('user_id', auth()->id())
             ->where('status', 'open')
             ->first();
 
@@ -29,28 +31,30 @@ class PosController extends Controller
 
     public function getProducts()
     {
-        $products = DB::table('products as p')
-            ->join('categories as c', 'c.id', '=', 'p.category_id')
-            ->join('categories as sc', 'sc.id', '=', 'p.subcategory_id')
-            ->where('p.status', 1)
-            ->whereNull('p.deleted_at')
-            ->where('c.status', 1)
-            ->whereNull('c.deleted_at')
-            ->where('sc.status', 1)
-            ->whereNull('sc.deleted_at')
-            ->select([
-                'p.id',
-                'p.code',
-                'p.name',
-                'p.price',
-                'p.image',
-                'p.category_id',
-                'c.name as category_name',
-                'p.subcategory_id',
-                'sc.name as subcategory_name',
-            ])
-            ->orderBy('p.name')
-            ->get();
+        $products = Product::with([
+            'meatInventory:product_id,quantity_kg',
+            'cat:id,name',
+            'getSubcategory:id,name',
+        ])
+            ->where('status', 1)
+            ->whereHas('cat', function ($query) {
+                $query->where('status', 1)
+                    ->whereNull('deleted_at');
+            })
+            ->whereHas('getSubcategory', function ($query) {
+                $query->where('status', 1)
+                    ->whereNull('deleted_at');
+            })
+            ->orderBy('name')
+            ->get([
+                'id',
+                'code',
+                'name',
+                'price',
+                'image',
+                'category_id',
+                'subcategory_id',
+            ]);
 
         $products->transform(function ($product) {
 
@@ -58,13 +62,42 @@ class PosController extends Controller
                 ? getFileUrl($product->image, '256')
                 : null;
 
-            unset($product->image);
+            $product->category_name = $product->cat->name ?? '';
+            $product->subcategory_name = $product->getSubcategory->name ?? '';
+
+            $product->quantity_kg = (float) (
+                $product->meatInventory->quantity_kg ?? 0
+            );
+
+            unset(
+                $product->image,
+                $product->cat,
+                $product->getSubcategory,
+                $product->meatInventory
+            );
 
             return $product;
         });
 
         return response()->json([
             'products' => $products,
+        ]);
+    }
+
+    public function getCustomers()
+    {
+        $customers = DB::table('users')
+            ->where('role', 2)
+            ->orderBy('name')
+            ->get([
+                'id',
+                'name',
+                'email',
+                'indiscount',
+            ]);
+
+        return response()->json([
+            'customers' => $customers,
         ]);
     }
 }

@@ -24,6 +24,8 @@ use App\Http\Controllers\Api\BrandsController as ApiBrandsController;
 use App\Http\Controllers\Api\PrintController as ApiPrintController;
 use App\Http\Controllers\Api\InventoryController as ApiInventoryController;
 use App\Http\Controllers\Api\CashRegisterController as ApiCashRegisterController;
+use App\Http\Controllers\Api\SaleController as ApiSaleController;
+use App\Http\Controllers\Api\QzSigningController as ApiQzSigningController;
 
 Route::middleware('guest')->group(function(){
     Route::prefix('connect')->group(function(){
@@ -135,5 +137,9 @@ Route::prefix('api-js')->group(function(){
     Route::get('/status', [ApiCashRegisterController::class, 'getStatus'])->name('api.cash-register.status');
     Route::post('/open', [ApiCashRegisterController::class, 'postOpen'])->name('api.cash-register.open');
     Route::get('/pos/products', [PosController::class, 'getProducts'])->name('api.pos.products');
-
+    Route::get('/pos/customers', [PosController::class, 'getCustomers'])->name('api.pos.customers');
+    Route::post('/pos/sales', [ApiSaleController::class, 'store'])->name('api.pos.sales.store');
+    Route::post('/qz/sign', [ApiQzSigningController::class, 'sign'])->name('qz.sign');
+    Route::get('/cash-register/summary', [ApiCashRegisterController::class, 'getSummary'])->name('api.cash-register.summary');
+    Route::post('/cash-register/close', [ApiCashRegisterController::class, 'postClose'])->name('api.cash-register.close');
 });

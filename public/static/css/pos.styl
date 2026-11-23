@@ -1,4 +1,3 @@
-
 :root
   --pos-navy #0b1d35
   --pos-navy-light #132b49
@@ -11,16 +10,23 @@
   --pos-bg #f3f5f9
   --pos-white #ffffff
 
+/* =========================================
+   ESTRUCTURA GENERAL
+========================================= */
+
 .pos-app
-  color var(--pos-text)
-  font-family "Inter", "Segoe UI", Arial, sans-serif
-  font-size 14px
-  min-height calc(100vh - 70px)
+  position relative
   display flex
   flex-direction column
   gap 12px
+  height calc(100vh - 70px)
+  min-height 0
   padding 10px 12px 8px
+  overflow hidden
+  color var(--pos-text)
   background var(--pos-bg)
+  font-family "Inter", "Segoe UI", Arial, sans-serif
+  font-size 14px
 
   *
     box-sizing border-box
@@ -92,19 +98,23 @@
     margin-top 3px
     color var(--pos-muted)
 
-/* Distribución principal */
+/* =========================================
+   DISTRIBUCIÓN PRINCIPAL
+========================================= */
 
 .pos-layout
   display grid
   grid-template-columns minmax(0, 1.48fr) minmax(490px, 1fr)
   gap 12px
-  flex 1
+  flex 1 1 0
   min-height 0
+  overflow hidden
 
 .pos-products-panel
 .pos-ticket-panel
   min-width 0
   min-height 0
+  height 100%
   background var(--pos-white)
   border 1px solid #e7ebf2
   border-radius 13px
@@ -115,8 +125,11 @@
   display flex
   flex-direction column
   gap 12px
+  overflow hidden
 
-/* Báscula */
+/* =========================================
+   BÁSCULA
+========================================= */
 
 .scale-card
   display grid
@@ -128,6 +141,7 @@
   background #f2f5f9
   border 1px solid #e7ecf3
   border-radius 11px
+  flex-shrink 0
 
 .scale-icon
   display grid
@@ -211,11 +225,14 @@
   font-weight 700
   cursor pointer
 
-/* Buscador */
+/* =========================================
+   BUSCADOR
+========================================= */
 
 .pos-search
   display flex
   align-items center
+  flex-shrink 0
   min-height 42px
   padding 0 12px
   border 1px solid #cbd5e1
@@ -244,10 +261,13 @@
     font-size 22px
     cursor pointer
 
-/* Categorías */
+/* =========================================
+   CATEGORÍAS
+========================================= */
 
 .pos-categories
   display flex
+  flex-shrink 0
   flex-wrap wrap
   gap 8px
 
@@ -268,17 +288,40 @@
     border-color var(--pos-red)
     color white
 
-/* Productos */
+/* =========================================
+   PRODUCTOS
+   SCROLL INDEPENDIENTE
+========================================= */
 
 .products-grid
   display grid
   grid-template-columns repeat(4, minmax(0, 1fr))
   align-content start
   gap 10px
-  overflow-y auto
+  flex 1 1 0
   min-height 0
-  flex 1
-  padding 1px 3px 3px 1px
+  height 0
+  width 100%
+  padding 5px
+  overflow-x hidden
+  overflow-y auto
+  overscroll-behavior-y contain
+  scrollbar-width thin
+  scrollbar-color #aeb7c2 #f1f1f1
+
+  &::-webkit-scrollbar
+    width 7px
+
+  &::-webkit-scrollbar-track
+    background #f1f1f1
+    border-radius 10px
+
+  &::-webkit-scrollbar-thumb
+    background #aeb7c2
+    border-radius 10px
+
+  &::-webkit-scrollbar-thumb:hover
+    background #7d8997
 
 .product-card
   min-width 0
@@ -339,11 +382,47 @@
   white-space nowrap
 
 .products-empty
+  flex-shrink 0
   padding 25px
   text-align center
   color var(--pos-muted)
 
-/* Ticket de venta */
+.products-loading
+  grid-column 1 / -1
+  min-height 280px
+  display flex
+  flex-direction column
+  align-items center
+  justify-content center
+  gap 18px
+  color #64748b
+  font-size 14px
+  font-weight 600
+  letter-spacing .3px
+
+  &::before
+    content ""
+    width 42px
+    height 42px
+    border 4px solid #e2e8f0
+    border-top-color #16a34a
+    border-radius 50%
+    animation products-spin .8s linear infinite
+
+  &::after
+    content "Preparando catálogo..."
+    color #94a3b8
+    font-size 12px
+    font-weight 400
+    margin-top -12px
+
+@keyframes products-spin
+  to
+    transform rotate(360deg)
+
+/* =========================================
+   TICKET DE VENTA
+========================================= */
 
 .pos-ticket-panel
   display flex
@@ -359,6 +438,7 @@
   gap 12px
   padding 5px 2px 10px
   border-bottom 1px solid #e7ebf2
+  flex-shrink 0
 
   h2
     margin 0
@@ -386,12 +466,15 @@
   background #fff0f1
   color var(--pos-red-dark)
 
-/* Cliente */
+/* =========================================
+   CLIENTE
+========================================= */
 
 .customer-card
   display flex
   align-items center
   gap 12px
+  flex-shrink 0
   padding 12px
   border 1px solid #e1e7ef
   border-radius 8px
@@ -423,10 +506,12 @@
     text-overflow ellipsis
     white-space nowrap
 
-/* Tabla */
+/* =========================================
+   TABLA DEL TICKET
+========================================= */
 
 .ticket-table-wrapper
-  flex 1
+  flex 1 1 0
   min-height 125px
   overflow auto
   border 1px solid #e1e7ef
@@ -473,11 +558,14 @@
   font-size 18px
   cursor pointer
 
-/* Totales */
+/* =========================================
+   TOTALES
+========================================= */
 
 .ticket-totals
   display flex
   flex-direction column
+  flex-shrink 0
   gap 12px
   padding 3px 2px
 
@@ -494,6 +582,28 @@
 
   strong
     font-size 16px
+
+.ticket-manual-field
+  display flex
+  align-items center
+  gap 5px
+
+  select
+  input
+    height 34px
+    border 1px solid #dce2e8
+    border-radius 6px
+    background #fff
+    padding 0 8px
+    font-size 13px
+
+  select
+    width 58px
+    font-weight 700
+
+  input
+    width 85px
+    text-align right
 
 .grand-total
   display flex
@@ -515,11 +625,14 @@
     font-weight 900
     letter-spacing -1px
 
-/* Acciones */
+/* =========================================
+   ACCIONES
+========================================= */
 
 .ticket-actions
   display grid
-  grid-template-columns .9fr 1fr 1.55fr
+  grid-template-columns .9fr 1.55fr
+  flex-shrink 0
   gap 10px
 
   button
@@ -563,7 +676,154 @@
   strong
     font-size 21px
 
-/* Pie */
+/* =========================================
+   INFORMACIÓN DE CAJA
+========================================= */
+
+.pos-cash-info
+  display flex
+  align-items center
+  gap 15px
+  flex-shrink 0
+  padding 12px 20px
+  background #ecfdf5
+  border-bottom 1px solid #a7f3d0
+  color #065f46
+  flex-wrap wrap
+
+  span
+    font-weight 700
+
+  small
+    color #047857
+
+/* =========================================
+   MODAL DE APERTURA
+========================================= */
+
+.cash-opening-overlay
+  position absolute
+  inset 0
+  z-index 1000
+  display flex
+  align-items center
+  justify-content center
+  background rgba(15, 23, 42, .75)
+  backdrop-filter blur(3px)
+  border-radius 12px
+  padding 20px
+
+.cash-opening-modal
+  width 100%
+  max-width 430px
+  background #fff
+  border-radius 18px
+  padding 30px
+  box-shadow 0 20px 60px rgba(0, 0, 0, .25)
+
+  h2
+    text-align center
+    margin-bottom 8px
+
+  p
+    text-align center
+    color #64748b
+    margin-bottom 25px
+
+.cash-opening-icon
+  font-size 42px
+  text-align center
+  margin-bottom 10px
+
+.cash-form-group
+  margin-bottom 18px
+
+  label
+    display block
+    font-weight 600
+    margin-bottom 7px
+
+  input
+  select
+    width 100%
+    padding 12px
+    border 1px solid #cbd5e1
+    border-radius 9px
+    outline none
+
+  input:focus
+  select:focus
+    border-color #2563eb
+
+#btn-open-cash
+  width 100%
+  padding 13px
+  border none
+  border-radius 9px
+  background #2563eb
+  color white
+  font-weight 700
+  cursor pointer
+
+  &:disabled
+    opacity .6
+    cursor not-allowed
+
+.cash-opening-error
+  color #b91c1c
+  background #fee2e2
+  padding 10px
+  border-radius 8px
+  margin-bottom 15px
+
+
+/* ==========================================
+   BOTÓN ELIMINAR PRODUCTO DEL TICKET
+========================================== */
+
+.btn-remove-product {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    color: #dc3545;
+    background: #fff1f2;
+    border: 1px solid #fecdd3;
+    border-radius: 8px;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-remove-product:hover {
+    color: #ffffff;
+    background: #dc3545;
+    border-color: #dc3545;
+    transform: scale(1.08);
+    box-shadow: 0 3px 8px rgba(220, 53, 69, 0.2);
+}
+
+.btn-remove-product:active {
+    transform: scale(0.94);
+}
+
+.btn-remove-product:focus-visible {
+    outline: 3px solid rgba(220, 53, 69, 0.25);
+    outline-offset: 2px;
+}
+
+.btn-remove-product:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* =========================================
+   PIE
+========================================= */
 
 .pos-footer
   display flex
@@ -587,25 +847,199 @@
   margin 0 5px
   background #cbd5e1
 
-/* Responsive */
+
+
+
+.checkout-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(15, 23, 42, .65);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.checkout-overlay[hidden] {
+    display: none;
+}
+
+.checkout-modal {
+    width: 100%;
+    max-width: 460px;
+    background: #fff;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, .2);
+}
+
+.checkout-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.checkout-header h2 {
+    margin: 5px 0;
+    font-size: 22px;
+}
+
+.checkout-header small {
+    color: #7a8694;
+}
+
+.checkout-header button {
+    border: 0;
+    background: #f1f3f5;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.checkout-summary {
+    background: #f7f8fa;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 20px;
+}
+
+.checkout-summary > div,
+.checkout-change {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+}
+
+.checkout-summary span,
+.checkout-change span {
+    color: #64748b;
+    font-size: 14px;
+}
+
+.checkout-total {
+    border-top: 1px solid #dfe3e8;
+    margin-top: 8px;
+    padding-top: 16px !important;
+}
+
+.checkout-total strong {
+    font-size: 24px;
+    color: #16834a;
+}
+
+.checkout-cash-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.checkout-cash-group label {
+    font-weight: 600;
+}
+
+.checkout-cash-group input {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #d8dee6;
+    border-radius: 10px;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.checkout-change {
+    margin: 12px 0;
+    background: #eef7f1;
+    padding: 14px;
+    border-radius: 10px;
+}
+
+.checkout-change strong {
+    color: #16834a;
+    font-size: 20px;
+}
+
+.checkout-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.checkout-actions button {
+    flex: 1;
+    padding: 13px;
+    border: 0;
+    border-radius: 9px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+#btn-cancel-checkout {
+    background: #edf0f3;
+    color: #333;
+}
+
+#btn-confirm-sale {
+    background: #16834a;
+    color: #fff;
+}
+
+#btn-confirm-sale:disabled {
+    opacity: .6;
+    cursor: wait;
+}
+
+.checkout-error {
+    color: #b42318;
+    background: #fef3f2;
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 12px;
+    font-size: 13px;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
 
 @media (max-width: 1250px)
+  .pos-app
+    height auto
+    min-height calc(100vh - 70px)
+    overflow visible
+
   .pos-layout
     grid-template-columns minmax(0, 1fr)
+    overflow visible
 
-  .pos-ticket-panel
-    min-height 620px
+  .pos-products-panel
+    height 650px
 
   .products-grid
     grid-template-columns repeat(4, minmax(0, 1fr))
-    max-height 560px
+    flex 1 1 0
+    min-height 0
+    height 0
+
+  .pos-ticket-panel
+    min-height 620px
+    height auto
 
   .pos-header-info
     display none
 
 @media (max-width: 700px)
   .pos-app
+    height auto
+    min-height calc(100vh - 70px)
     padding 6px
+    overflow visible
 
   .pos-header
     flex-wrap wrap
@@ -636,6 +1070,10 @@
   .scale-weight-box
     min-height 65px
 
+  .pos-products-panel
+    height 600px
+    padding 10px
+
   .products-grid
     grid-template-columns repeat(2, minmax(0, 1fr))
 
@@ -644,6 +1082,7 @@
 
   .pos-ticket-panel
     min-height 570px
+    height auto
     padding 8px
 
   .ticket-heading h2
@@ -670,181 +1109,500 @@
     flex-direction column
 
 
+
+/* ==========================================
+   INFORMACIÓN DE CAJA ABIERTA
+========================================== */
+
 .pos-cash-info {
     display: flex;
     align-items: center;
-    gap: 15px;
-    padding: 12px 20px;
-    background: #ecfdf5;
-    border-bottom: 1px solid #a7f3d0;
-    color: #065f46;
-    flex-wrap: wrap;
-}
-
-.pos-cash-info span {
-    font-weight: 700;
-}
-
-.pos-cash-info small {
-    color: #047857;
-}
-
-.pos-app {
-    position: relative;
-}
-
-.cash-opening-overlay {
-     position: absolute;
-    inset: 0;
-    z-index: 1000;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    background: rgba(15, 23, 42, 0.75);
-    backdrop-filter: blur(3px);
-
-    border-radius: 12px;
-    padding: 20px;
-
-}
-
-.cash-opening-modal {
-    width: 100%;
-    max-width: 430px;
-    background: #fff;
-    border-radius: 18px;
-    padding: 30px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, .25);
-}
-
-.cash-opening-icon {
-    font-size: 42px;
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-.cash-opening-modal h2 {
-    text-align: center;
-    margin-bottom: 8px;
-}
-
-.cash-opening-modal p {
-    text-align: center;
-    color: #64748b;
-    margin-bottom: 25px;
-}
-
-.cash-form-group {
+    justify-content: space-between;
+    gap: 18px;
+    padding: 16px 20px;
     margin-bottom: 18px;
+    background: #ffffff;
+    border: 1px solid #e5e9ef;
+    border-radius: 14px;
+    box-shadow: 0 3px 12px rgba(20, 35, 55, 0.05);
 }
 
-.cash-form-group label {
-    display: block;
-    font-weight: 600;
-    margin-bottom: 7px;
-}
-
-.cash-form-group input,
-.cash-form-group select {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #cbd5e1;
-    border-radius: 9px;
-    outline: none;
-}
-
-.cash-form-group input:focus,
-.cash-form-group select:focus {
-    border-color: #2563eb;
-}
-
-#btn-open-cash {
-    width: 100%;
-    padding: 13px;
-    border: none;
-    border-radius: 9px;
-    background: #2563eb;
-    color: white;
-    font-weight: 700;
-    cursor: pointer;
-}
-
-#btn-open-cash:disabled {
-    opacity: .6;
-    cursor: not-allowed;
-}
-
-.cash-opening-error {
-    color: #b91c1c;
-    background: #fee2e2;
-    padding: 10px;
-    border-radius: 8px;
-    margin-bottom: 15px;
-}
-
-.ticket-manual-field {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.ticket-manual-field select,
-.ticket-manual-field input {
-    height: 34px;
-    border: 1px solid #dce2e8;
-    border-radius: 6px;
-    background: #fff;
-    padding: 0 8px;
-    font-size: 13px;
-}
-
-.ticket-manual-field select {
-    width: 58px;
-    font-weight: 700;
-}
-
-.ticket-manual-field input {
-    width: 85px;
-    text-align: right;
-}
-
-.products-loading {
-    grid-column: 1 / -1;
-    min-height: 280px;
+.pos-cash-details {
     display: flex;
     flex-direction: column;
+    gap: 5px;
+    min-width: 0;
+}
+
+.pos-cash-details span {
+    color: #168653;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.pos-cash-details strong {
+    color: #202b3c;
+    font-size: 16px;
+}
+
+.pos-cash-details small {
+    color: #7b8797;
+    font-size: 12px;
+}
+
+/* BOTÓN CERRAR CAJA */
+
+.btn-close-cash {
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 18px;
-    color: #64748b;
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: .3px;
+    gap: 9px;
+    min-height: 43px;
+    padding: 0 20px;
+    color: #ffffff;
+    background: #c0393b;
+    border: none;
+    border-radius: 9px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+    white-space: nowrap;
 }
 
-.products-loading::before {
-    content: "";
-    width: 42px;
-    height: 42px;
-    border: 4px solid #e2e8f0;
-    border-top-color: #16a34a;
-    border-radius: 50%;
-    animation: products-spin .8s linear infinite;
+.btn-close-cash:hover {
+    background: #a92e30;
+    transform: translateY(-1px);
 }
 
-.products-loading::after {
-    content: "Preparando catálogo...";
-    color: #94a3b8;
-    font-size: 12px;
-    font-weight: 400;
-    margin-top: -12px;
+.btn-close-cash:active {
+    transform: scale(0.98);
 }
 
-@keyframes products-spin {
+.btn-close-cash span {
+    font-size: 16px;
+}
+
+/* ==========================================
+   MODAL DE CORTE DE CAJA
+========================================== */
+
+.cash-closing-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(15, 23, 42, 0.72);
+    backdrop-filter: blur(5px);
+    overflow-y: auto;
+}
+
+.cash-closing-overlay[hidden] {
+    display: none !important;
+}
+
+.cash-closing-modal {
+    position: relative;
+    width: 100%;
+    max-width: 760px;
+    max-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    animation: cashModalAppear 0.22s ease-out;
+}
+
+@keyframes cashModalAppear {
+    from {
+        opacity: 0;
+        transform: translateY(15px) scale(0.98);
+    }
     to {
-        transform: rotate(360deg);
+        opacity: 1;
+        transform: translateY(0) scale(1);
     }
 }
 
+/* ENCABEZADO */
+
+.cash-closing-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 22px 25px;
+    background: #252c35;
+    color: #ffffff;
+}
+
+.cash-closing-header > div {
+    display: grid;
+    grid-template-columns: 43px 1fr;
+    column-gap: 12px;
+    align-items: center;
+}
+
+.cash-closing-icon {
+    grid-row: span 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 43px;
+    height: 43px;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    font-size: 21px;
+}
+
+.cash-closing-header h2 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 19px;
+    font-weight: 700;
+}
+
+.cash-closing-header small {
+    margin-top: 4px;
+    color: #c4ccd6;
+    font-size: 12px;
+}
+
+#btn-close-cash-modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.12);
+    border: none;
+    border-radius: 9px;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+#btn-close-cash-modal:hover {
+    background: rgba(255, 255, 255, 0.22);
+}
+
+/* CONTENIDO SCROLLEABLE */
+
+.cash-closing-summary,
+.cash-count-section,
+.cash-closing-result,
+.cash-closing-error,
+.cash-closing-actions {
+    margin-left: 25px;
+    margin-right: 25px;
+}
+
+.cash-closing-modal {
+    overflow-y: auto;
+}
+
+.cash-closing-summary {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 22px;
+}
+
+.cash-summary-card {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    padding: 15px;
+    background: #f5f7fa;
+    border: 1px solid #e8edf3;
+    border-radius: 11px;
+}
+
+.cash-summary-card span {
+    color: #758195;
+    font-size: 12px;
+}
+
+.cash-summary-card strong {
+    color: #273448;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.cash-summary-card small {
+    color: #8591a2;
+    font-size: 11px;
+}
+
+.cash-summary-expected {
+    background: #edf5ff;
+    border-color: #d6e7fb;
+}
+
+.cash-summary-expected strong {
+    color: #2463a6;
+}
+
+/* ==========================================
+   ARQUEO DE EFECTIVO
+========================================== */
+
+.cash-count-section {
+    margin-top: 24px;
+}
+
+.cash-count-title {
+    margin-bottom: 14px;
+}
+
+.cash-count-title h3 {
+    margin: 0;
+    color: #263244;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.cash-count-title p {
+    margin: 5px 0 0;
+    color: #8490a0;
+    font-size: 12px;
+}
+
+.cash-denominations {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+}
+
+.cash-denomination-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 65px 90px;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 11px;
+    background: #f8fafc;
+    border: 1px solid #e9edf2;
+    border-radius: 9px;
+}
+
+.cash-denomination-row label {
+    color: #465366;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.cash-denomination-row input {
+    width: 100%;
+    min-width: 0;
+    height: 35px;
+    padding: 5px;
+    color: #273448;
+    background: #ffffff;
+    border: 1px solid #dce2ea;
+    border-radius: 7px;
+    text-align: center;
+    font-size: 13px;
+    outline: none;
+}
+
+.cash-denomination-row input:focus {
+    border-color: #2a5d9f;
+    box-shadow: 0 0 0 3px rgba(42, 93, 159, 0.12);
+}
+
+.cash-denomination-row strong {
+    color: #263448;
+    font-size: 12px;
+    text-align: right;
+    white-space: nowrap;
+}
+
+/* ==========================================
+   RESULTADO DEL ARQUEO
+========================================== */
+
+.cash-closing-result {
+    margin-top: 18px;
+    padding: 17px;
+    background: #f5f7fa;
+    border: 1px solid #e5eaf0;
+    border-radius: 11px;
+}
+
+.cash-closing-result > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 5px 0;
+}
+
+.cash-closing-result span {
+    color: #667386;
+    font-size: 13px;
+}
+
+.cash-closing-result strong {
+    color: #263448;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.cash-difference-line {
+    margin-top: 8px;
+    padding-top: 13px !important;
+    border-top: 1px dashed #d4dce6;
+}
+
+.cash-difference-line strong {
+    color: #2463a6;
+}
+
+#closing-difference-message {
+    display: block;
+    margin-top: 9px;
+    color: #778497;
+    font-size: 12px;
+}
+
+/* ERROR */
+
+.cash-closing-error {
+    margin-top: 14px;
+    padding: 12px 14px;
+    color: #a52e32;
+    background: #fff0f0;
+    border: 1px solid #f4caca;
+    border-radius: 8px;
+    font-size: 13px;
+}
+
+.cash-closing-error[hidden] {
+    display: none !important;
+}
+
+/* ==========================================
+   BOTONES DEL MODAL
+========================================== */
+
+.cash-closing-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding-top: 20px;
+    padding-bottom: 22px;
+    margin-top: 0;
+}
+
+.cash-closing-actions button {
+    min-height: 43px;
+    padding: 0 18px;
+    border-radius: 9px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#btn-cancel-cash-closing {
+    color: #536174;
+    background: #ffffff;
+    border: 1px solid #dce2ea;
+}
+
+#btn-cancel-cash-closing:hover {
+    background: #f1f4f8;
+}
+
+#btn-confirm-cash-closing {
+    color: #ffffff;
+    background: #c0393b;
+    border: 1px solid #c0393b;
+}
+
+#btn-confirm-cash-closing:hover {
+    background: #a92e30;
+    border-color: #a92e30;
+}
+
+#btn-confirm-cash-closing:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 650px) {
+    .pos-cash-info {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .btn-close-cash {
+        width: 100%;
+    }
+
+    .cash-closing-overlay {
+        padding: 10px;
+        align-items: flex-start;
+    }
+
+    .cash-closing-modal {
+        max-height: 96vh;
+        border-radius: 13px;
+    }
+
+    .cash-closing-header {
+        padding: 17px;
+    }
+
+    .cash-closing-summary {
+        grid-template-columns: 1fr;
+        margin: 15px 15px 0;
+    }
+
+    .cash-closing-summary,
+    .cash-count-section,
+    .cash-closing-result,
+    .cash-closing-error,
+    .cash-closing-actions {
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+
+    .cash-denominations {
+        grid-template-columns: 1fr;
+    }
+
+    .cash-closing-actions {
+        flex-direction: column-reverse;
+        padding-bottom: 17px;
+    }
+
+    .cash-closing-actions button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 380px) {
+    .cash-denomination-row {
+        grid-template-columns: minmax(0, 1fr) 55px 75px;
+        gap: 5px;
+        padding: 9px 7px;
+    }
+
+    .cash-denomination-row label {
+        font-size: 11px;
+    }
+
+    .cash-denomination-row strong {
+        font-size: 11px;
+    }
+}

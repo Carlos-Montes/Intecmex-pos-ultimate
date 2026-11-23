@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class CashRegisterSession extends Model
 {
@@ -14,6 +15,7 @@ class CashRegisterSession extends Model
         'closing_amount',
         'expected_amount',
         'difference',
+        'cash_count',
         'status',
         'opened_at',
         'closed_at',
@@ -26,6 +28,7 @@ class CashRegisterSession extends Model
             'closing_amount' => 'decimal:2',
             'expected_amount' => 'decimal:2',
             'difference' => 'decimal:2',
+            'cash_count' => 'array',
             'opened_at' => 'datetime',
             'closed_at' => 'datetime',
         ];
@@ -39,5 +42,10 @@ class CashRegisterSession extends Model
     public function account(): BelongsTo
     {
         return $this->belongsTo(Account::class);
+    }
+
+    public function sales(): HasMany
+    {
+        return $this->hasMany(Sale::class, 'cash_register_session_id');
     }
 }

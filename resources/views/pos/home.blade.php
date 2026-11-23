@@ -5,14 +5,29 @@
 @endsection
 
 @section('custom_js')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <script>
         window.cashRegisterRoutes = {
             status: @json(route('api.cash-register.status')),
             open: @json(route('api.cash-register.open')),
-            products: @json(route('api.pos.products'))
+            products: @json(route('api.pos.products')),
+            customers: @json(route('api.pos.customers')),
+            sales: @json(route('api.pos.sales.store')),
+            summary: @json(route('api.cash-register.summary')),
+            close: @json(route('api.cash-register.close'))
+        };
+
+        window.qzRoutes = {
+            certificate: @json(url('/static/certs/digital-certificate.txt')),
+            sign: @json(route('qz.sign'))
         };
     </script>
 
+    {{-- Librería de conexión con QZ Tray --}}
+    <script src="{{ url('/static/js/vendor/qz-tray.js') }}"></script>
+
+    {{-- JavaScript principal del punto de venta --}}
     <script src="{{ url('/static/js/pos.js?v=' . time()) }}"></script>
 @endsection
 
@@ -22,12 +37,20 @@
         {{-- INFORMACIÓN DE CAJA ABIERTA --}}
         @if ($session)
             <div class="pos-cash-info">
-                <span>🟢 Caja abierta</span>
-                <strong>{{ $session->account->name }}</strong>
-                <small>
-                    Apertura: ${{ number_format($session->opening_amount, 2) }}
-                    | Responsable: {{ $session->user->name }}
-                </small>
+                <div class="pos-cash-details">
+                    <span>🟢 Caja abierta</span>
+                    <strong>{{ $session->account->name }}</strong>
+
+                    <small>
+                        Apertura: ${{ number_format($session->opening_amount, 2) }}
+                        | Responsable: {{ $session->user->name }}
+                    </small>
+                </div>
+
+                <button type="button" id="btn-close-cash" class="btn-close-cash">
+                    <span>🔒</span>
+                    <strong>Cerrar caja</strong>
+                </button>
             </div>
         @endif
 
@@ -129,15 +152,18 @@
 
                 {{-- CATEGORÍAS --}}
                 <nav class="pos-categories" aria-label="Categorías">
-                    <button type="button" class="category-btn active" data-category="all"> Todos </button>
+                    <button type="button" class="category-btn active" data-category="all">
+                        Todos
+                    </button>
 
                     @foreach ($categories as $category)
                         <button type="button" class="category-btn" data-category="{{ $category->id }}">
-                            {{ $category->name }} </button>
+                            {{ $category->name }}
+                        </button>
                     @endforeach
                 </nav>
 
-                {{-- PRODUCTOS DE DEMOSTRACIÓN --}}
+                {{-- PRODUCTOS --}}
                 <div class="products-grid" id="products-grid">
                     <div class="products-loading">
                         Cargando productos...
@@ -163,19 +189,23 @@
                     </button>
                 </div>
 
-                {{-- CLIENTE PREDETERMINADO --}}
+                {{-- SELECCIÓN DE CLIENTE --}}
                 <div class="customer-card">
                     <div class="customer-icon">👥</div>
 
                     <div class="customer-details">
                         <span>Cliente</span>
-                        <strong id="customer-name">Público General</strong>
-                        <small>Cliente por defecto</small>
-                    </div>
 
-                    <button type="button" class="btn-change-customer" id="btn-change-customer">
-                        Buscar cliente
-                    </button>
+                        <select id="customer-select" class="form-select">
+                            <option value="0" data-discount="0">
+                                Público General
+                            </option>
+                        </select>
+
+                        <small id="customer-discount-label">
+                            Sin descuento
+                        </small>
+                    </div>
                 </div>
 
                 {{-- TABLA DEL TICKET --}}
@@ -211,21 +241,27 @@
 
                     <div class="total-line">
                         <span>Descuento</span>
+
                         <div class="ticket-manual-field">
                             <select id="discount-type">
                                 <option value="percent">%</option>
                                 <option value="amount">$</option>
                             </select>
+
                             <input type="number" id="discount-value" value="0" min="0" step="0.01">
                         </div>
+
                         <strong id="ticket-discount">$0.00</strong>
                     </div>
 
                     <div class="total-line">
                         <span>IVA (%)</span>
+
                         <div class="ticket-manual-field">
-                            <input type="number" id="tax-value" value="0" min="0" step="0.01" placeholder="0">
+                            <input type="number" id="tax-value" value="0" min="0" step="0.01"
+                                placeholder="0">
                         </div>
+
                         <strong id="ticket-tax">$0.00</strong>
                     </div>
 
@@ -237,26 +273,255 @@
 
                 {{-- ACCIONES --}}
                 <div class="ticket-actions">
-                    <button type="button" class="btn-pause" id="btn-pause">
-                        <span>Ⅱ</span>
-                        <strong>Pausar</strong>
-                        <small>F2</small>
-                    </button>
-
                     <button type="button" class="btn-cancel" id="btn-cancel">
                         <span>▣</span>
                         <strong>Cancelar</strong>
-                        <small>F3</small>
                     </button>
 
                     <button type="button" class="btn-charge" id="btn-charge">
                         <span>▣</span>
                         <strong>Cobrar</strong>
-                        <small>F4</small>
                     </button>
                 </div>
 
             </aside>
         </main>
+
+        {{-- MODAL DE COBRO --}}
+        <div class="checkout-overlay" id="checkout-overlay" hidden>
+            <div class="checkout-modal">
+
+                <div class="checkout-header">
+                    <div>
+                        <span>🧾</span>
+                        <h2>Finalizar venta</h2>
+                        <small>Confirma los importes antes de cobrar</small>
+                    </div>
+
+                    <button type="button" id="btn-close-checkout">×</button>
+                </div>
+
+                <div class="checkout-summary">
+                    <div>
+                        <span>Subtotal</span>
+                        <strong id="checkout-subtotal">$0.00</strong>
+                    </div>
+
+                    <div>
+                        <span>Descuento del cliente</span>
+                        <strong id="checkout-customer-discount">$0.00</strong>
+                    </div>
+
+                    <div>
+                        <span>Descuento manual</span>
+                        <strong id="checkout-manual-discount">$0.00</strong>
+                    </div>
+
+                    <div>
+                        <span>IVA</span>
+                        <strong id="checkout-tax">$0.00</strong>
+                    </div>
+
+                    <div class="checkout-total">
+                        <span>Total a pagar</span>
+                        <strong id="checkout-total">$0.00</strong>
+                    </div>
+                </div>
+
+                <form id="checkout-form">
+                    @csrf
+
+                    <div class="checkout-cash-group">
+                        <label for="cash-received">
+                            Efectivo recibido
+                        </label>
+
+                        <input type="number" id="cash-received" min="0" step="0.01" value="0" required>
+                    </div>
+
+                    <div class="checkout-change">
+                        <span>Cambio</span>
+                        <strong id="checkout-change">$0.00</strong>
+                    </div>
+
+                    <div id="checkout-error" class="checkout-error" hidden></div>
+
+                    <div class="checkout-actions">
+                        <button type="button" id="btn-cancel-checkout">
+                            Regresar
+                        </button>
+
+                        <button type="submit" id="btn-confirm-sale">
+                            Confirmar y cobrar
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+        {{-- MODAL DE CORTE Y CIERRE DE CAJA --}}
+        <div class="cash-closing-overlay" id="cash-closing-overlay" hidden>
+            <div class="cash-closing-modal">
+
+                <div class="cash-closing-header">
+                    <div>
+                        <span class="cash-closing-icon">🔐</span>
+                        <h2>Corte de caja</h2>
+                        <small>Revisa tus ventas y realiza el arqueo de efectivo</small>
+                    </div>
+
+                    <button type="button" id="btn-close-cash-modal">×</button>
+                </div>
+
+                <div class="cash-closing-summary">
+
+                    <div class="cash-summary-card">
+                        <span>Fondo inicial</span>
+                        <strong id="closing-opening">$0.00</strong>
+                    </div>
+
+                    <div class="cash-summary-card">
+                        <span>Ventas en efectivo</span>
+                        <strong id="closing-sales">$0.00</strong>
+                        <small id="closing-sales-count">0 ventas</small>
+                    </div>
+
+                    <div class="cash-summary-card cash-summary-expected">
+                        <span>Efectivo esperado</span>
+                        <strong id="closing-expected">$0.00</strong>
+                    </div>
+
+                </div>
+
+                <div class="cash-count-section">
+
+                    <div class="cash-count-title">
+                        <div>
+                            <h3>Arqueo de efectivo</h3>
+                            <p>Captura cuántos billetes y monedas tienes físicamente.</p>
+                        </div>
+                    </div>
+
+                    <div class="cash-denominations" id="cash-denominations">
+
+                        <div class="cash-denomination-row">
+                            <label>Billetes de $1,000</label>
+                            <input type="number" min="0" step="1" value="0"
+                                data-denomination="bill_1000">
+                            <strong>$0.00</strong>
+                        </div>
+
+                        <div class="cash-denomination-row">
+                            <label>Billetes de $500</label>
+                            <input type="number" min="0" step="1" value="0"
+                                data-denomination="bill_500">
+                            <strong>$0.00</strong>
+                        </div>
+
+                        <div class="cash-denomination-row">
+                            <label>Billetes de $200</label>
+                            <input type="number" min="0" step="1" value="0"
+                                data-denomination="bill_200">
+                            <strong>$0.00</strong>
+                        </div>
+
+                        <div class="cash-denomination-row">
+                            <label>Billetes de $100</label>
+                            <input type="number" min="0" step="1" value="0"
+                                data-denomination="bill_100">
+                            <strong>$0.00</strong>
+                        </div>
+
+                        <div class="cash-denomination-row">
+                            <label>Billetes de $50</label>
+                            <input type="number" min="0" step="1" value="0"
+                                data-denomination="bill_50">
+                            <strong>$0.00</strong>
+                        </div>
+
+                        <div class="cash-denomination-row">
+                            <label>Billetes de $20</label>
+                            <input type="number" min="0" step="1" value="0"
+                                data-denomination="bill_20">
+                            <strong>$0.00</strong>
+                        </div>
+
+                        <div class="cash-denomination-row">
+                            <label>Monedas de $20</label>
+                            <input type="number" min="0" step="1" value="0"
+                                data-denomination="coin_20">
+                            <strong>$0.00</strong>
+                        </div>
+
+                        <div class="cash-denomination-row">
+                            <label>Monedas de $10</label>
+                            <input type="number" min="0" step="1" value="0"
+                                data-denomination="coin_10">
+                            <strong>$0.00</strong>
+                        </div>
+
+                        <div class="cash-denomination-row">
+                            <label>Monedas de $5</label>
+                            <input type="number" min="0" step="1" value="0"
+                                data-denomination="coin_5">
+                            <strong>$0.00</strong>
+                        </div>
+
+                        <div class="cash-denomination-row">
+                            <label>Monedas de $2</label>
+                            <input type="number" min="0" step="1" value="0"
+                                data-denomination="coin_2">
+                            <strong>$0.00</strong>
+                        </div>
+
+                        <div class="cash-denomination-row">
+                            <label>Monedas de $1</label>
+                            <input type="number" min="0" step="1" value="0"
+                                data-denomination="coin_1">
+                            <strong>$0.00</strong>
+                        </div>
+
+                        <div class="cash-denomination-row">
+                            <label>Monedas de $0.50</label>
+                            <input type="number" min="0" step="1" value="0"
+                                data-denomination="coin_50c">
+                            <strong>$0.00</strong>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="cash-closing-result">
+
+                    <div>
+                        <span>Total contado físicamente</span>
+                        <strong id="closing-counted">$0.00</strong>
+                    </div>
+
+                    <div class="cash-difference-line" id="closing-difference-line">
+                        <span>Diferencia</span>
+                        <strong id="closing-difference">$0.00</strong>
+                    </div>
+
+                    <small id="closing-difference-message">
+                        Captura el efectivo para calcular la diferencia.
+                    </small>
+
+                </div>
+
+                <div id="cash-closing-error" class="cash-closing-error" hidden></div>
+
+                <div class="cash-closing-actions">
+                    <button type="button" id="btn-cancel-cash-closing">
+                        Regresar al POS
+                    </button>
+
+                    <button type="button" id="btn-confirm-cash-closing">
+                        🔒 Confirmar corte y cerrar caja
+                    </button>
+                </div>
+
+            </div>
+        </div>
     </div>
 @endsection
