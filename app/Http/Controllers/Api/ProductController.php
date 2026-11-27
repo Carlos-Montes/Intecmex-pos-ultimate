@@ -116,4 +116,20 @@ class ProductController extends Controller
             return response()->json($data);
         }
     }
+
+     public function getProductDelete($id){
+         $p = Product::findOrFail($id);
+         if($p->delete()):
+            return back()->with('message', 'Producto enviado a la papelera de reciclaje.')->with('typealert', 'success');
+        endif;
+    }
+
+    public function getProductRestore($id){
+         $p = Product::onlyTrashed()->where('id', $id)->first();
+         if($p->restore()):
+            $p->status = "1";
+            $p->save();
+            return redirect('/products/1')->with('message', 'Este producto se restauro con éxito.')->with('typealert', 'success');
+        endif;
+    }
 }

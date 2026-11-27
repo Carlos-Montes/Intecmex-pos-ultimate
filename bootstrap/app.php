@@ -13,6 +13,10 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->redirectTo(guests: '/connect/login');
+        $middleware->alias([
+            'user.status' => \App\Http\Middleware\UserStatus::class,
+            'user.permissions' => \App\Http\Middleware\Permissions::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

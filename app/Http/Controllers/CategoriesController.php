@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\Categorie;
 
 class CategoriesController extends Controller{
+    public function __construct(){
+        $this->middleware('user.status');
+        $this->middleware('user.permissions');
+    }
     
     public function getCategories(){
         $subcategories = Categorie::where('parent_id', '=', 'id')->get();

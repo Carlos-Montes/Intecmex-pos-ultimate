@@ -11,6 +11,7 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\PosController;
+use App\Http\Controllers\SalesController;
 use App\Http\Controllers\ReportesController;
 use App\Http\Controllers\Api\ConnectController as ApiConnectController;
 use App\Http\Controllers\Api\AccountController as ApiAccountController;
@@ -65,7 +66,7 @@ Route::middleware('auth')->group(function(){
 
     Route::prefix('product')->group(function(){
         Route::get('/add', [ProductsController::class, 'getProductsAdd'])->name('product_add');
-        Route::get('/{id}/edit', [ProductsController::class, 'getProductsEdit'])->name('product_add');
+        Route::get('/{id}/edit', [ProductsController::class, 'getProductsEdit'])->name('product_edit');
         Route::post('/search', [ProductsController::class, 'postProductSearch'])->name('product.search');
     });
 
@@ -87,6 +88,12 @@ Route::middleware('auth')->group(function(){
         Route::get('/{id}/permissions', [UsersController::class, 'getUsersPermissions'])->name('users_permissions');
         Route::get('/new_user', [UsersController::class, 'getNewUser'])->name('new_user');
     });
+
+    Route::prefix('sales')->group(function(){
+        Route::get('/', [SalesController::class, 'getSales'])->name('sales');
+        Route::get('/{id}/detail', [SalesController::class, 'getSaleDetail'])->name('sales.detail');
+    });
+
 });
 
 
@@ -98,7 +105,7 @@ Route::prefix('api-js')->group(function(){
     Route::post('/form_user_edit_info_{id}', [ApiUsersController::class, 'postUserEditData'])->name('api.users.edit_data');
     Route::post('/form_user_edit_password_{id}', [ApiUsersController::class, 'postUserEditPassword'])->name('api.users.edit.password');
     Route::post('/form_permissions_users_{id}', [ApiUsersController::class, 'postUserEditPermissions'])->name('api.users.edit.permissions');
-    Route::get('/form_inactive_user_{id}/inactive', [ApiUsersController::class, 'getUserInactive'])->name('api.users.inactive');
+    Route::get('/form_inactive_user_{id}/inactive', [ApiUsersController::class, 'getUserInactive'])->name('api_users_inactive');
     Route::post('/users/add', [ApiUsersController::class, 'postAddNewUser'])->name('api.users.add');
 
     Route::get('/categorie/{id}/delete', [ApiCategoriesController::class, 'getCategoriesDelete'])->name('api.categories.delete');
@@ -112,7 +119,9 @@ Route::prefix('api-js')->group(function(){
 
     Route::post('/product/add', [ApiProductController::class, 'postProductAdd'])->name('api.product.add');
     Route::post('/product/edit', [ApiProductController::class, 'postProductEdit'])->name('api.product.edit');
-    
+    Route::get('/product/{id}/delete', [ApiProductController::class, 'getProductDelete'])->name('product_delete');
+    Route::get('/product/{id}/restore', [ApiProductController::class, 'getProductRestore'])->name('product_delete');
+
     Route::post('/units/add', [ApiUnitsController::class, 'postUnitsAdd'])->name('api.units.add');
     Route::post('/units/{id}/edit', [ApiUnitsController::class, 'postUnitsEdit'])->name('api.units.edit');
 
@@ -125,7 +134,7 @@ Route::prefix('api-js')->group(function(){
     Route::post('/merma/save', [ApiInventoryController::class, 'postAnimalMerma'])->name('api.merma.add');
     Route::post('/save/meat-distribution', [ApiInventoryController::class, 'postWeightAnimals'])->name('api.weight.add');
 
-    Route::get('/expense/{id}/delete', [ApiFinancesController::class, 'getExpensesDelete'])->name('api.expenses.delete');
+    Route::get('/expense/{id}/delete1', [ApiFinancesController::class, 'getExpensesDelete'])->name('api.expenses.delete');
     Route::get('/load/subcategories/{parent}', [ApiProductController::class, 'getSubCategories'])->name('api.subcategory.search');
     Route::get('/units/{id}/delete', [ApiUnitsController::class, 'postUnitsDelete'])->name('api.units.delete');
     Route::get('/brands/{id}/delete', [ApiBrandsController::class, 'postBrandsDelete'])->name('api.brands.delete');
@@ -136,8 +145,8 @@ Route::prefix('api-js')->group(function(){
 
     Route::get('/status', [ApiCashRegisterController::class, 'getStatus'])->name('api.cash-register.status');
     Route::post('/open', [ApiCashRegisterController::class, 'postOpen'])->name('api.cash-register.open');
-    Route::get('/pos/products', [PosController::class, 'getProducts'])->name('api.pos.products');
-    Route::get('/pos/customers', [PosController::class, 'getCustomers'])->name('api.pos.customers');
+    Route::get('/pos/products', [PosController::class, 'getProducts'])->name('api_pos_products');
+    Route::get('/pos/customers', [PosController::class, 'getCustomers'])->name('api_pos_customers');
     Route::post('/pos/sales', [ApiSaleController::class, 'store'])->name('api.pos.sales.store');
     Route::post('/qz/sign', [ApiQzSigningController::class, 'sign'])->name('qz.sign');
     Route::get('/cash-register/summary', [ApiCashRegisterController::class, 'getSummary'])->name('api.cash-register.summary');

@@ -1,696 +1,679 @@
 
 /* =========================================================
    INTECMEX POS - DASHBOARD
-   Diseño visual de presentación
+   Diseño dinámico administrativo
    ========================================================= */
 
-.dashboard-page {
-    --dash-primary: #2563eb;
-    --dash-primary-dark: #1d4ed8;
-    --dash-text: #172033;
-    --dash-muted: #758198;
-    --dash-border: #e8edf5;
-    --dash-surface: #ffffff;
-    --dash-background: #f5f7fb;
-
-    width: 100%;
-    padding: 26px;
-    color: var(--dash-text);
-    background: var(--dash-background);
-    border-radius: 16px;
-    font-family: inherit;
-}
-
-.dashboard-page *,
-.dashboard-page *::before,
-.dashboard-page *::after {
-    box-sizing: border-box;
-}
-
-.dashboard-page a {
-    text-decoration: none;
-    color: inherit;
-}
-
-/* Encabezado */
-
-.dashboard-heading {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    margin-bottom: 26px;
-}
-
-.dashboard-eyebrow,
-.panel-kicker {
-    display: inline-block;
-    margin-bottom: 8px;
-    color: var(--dash-primary);
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: 1.7px;
-}
-
-.dashboard-heading h2 {
-    margin: 0;
-    color: var(--dash-text);
-    font-size: clamp(25px, 3vw, 32px);
-    font-weight: 800;
-    letter-spacing: -1.1px;
-}
-
-.dashboard-heading p,
-.dashboard-section-heading p,
-.dashboard-panel-heading p {
-    margin: 7px 0 0;
-    color: var(--dash-muted);
-    font-size: 13px;
-    line-height: 1.6;
-}
-
-.dashboard-heading-actions {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.preview-badge,
-.dashboard-date,
-.dashboard-period {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 13px;
-    border: 1px solid var(--dash-border);
-    border-radius: 10px;
-    background: #fff;
-    color: #59657b;
-    font-size: 11px;
-    font-weight: 600;
-    white-space: nowrap;
-}
-
-.preview-badge {
-    color: #1d4ed8;
-    background: #eff6ff;
-    border-color: #dbeafe;
-}
-
-.preview-badge > span {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #3b82f6;
-}
-
-/* Accesos rápidos */
-
-.dashboard-quick-actions {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 15px;
-    margin-bottom: 32px;
-}
-
-.dashboard-action {
-    display: flex;
-    align-items: center;
-    gap: 13px;
-    min-width: 0;
-    padding: 17px;
-    border: 1px solid var(--dash-border);
-    border-radius: 14px;
-    background: var(--dash-surface);
-    transition: transform .2s ease, box-shadow .2s ease,
-                border-color .2s ease;
-}
-
-.dashboard-action:hover {
-    transform: translateY(-3px);
-    border-color: #c8d9ff;
-    box-shadow: 0 10px 28px rgb(31 64 120 / 8%);
-}
-
-.action-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    width: 43px;
-    height: 43px;
-    border-radius: 12px;
-    font-size: 20px;
-}
-
-.action-blue {
-    color: #2563eb;
-    background: #eff6ff;
-}
-
-.action-purple {
-    color: #7c3aed;
-    background: #f5f0ff;
-}
-
-.action-green {
-    color: #059669;
-    background: #ecfdf5;
-}
-
-.dashboard-action > span:nth-child(2) {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    gap: 5px;
-    min-width: 0;
-}
-
-.dashboard-action strong {
-    font-size: 12px;
-    font-weight: 750;
-}
-
-.dashboard-action small {
-    color: var(--dash-muted);
-    font-size: 11px;
-}
-
-.action-arrow {
-    color: #9aa6b8;
-    font-size: 16px;
-}
-
-/* Encabezados de sección */
-
-.dashboard-section-heading {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 15px;
-    margin-bottom: 17px;
-}
-
-.dashboard-section-heading h4,
-.dashboard-panel-heading h4 {
-    margin: 0;
-    font-size: 16px;
-    font-weight: 800;
-    letter-spacing: -.3px;
-}
-
-.dashboard-period {
-    font-size: 10px;
-}
-
-/* Tarjetas de indicadores */
-
-.dashboard-metrics {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 15px;
-    margin-bottom: 25px;
-}
-
-.metric-card {
-    min-width: 0;
-    padding: 19px;
-    border: 1px solid var(--dash-border);
-    border-radius: 15px;
-    background: var(--dash-surface);
-    box-shadow: 0 3px 12px rgb(26 45 80 / 2%);
-    transition: transform .2s ease, box-shadow .2s ease;
-}
-
-.metric-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 9px 25px rgb(26 45 80 / 6%);
-}
-
-.metric-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    margin-bottom: 21px;
-}
-
-.metric-icon,
-.panel-heading-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 42px;
-    height: 42px;
-    flex-shrink: 0;
-    border-radius: 12px;
-    font-size: 20px;
-}
-
-.metric-icon-blue {
-    color: #2563eb;
-    background: #eff6ff;
-}
-
-.metric-icon-green {
-    color: #059669;
-    background: #ecfdf5;
-}
-
-.metric-icon-orange {
-    color: #d97706;
-    background: #fffbeb;
-}
-
-.metric-icon-red {
-    color: #e11d48;
-    background: #fff1f2;
-}
-
-.metric-tag {
-    padding: 6px 8px;
-    border-radius: 7px;
-    color: #718096;
-    background: #f5f7fa;
-    font-size: 9px;
-    font-weight: 700;
-}
-
-.metric-label {
-    margin: 0 0 7px;
-    color: #66738a;
-    font-size: 12px;
-    font-weight: 600;
-}
-
-.metric-value {
-    color: #182338;
-    font-size: clamp(25px, 2.5vw, 34px);
-    font-weight: 850;
-    letter-spacing: -1.2px;
-    line-height: 1.25;
-}
-
-.metric-value small {
-    color: #748198;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0;
-}
-
-.metric-footer {
-    display: flex;
-    align-items: flex-start;
-    gap: 7px;
-    margin-top: 17px;
-    padding-top: 12px;
-    border-top: 1px solid #f0f2f7;
-    color: #8792a5;
-    font-size: 10px;
-    line-height: 1.5;
-}
-
-.metric-footer i {
-    flex-shrink: 0;
-    margin-top: 1px;
-}
-
-/* Paneles inferiores */
-
-.dashboard-content-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    align-items: stretch;
-    gap: 18px;
-}
-
-.dashboard-panel {
-    min-width: 0;
-    padding: 22px;
-    border: 1px solid var(--dash-border);
-    border-radius: 16px;
-    background: var(--dash-surface);
-    box-shadow: 0 3px 12px rgb(26 45 80 / 2%);
-}
-
-.dashboard-panel-heading {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 12px;
-    margin-bottom: 26px;
-}
-
-.dashboard-panel-heading .panel-kicker {
-    margin-bottom: 8px;
-}
-
-.panel-heading-icon {
-    color: #2563eb;
-    background: #eff6ff;
-}
-
-/* Comparativa de inventario */
-
-.inventory-comparison {
-    display: flex;
-    flex-direction: column;
-    gap: 27px;
-    padding: 4px 0 22px;
-}
-
-.inventory-category {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.category-heading,
-.category-title {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-}
-
-.category-heading {
-    justify-content: space-between;
-    gap: 15px;
-}
-
-.category-heading strong {
-    font-size: 12px;
-}
-
-.category-title strong {
-    font-size: 12px;
-}
-
-.category-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 4px;
-}
-
-.pork-dot {
-    background: #3b82f6;
-}
-
-.beef-dot {
-    background: #10b981;
-}
-
-.inventory-track {
-    width: 100%;
-    height: 9px;
-    overflow: hidden;
-    border-radius: 20px;
-    background: #edf1f7;
-}
-
-.inventory-progress {
-    height: 100%;
-    border-radius: inherit;
-}
-
-.pork-progress {
-    width: 65%;
-    background: linear-gradient(90deg, #60a5fa, #2563eb);
-}
-
-.beef-progress {
-    width: 42%;
-    background: linear-gradient(90deg, #6ee7b7, #059669);
-}
-
-.inventory-category > small {
-    color: #929caf;
-    font-size: 10px;
-}
-
-.dashboard-info-note {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    padding: 13px;
-    border: 1px solid #dbeafe;
-    border-radius: 10px;
-    color: #45628f;
-    background: #f5f9ff;
-    font-size: 11px;
-    line-height: 1.6;
-}
-
-.dashboard-info-note i {
-    color: #2563eb;
-    font-size: 15px;
-}
-
-/* Lista de reportes */
-
-.dashboard-report-list {
-    display: flex;
-    flex-direction: column;
-}
-
-.dashboard-report-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    min-width: 0;
-    padding: 14px 0;
-    border-bottom: 1px solid #eef1f6;
-}
-
-.dashboard-report-item:first-child {
-    padding-top: 0;
-}
-
-.dashboard-report-item:last-child {
-    padding-bottom: 0;
-    border-bottom: 0;
-}
-
-.dashboard-report-item > i {
-    margin-left: auto;
-    color: #9ba6b8;
-    font-size: 14px;
-}
-
-.report-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 39px;
-    height: 39px;
-    flex-shrink: 0;
-    border-radius: 11px;
-    font-size: 17px;
-}
-
-.report-blue {
-    color: #2563eb;
-    background: #eff6ff;
-}
-
-.report-red {
-    color: #e11d48;
-    background: #fff1f2;
-}
-
-.report-orange {
-    color: #d97706;
-    background: #fffbeb;
-}
-
-.report-green {
-    color: #059669;
-    background: #ecfdf5;
-}
-
-.report-text {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    gap: 5px;
-    min-width: 0;
-}
-
-.report-text strong {
-    font-size: 11px;
-    font-weight: 750;
-}
-
-.report-text small {
-    color: #8792a5;
-    font-size: 10px;
-    line-height: 1.4;
-}
-
-.report-status {
-    flex-shrink: 0;
-    padding: 5px 7px;
-    border-radius: 6px;
-    color: #788398;
-    background: #f3f5f9;
-    font-size: 9px;
-    font-weight: 700;
-}
-
-.report-pending {
-    opacity: .86;
-}
-
-/* Pie */
-
-.dashboard-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 15px;
-    margin-top: 22px;
-    padding: 18px 2px 0;
-    border-top: 1px solid #e4e9f2;
-}
-
-.dashboard-footer-brand {
-    display: flex;
-    align-items: center;
-    gap: 11px;
-}
-
-.footer-brand-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 38px;
-    height: 38px;
-    border-radius: 11px;
-    color: #fff;
-    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-}
-
-.dashboard-footer-brand > div {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.dashboard-footer-brand strong {
-    font-size: 12px;
-    font-weight: 850;
-    letter-spacing: .4px;
-}
-
-.dashboard-footer-brand strong span {
-    color: #2563eb;
-}
-
-.dashboard-footer-brand small,
-.dashboard-footer-note {
-    color: #8792a5;
-    font-size: 10px;
-}
-
-.dashboard-footer-note {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-}
-
-.dashboard-footer-note i {
-    color: #059669;
-    font-size: 15px;
-}
-
-/* Responsivo */
-
-@media (max-width: 1200px) {
-    .dashboard-metrics {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .dashboard-content-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media (max-width: 768px) {
-    .dashboard-page {
-        padding: 17px;
-        border-radius: 12px;
-    }
-
-    .dashboard-heading {
-        align-items: flex-start;
-        flex-direction: column;
-        margin-bottom: 22px;
-    }
-
-    .dashboard-heading-actions {
-        justify-content: flex-start;
-    }
-
-    .dashboard-quick-actions {
-        grid-template-columns: 1fr;
-        gap: 10px;
-        margin-bottom: 25px;
-    }
-
-    .dashboard-action {
-        padding: 13px;
-    }
-
-    .dashboard-section-heading {
-        align-items: flex-start;
-        flex-direction: column;
-    }
-
-    .dashboard-period {
-        white-space: normal;
-    }
-
-    .dashboard-metrics {
-        gap: 10px;
-    }
-
-    .metric-card {
-        padding: 14px;
-    }
-
-    .metric-top {
-        align-items: flex-start;
-        flex-direction: column;
-        margin-bottom: 15px;
-    }
-
-    .metric-tag {
-        font-size: 8px;
-    }
-
-    .metric-footer {
-        font-size: 9px;
-    }
-
-    .dashboard-panel {
-        padding: 17px;
-    }
-
-    .report-status {
-        max-width: 76px;
-        text-align: center;
-        white-space: normal;
-    }
-}
-
-@media (max-width: 390px) {
-    .dashboard-metrics {
-        grid-template-columns: 1fr;
-    }
-
-    .dashboard-date {
-        white-space: normal;
-    }
-}
+.dashboard-page
+    --dash-primary #2563eb
+    --dash-primary-dark #1d4ed8
+    --dash-text #172033
+    --dash-muted #758198
+    --dash-border #e8edf5
+    --dash-surface #ffffff
+    --dash-background #f5f7fb
+
+    width 100%
+    min-height 100vh
+    padding 25px
+    color var(--dash-text)
+    background var(--dash-background)
+
+/* =========================================================
+   ENCABEZADO
+   ========================================================= */
+
+.dashboard-heading
+    display flex
+    align-items center
+    justify-content space-between
+    flex-wrap wrap
+    gap 20px
+    margin-bottom 28px
+
+    h2
+        margin 7px 0
+        color var(--dash-text)
+        font-size 26px
+        font-weight 800
+        letter-spacing -.7px
+
+    p
+        margin 0
+        color var(--dash-muted)
+        font-size 12px
+
+.dashboard-eyebrow
+    color var(--dash-primary)
+    font-size 10px
+    font-weight 800
+    letter-spacing 1.3px
+
+.dashboard-heading-actions
+    display flex
+    align-items center
+    gap 15px
+    flex-wrap wrap
+
+.preview-badge
+    display inline-flex
+    align-items center
+    gap 7px
+    padding 8px 12px
+    border 1px solid #bbf7d0
+    border-radius 30px
+    color #059669
+    background #ecfdf5
+    font-size 10px
+    font-weight 800
+
+    span
+        width 7px
+        height 7px
+        border-radius 50%
+        background #10b981
+        box-shadow 0 0 0 4px #d1fae5
+
+.dashboard-date
+    display flex
+    align-items center
+    gap 8px
+    color var(--dash-muted)
+    font-size 11px
+    font-weight 600
+
+    i
+        color var(--dash-primary)
+        font-size 15px
+
+/* =========================================================
+   ACCESOS RÁPIDOS
+   ========================================================= */
+
+.dashboard-quick-actions
+    display grid
+    grid-template-columns repeat(3, minmax(0, 1fr))
+    gap 15px
+    margin-bottom 30px
+
+.dashboard-action
+    display flex
+    align-items center
+    gap 12px
+    min-width 0
+    padding 17px
+    border 1px solid var(--dash-border)
+    border-radius 13px
+    color var(--dash-text)
+    background #fff
+    text-decoration none
+    box-shadow 0 3px 12px rgba(20, 35, 65, .035)
+    transition all .2s ease
+
+    > span:nth-child(2)
+        display flex
+        flex-direction column
+        flex 1
+        gap 5px
+        min-width 0
+
+    strong
+        color #263247
+        font-size 12px
+        font-weight 800
+
+    small
+        color #8792a5
+        font-size 10px
+
+    &:hover
+        transform translateY(-3px)
+        border-color #bfdbfe
+        color var(--dash-primary)
+        box-shadow 0 8px 20px rgba(37, 99, 235, .09)
+
+.action-icon
+    display flex
+    align-items center
+    justify-content center
+    flex-shrink 0
+    width 43px
+    height 43px
+    border-radius 12px
+    font-size 19px
+
+.action-blue
+    color #2563eb
+    background #eff6ff
+
+.action-purple
+    color #7c3aed
+    background #f5f3ff
+
+.action-green
+    color #059669
+    background #ecfdf5
+
+.action-arrow
+    color #a3adbd
+    font-size 13px
+
+/* =========================================================
+   TÍTULOS DE SECCIÓN
+   ========================================================= */
+
+.dashboard-section-heading
+    display flex
+    align-items center
+    justify-content space-between
+    gap 15px
+    margin-bottom 15px
+
+    h4
+        margin 0 0 5px
+        color var(--dash-text)
+        font-size 15px
+        font-weight 800
+
+    p
+        margin 0
+        color var(--dash-muted)
+        font-size 10px
+
+.dashboard-period
+    display inline-flex
+    align-items center
+    gap 6px
+    padding 7px 11px
+    border 1px solid var(--dash-border)
+    border-radius 8px
+    color #64748b
+    background #fff
+    font-size 10px
+    font-weight 700
+
+/* =========================================================
+   INDICADORES
+   ========================================================= */
+
+.dashboard-metrics
+    display grid
+    grid-template-columns repeat(4, minmax(0, 1fr))
+    gap 15px
+    margin-bottom 25px
+
+.metric-card
+    min-width 0
+    padding 19px
+    border 1px solid var(--dash-border)
+    border-radius 14px
+    background #fff
+    box-shadow 0 3px 12px rgba(20, 35, 65, .035)
+    transition transform .2s ease, box-shadow .2s ease
+
+    &:hover
+        transform translateY(-3px)
+        box-shadow 0 8px 22px rgba(20, 35, 65, .07)
+
+.metric-top
+    display flex
+    align-items center
+    justify-content space-between
+    gap 8px
+    margin-bottom 20px
+
+.metric-icon
+    display flex
+    align-items center
+    justify-content center
+    width 40px
+    height 40px
+    border-radius 11px
+    font-size 18px
+
+.metric-icon-blue
+    color #2563eb
+    background #eff6ff
+
+.metric-icon-green
+    color #059669
+    background #ecfdf5
+
+.metric-icon-orange
+    color #d97706
+    background #fffbeb
+
+.metric-icon-red
+    color #e11d48
+    background #fff1f2
+
+.metric-tag
+    padding 6px 9px
+    border-radius 7px
+    color #758198
+    background #f5f7fb
+    font-size 9px
+    font-weight 800
+
+.metric-label
+    margin 0 0 8px
+    color #758198
+    font-size 11px
+    font-weight 600
+
+.metric-value
+    overflow hidden
+    color #172033
+    font-size 25px
+    font-weight 850
+    letter-spacing -1px
+    text-overflow ellipsis
+    white-space nowrap
+
+    small
+        color #8792a5
+        font-size 12px
+        font-weight 700
+
+.metric-footer
+    display flex
+    align-items center
+    gap 6px
+    margin-top 15px
+    color #8792a5
+    font-size 9px
+
+    i
+        color #2563eb
+        font-size 12px
+
+/* =========================================================
+   CONTENIDO PRINCIPAL
+   ========================================================= */
+
+.dashboard-content-grid
+    display grid
+    grid-template-columns minmax(0, 1.5fr) minmax(300px, 1fr)
+    gap 18px
+    margin-bottom 18px
+
+.dashboard-panel
+    min-width 0
+    padding 21px
+    border 1px solid var(--dash-border)
+    border-radius 14px
+    background #fff
+    box-shadow 0 3px 12px rgba(20, 35, 65, .035)
+
+.dashboard-panel-heading
+    display flex
+    align-items flex-start
+    justify-content space-between
+    gap 12px
+    margin-bottom 20px
+
+    h4
+        margin 5px 0 6px
+        color #172033
+        font-size 14px
+        font-weight 800
+
+    p
+        margin 0
+        color #8792a5
+        font-size 10px
+
+.panel-kicker
+    color #2563eb
+    font-size 11px
+    font-weight 850
+    letter-spacing 1px
+
+.panel-heading-icon
+    display flex
+    align-items center
+    justify-content center
+    flex-shrink 0
+    width 36px
+    height 36px
+    border-radius 10px
+    color #2563eb
+    background #eff6ff
+    font-size 16px
+
+/* =========================================================
+   GRÁFICA DE VENTAS
+   ========================================================= */
+
+.dashboard-sales-chart
+    display grid
+    grid-template-columns repeat(7, minmax(0, 1fr))
+    align-items end
+    gap 13px
+    min-height 230px
+    padding 10px 0 0
+
+.sales-chart-item
+    display flex
+    flex-direction column
+    align-items center
+    justify-content flex-end
+    min-width 0
+    height 210px
+    gap 9px
+
+.sales-chart-value
+    width 100%
+    overflow hidden
+    color #66738a
+    font-size 9px
+    font-weight 700
+    text-align center
+    text-overflow ellipsis
+    white-space nowrap
+
+.sales-chart-track
+    display flex
+    align-items flex-end
+    justify-content center
+    width 100%
+    height 150px
+    overflow hidden
+    border-radius 9px 9px 4px 4px
+    background #f2f5fa
+
+.sales-chart-bar
+    width 65%
+    min-height 0
+    border-radius 8px 8px 3px 3px
+    background linear-gradient(180deg, #60a5fa, #2563eb)
+    transition height .35s ease
+
+.sales-chart-label
+    color #8792a5
+    font-size 10px
+    font-weight 700
+
+/* =========================================================
+   SESIONES DE CAJA
+   ========================================================= */
+
+.dashboard-session-count
+    display flex
+    align-items baseline
+    gap 9px
+    margin -5px 0 20px
+
+    strong
+        color #182338
+        font-size 30px
+        font-weight 850
+        letter-spacing -1px
+
+    span
+        color #8792a5
+        font-size 11px
+        font-weight 600
+
+.dashboard-session-list
+    display flex
+    flex-direction column
+
+.dashboard-session-item
+    display flex
+    align-items center
+    gap 11px
+    min-width 0
+    padding 14px 0
+    border-top 1px solid #eef1f6
+
+.session-account-icon
+    display flex
+    align-items center
+    justify-content center
+    flex-shrink 0
+    width 40px
+    height 40px
+    border-radius 11px
+    color #2563eb
+    background #eff6ff
+    font-size 18px
+
+.session-account-info
+    display flex
+    flex 1
+    flex-direction column
+    gap 5px
+    min-width 0
+
+    strong
+        overflow hidden
+        color #263247
+        font-size 11px
+        font-weight 750
+        text-overflow ellipsis
+        white-space nowrap
+
+    small
+        color #8792a5
+        font-size 9px
+        line-height 1.4
+
+.session-open-status
+    flex-shrink 0
+    padding 6px 8px
+    border-radius 7px
+    color #059669
+    background #ecfdf5
+    font-size 9px
+    font-weight 800
+
+/* =========================================================
+   ESTADOS VACÍOS
+   ========================================================= */
+
+.dashboard-empty
+    display flex
+    align-items center
+    flex-direction column
+    gap 8px
+    padding 25px 12px
+    color #8792a5
+    text-align center
+
+    > i
+        color #a6b1c2
+        font-size 27px
+
+    strong
+        color #59657b
+        font-size 12px
+
+    span
+        font-size 10px
+
+/* =========================================================
+   TABLA DE ÚLTIMAS VENTAS
+   ========================================================= */
+
+.dashboard-recent-sales
+    margin-top 18px
+
+.dashboard-table-wrapper
+    width 100%
+    overflow-x auto
+
+.dashboard-sales-table
+    width 100%
+    border-collapse collapse
+    white-space nowrap
+
+    th
+        padding 12px 13px
+        border-bottom 1px solid #e8edf5
+        color #8792a5
+        background #f8faff
+        font-size 10px
+        font-weight 800
+        text-align left
+
+    td
+        padding 14px 13px
+        border-bottom 1px solid #eef1f6
+        color #66738a
+        font-size 13px
+
+        strong
+            color #263247
+            font-weight 750
+
+    tbody
+        tr:last-child td
+            border-bottom 0
+
+        tr:hover
+            background #f9fbff
+
+    .text-end
+        text-align right
+
+.sale-status
+    display inline-flex
+    align-items center
+    padding 5px 8px
+    border-radius 6px
+    font-size 9px
+    font-weight 800
+
+.sale-status-completed
+    color #059669
+    background #ecfdf5
+
+.sale-status-cancelled,
+.sale-status-canceled
+    color #e11d48
+    background #fff1f2
+
+.sale-status-pending
+    color #d97706
+    background #fffbeb
+
+/* =========================================================
+   PIE DE DASHBOARD
+   ========================================================= */
+
+.dashboard-footer
+    display flex
+    align-items center
+    justify-content space-between
+    flex-wrap wrap
+    gap 15px
+    padding 20px 5px 5px
+
+.dashboard-footer-brand
+    display flex
+    align-items center
+    gap 10px
+
+    > div
+        display flex
+        flex-direction column
+        gap 4px
+
+    strong
+        color #263247
+        font-size 11px
+        font-weight 850
+
+        span
+            color #2563eb
+
+    small
+        color #8792a5
+        font-size 9px
+
+.footer-brand-icon
+    display flex
+    align-items center
+    justify-content center
+    width 35px
+    height 35px
+    border-radius 10px
+    color #2563eb
+    background #eff6ff
+
+.dashboard-footer-note
+    display flex
+    align-items center
+    gap 6px
+    color #8792a5
+    font-size 10px
+
+    i
+        color #059669
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1100px)
+
+    .dashboard-metrics
+        grid-template-columns repeat(2, minmax(0, 1fr))
+
+    .dashboard-content-grid
+        grid-template-columns minmax(0, 1fr)
+
+@media (max-width: 768px)
+
+    .dashboard-page
+        padding 16px
+
+    .dashboard-heading
+        align-items flex-start
+
+        h2
+            font-size 22px
+
+    .dashboard-heading-actions
+        width 100%
+        justify-content space-between
+
+    .dashboard-quick-actions
+        grid-template-columns minmax(0, 1fr)
+
+    .dashboard-sales-chart
+        gap 7px
+
+    .sales-chart-value
+        font-size 8px
+
+    .sales-chart-track
+        height 120px
+
+    .sales-chart-item
+        height 180px
+
+    .dashboard-sales-table
+        min-width 750px
+
+    .dashboard-panel
+        padding 16px
+
+@media (max-width: 480px)
+
+    .dashboard-metrics
+        grid-template-columns minmax(0, 1fr)
+
+    .dashboard-section-heading
+        align-items flex-start
+
+    .dashboard-session-item
+        flex-wrap wrap
+
+    .session-open-status
+        margin-left 50px
+
+    .dashboard-footer
+        align-items flex-start
+        flex-direction column

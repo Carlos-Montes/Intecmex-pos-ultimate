@@ -65,10 +65,12 @@
                                             <a href="/" data-toggle="tooltip" data-placement="top" title="Editar" class="edit" data-bs-toggle="modal" data-bs-target="#categories-{{ $item->id }}">
                                                 <i class="bi bi-pencil-square"></i>
                                             </a>
-
-                                            <a href="{{ url('/categories/' . $item->id . '/subs') }}" data-toggle="tooltip" data-placement="top" title="Subcategorías" class="inventory">
-                                                <i class="bi bi-subtract"></i> 
-                                            </a>
+                                            
+                                            @if (getPermissions(Auth::user()->permissions, 'subcategories'))
+                                                <a href="{{ url('/categories/' . $item->id . '/subs') }}" data-toggle="tooltip" data-placement="top" title="Subcategorías" class="inventory">
+                                                    <i class="bi bi-subtract"></i> 
+                                                </a>
+                                            @endif
 
                                             @if($item->parent_id != 0 || $item->children->count() == 0)
                                             <a href="{{ url('/categories/' . $item->id . '/delete') }}" data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn-deleted deleted" data-action="delete" data-path="api-js/categorie" data-object="{{ $cat->id }}">

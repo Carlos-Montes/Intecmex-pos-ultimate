@@ -11,6 +11,12 @@ use Validator;
 
 class ProductsController extends Controller
 {
+
+    public function __construct(){
+        $this->middleware('user.status');
+        $this->middleware('user.permissions');
+    }
+
     public function getProducts($status)
     {
         switch ($status) {

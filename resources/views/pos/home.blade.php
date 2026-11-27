@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="{{ url('/static/css/pos.css?v=' . time()) }}">
 @endsection
 
+
 @section('custom_js')
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -11,8 +12,8 @@
         window.cashRegisterRoutes = {
             status: @json(route('api.cash-register.status')),
             open: @json(route('api.cash-register.open')),
-            products: @json(route('api.pos.products')),
-            customers: @json(route('api.pos.customers')),
+            products: @json(route('api_pos_products')),
+            customers: @json(route('api_pos_customers')),
             sales: @json(route('api.pos.sales.store')),
             summary: @json(route('api.cash-register.summary')),
             close: @json(route('api.cash-register.close'))
@@ -24,14 +25,19 @@
         };
     </script>
 
-    {{-- Librería de conexión con QZ Tray --}}
+    {{-- Librería QZ Tray --}}
     <script src="{{ url('/static/js/vendor/qz-tray.js') }}"></script>
 
-    {{-- JavaScript principal del punto de venta --}}
+    {{-- Impresora compartida --}}
+    <script src="{{ url('/static/js/receipt-printer.js?v=' . time()) }}"></script>
+
+    {{-- JavaScript principal del POS --}}
     <script src="{{ url('/static/js/pos.js?v=' . time()) }}"></script>
 @endsection
 
+
 @section('content')
+    @if (getPermissions(Auth::user()->permissions, 'pos'))
     <div class="pos-app">
 
         {{-- INFORMACIÓN DE CAJA ABIERTA --}}
@@ -524,4 +530,5 @@
             </div>
         </div>
     </div>
+    @endif
 @endsection

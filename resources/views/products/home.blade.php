@@ -14,11 +14,14 @@
                     <h5><i class="bi bi-box-seam"></i> Lista de productos</h5>
                 </div>
                 <ul class="mt-9">
+                    @if (getPermissions(Auth::user()->permissions, 'product_add'))
                     <li>
                         <a href="{{ url('/product/add') }}">
                             <i class="bi bi-cart-plus"></i> Agregar Producto
                         </a>
                     </li>
+                    @endif
+                    @if (getPermissions(Auth::user()->permissions, 'product_type'))
                     <li>
                         <a href="#">Filtrar <i class="bi bi-arrow-down-short"></i></a>
                         <ul class="shadow">
@@ -33,6 +36,7 @@
                             <i class="bi bi-search"></i> Buscar
                         </a>
                     </li>
+                    @endif
                 </ul>
             </div>
             <div class="row mtop16">
@@ -89,20 +93,21 @@
                                     <td> <strong> {{ number_format((float) ($key->meatInventory->quantity_kg ?? 0), 2) }} kg </strong></td>
                                     <td width="180">
                                         <div class="opts">
+                                            @if (getPermissions(Auth::user()->permissions, 'product_edit'))
                                             <a href="{{ url('product/'.$key->id.'/edit') }}" data-toggle="tooltip" data-placement="top" title="Editar" class="edit">
                                                 <i class="bi bi-pencil-square"></i>
                                             </a>
-                                            <a href="{{ url('product/'.$key->id.'/edit') }}" data-toggle="tooltip" data-placement="top" title="Inventario" class="inventory">
-                                                <i class="bi bi-file-earmark-arrow-up"></i>
-                                            </a>
-                                            @if(is_null($key->delete))
-                                                <a href="{{ url('/product/' . $key->id . '/delete') }}" data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn-deleted deleted" data-action="delete" data-path="api-js/product" data-object="{{ $key->id }}">
-                                                    <i class="bi bi-trash2-fill"></i>
-                                                </a>
-                                            @else
-                                                <a href="{{ url('/product/' . $key->id . '/restore') }}" data-toggle="tooltip" data-placement="top" title="Restaurar" class="btn-restored restored" data-action="restored" data-path="api-js/product" data-object="{{ $key->id }}">
-                                                    <i class="bi bi-trash2-fill"></i>
-                                                </a>
+                                            @endif
+                                            @if (getPermissions(Auth::user()->permissions, 'product_delete'))
+                                                @if(is_null($key->deleted_at))
+                                                    <a href="{{ url('/product/' . $key->id . '/delete') }}" data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn-deleted deleted" data-action="delete" data-path="api-js/product" data-object="{{ $key->id }}">
+                                                        <i class="bi bi-trash2-fill"></i>
+                                                    </a>
+                                                @else
+                                                    <a href="{{ url('/product/' . $key->id . '/restore') }}" data-toggle="tooltip" data-placement="top" title="Restaurar" class="btn-restored restore" data-action="restore" data-path="api-js/product" data-object="{{ $key->id }}">
+                                                        <i class="bi bi-upload"></i>
+                                                    </a>
+                                                @endif
                                             @endif
                                         </div>
                                     </td>

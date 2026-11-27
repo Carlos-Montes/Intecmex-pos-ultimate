@@ -8,6 +8,12 @@ use Illuminate\Support\Facades\DB;
 
 class PosController extends Controller
 {
+
+    public function __construct(){
+        $this->middleware('user.status');
+        $this->middleware('user.permissions');
+    }
+
     public function getHome()
     {
         $session = CashRegisterSession::with(['account', 'user'])

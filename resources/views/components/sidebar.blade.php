@@ -4,122 +4,140 @@
         <a href="#" id="trigger_sidebar_close" class="hide-in-desktop"><i class="bi bi-x"></i></a>
     </div>
     <ul>
-        <li>
-            <a href="{{ url('/') }}" class="lk-dashboard">
-                <i class="bi bi-house"></i>
-                <span> Dashboard</span>
-            </a>
-        </li>
-        <li>
-            <a href="{{ url('/categories/list') }}" class="lk-categories lk-subcategories">
-                <i class="bi bi-tags-fill"></i>
-                <span> Categorías </span>
-            </a>
-        </li>
-        <li>
-            <a href="#" class="lk-product lk-product_add lk-product_type sidebar_accordion" data-target="accordion_products">
-                <i class="bi bi-boxes"></i> 
-                <span>Productos</span>
-                <span class="row-icon" id="row_icon_accordion_products"><i class="bi bi-caret-right-fill"></i></span>
-            </a>
-            
-            <ul id="accordion_products" class="accordin_ul">
-                <li>
-                    <a href="{{ url('/products/1') }}" id="side_lk_products_all">
-                        <i class="bi bi-circle"></i>
-                        Lista de productos
-                    </a>
-                </li>
-                @foreach (getProducts() as $key => $role)
-                <li>
-                    <a href="{{ url('/products/list/'.$key) }}" id="side_lk_products_{{ $key }}">
-                        <i class="bi bi-circle"></i>
-                        {{ $role }}
-                    </a>
-                </li>
-                @endforeach
-            </ul>
-        </li>
-        <li>
-            <a href="{{ url('/pos') }}" class="lk-pos">
-                <i class="bi bi-receipt"></i>
-                <span> POS </span>
-            </a>
-        </li>
-        <li>
-            <a href="#" class="lk-finances sidebar_accordion" data-target="accordion_finances">
-                <i class="bi bi-people"></i> 
-                <span>Contabilidad</span>
-                <span class="row-icon" id="row_icon_accordion_finances"><i class="bi bi-caret-right-fill"></i></span>
-            </a>
-            <ul id="accordion_finances" class="accordin_ul">
-                @foreach (getFinances() as $key => $role)
-                <li>
-                    <a href="{{ url('/finances/list/'.$key) }}" id="side_lk_finances_{{ $key }}">
-                        <i class="bi bi-circle"></i>
-                        {{ $role }}
-                    </a>
-                </li>
-                @endforeach
-            </ul>
-        </li>
-        <li>
-            <a href="#" class="lk-inventory lk-live_weight sidebar_accordion" data-target="accordion_inventory">
-                <i class="bi bi-people"></i> 
-                <span>Inventario</span>
-                <span class="row-icon" id="row_icon_accordion_inventory"><i class="bi bi-caret-right-fill"></i></span>
-            </a>
-            <ul id="accordion_inventory" class="accordin_ul">
-                <li>
-                    <a href="{{ url('/inventory/live-weight') }}" id="side_lk_inventory_live_weight">
-                        <i class="bi bi-circle"></i>
-                        Agregar Peso Vivo
-                    </a>
-                </li>
-                @foreach (getInventory() as $key => $role)
-                <li>
-                    <a href="{{ url('/inventory/'.$key) }}" id="side_lk_inventory_{{ $key }}">
-                        <i class="bi bi-circle"></i>
-                        {{ $role }}
-                    </a>
-                </li>
-                @endforeach
-            </ul>
-        </li>
-        <li>
-            <a href="#" class="lk-users_list lk-users_views lk-users_permissions lk-new_user sidebar_accordion" data-target="accordion_users">
-                <i class="bi bi-people"></i> 
-                <span>Usuarios</span>
-                <span class="row-icon" id="row_icon_accordion_users"><i class="bi bi-caret-right-fill"></i></span>
-            </a>
-            <ul id="accordion_users" class="accordin_ul">
-                <li>
-                    <a href="{{ url('/users/list/all') }}" id="side_lk_users_all">
-                        <i class="bi bi-circle"></i>
-                        Todos
-                    </a>
-                </li>
-                @foreach (getUserRole() as $key => $role)
-                <li>
-                    <a href="{{ url('/users/list/'.$key) }}" id="side_lk_users_{{ $key }}">
-                        <i class="bi bi-circle"></i>
-                        {{ $role }}
-                    </a>
-                </li>
-                @endforeach
-            </ul>
-        </li>
-        <li>
-            <a href="{{ url('/reports') }}" class="lk-dashboard">
-                <i class="bi bi-pie-chart-fill"></i>
-                <span> Reportes</span>
-            </a>
-        </li>   
-        <li>
-            <a href="{{ url('/settings') }}" class="lk-settings">
-                <i class="bi bi-gear-wide-connected"></i>
-                <span> Configuración</span>
-            </a>
-        </li>
+        @if (getPermissions(Auth::user()->permissions, 'dashboard'))
+            <li>
+                <a href="{{ url('/') }}" class="lk-dashboard">
+                    <i class="bi bi-house"></i>
+                    <span> Dashboard</span>
+                </a>
+            </li>
+        @endif
+        @if (getPermissions(Auth::user()->permissions, 'categories'))
+            <li>
+                <a href="{{ url('/categories/list') }}" class="lk-categories lk-subcategories">
+                    <i class="bi bi-tags-fill"></i>
+                    <span> Categorías </span>
+                </a>
+            </li>
+        @endif
+        @if (getPermissions(Auth::user()->permissions, 'product'))
+            <li>
+                <a href="#" class="lk-product lk-product_add lk-product_type sidebar_accordion" data-target="accordion_products">
+                    <i class="bi bi-boxes"></i> 
+                    <span>Productos</span>
+                    <span class="row-icon" id="row_icon_accordion_products"><i class="bi bi-caret-right-fill"></i></span>
+                </a>
+                
+                <ul id="accordion_products" class="accordin_ul">
+                    <li>
+                        <a href="{{ url('/products/1') }}" id="side_lk_products_all">
+                            <i class="bi bi-circle"></i>
+                            Lista de productos
+                        </a>
+                    </li>
+                    @foreach (getProducts() as $key => $role)
+                    <li>
+                        <a href="{{ url('/products/list/'.$key) }}" id="side_lk_products_{{ $key }}">
+                            <i class="bi bi-circle"></i>
+                            {{ $role }}
+                        </a>
+                    </li>
+                    @endforeach
+                </ul>
+            </li>
+        @endif
+        @if (getPermissions(Auth::user()->permissions, 'pos'))
+            <li>
+                <a href="{{ url('/pos') }}" class="lk-pos">
+                    <i class="bi bi-receipt"></i>
+                    <span> POS </span>
+                </a>
+            </li>
+        @endif
+        @if (getPermissions(Auth::user()->permissions, 'finances'))
+            <li>
+                <a href="#" class="lk-finances sidebar_accordion" data-target="accordion_finances">
+                    <i class="bi bi-people"></i> 
+                    <span>Contabilidad</span>
+                    <span class="row-icon" id="row_icon_accordion_finances"><i class="bi bi-caret-right-fill"></i></span>
+                </a>
+                <ul id="accordion_finances" class="accordin_ul">
+                    @foreach (getFinances() as $key => $role)
+                    <li>
+                        <a href="{{ url('/finances/list/'.$key) }}" id="side_lk_finances_{{ $key }}">
+                            <i class="bi bi-circle"></i>
+                            {{ $role }}
+                        </a>
+                    </li>
+                    @endforeach
+                </ul>
+            </li>
+        @endif
+        @if (getPermissions(Auth::user()->permissions, 'inventory'))
+            <li>
+                <a href="#" class="lk-inventory lk-live_weight sidebar_accordion" data-target="accordion_inventory">
+                    <i class="bi bi-people"></i> 
+                    <span>Inventario</span>
+                    <span class="row-icon" id="row_icon_accordion_inventory"><i class="bi bi-caret-right-fill"></i></span>
+                </a>
+                <ul id="accordion_inventory" class="accordin_ul">
+                    <li>
+                        <a href="{{ url('/inventory/live-weight') }}" id="side_lk_inventory_live_weight">
+                            <i class="bi bi-circle"></i>
+                            Agregar Peso Vivo
+                        </a>
+                    </li>
+                    @foreach (getInventory() as $key => $role)
+                    <li>
+                        <a href="{{ url('/inventory/'.$key) }}" id="side_lk_inventory_{{ $key }}">
+                            <i class="bi bi-circle"></i>
+                            {{ $role }}
+                        </a>
+                    </li>
+                    @endforeach
+                </ul>
+            </li>
+        @endif
+        @if (getPermissions(Auth::user()->permissions, 'users_list'))
+            <li>
+                <a href="#" class="lk-users_list lk-users_views lk-users_permissions lk-new_user sidebar_accordion" data-target="accordion_users">
+                    <i class="bi bi-people"></i> 
+                    <span>Usuarios</span>
+                    <span class="row-icon" id="row_icon_accordion_users"><i class="bi bi-caret-right-fill"></i></span>
+                </a>
+                <ul id="accordion_users" class="accordin_ul">
+                    <li>
+                        <a href="{{ url('/users/list/all') }}" id="side_lk_users_all">
+                            <i class="bi bi-circle"></i>
+                            Todos
+                        </a>
+                    </li>
+                    @foreach (getUserRole() as $key => $role)
+                    <li>
+                        <a href="{{ url('/users/list/'.$key) }}" id="side_lk_users_{{ $key }}">
+                            <i class="bi bi-circle"></i>
+                            {{ $role }}
+                        </a>
+                    </li>
+                    @endforeach
+                </ul>
+            </li>
+        @endif
+        @if (getPermissions(Auth::user()->permissions, 'sales'))
+            <li>
+                <a href="{{ url('/sales') }}" class="lk-sales">
+                    <i class="bi bi-receipt"></i>
+                    <span> Ventas</span>
+                </a>
+            </li>
+        @endif
+        @if (getPermissions(Auth::user()->permissions, 'reports'))
+            <li>
+                <a href="{{ url('/reports') }}" class="lk-reports">
+                    <i class="bi bi-pie-chart-fill"></i>
+                    <span> Reportes</span>
+                </a>
+            </li>  
+        @endif 
     </ul>
 </div>

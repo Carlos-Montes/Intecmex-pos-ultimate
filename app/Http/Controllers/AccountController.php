@@ -10,6 +10,11 @@ use Auth;
 
 class AccountController extends Controller {
 
+    public function __construct(){
+        $this->middleware('user.status');
+        $this->middleware('user.permissions');
+    }
+
     public function getProfileEdit(){
         $user = User::find(Auth::id());
         $data = ['user' => $user];

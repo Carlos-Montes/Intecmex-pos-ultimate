@@ -9,6 +9,12 @@ use App\Models\User;
 
 class FinancesController extends Controller
 {
+
+    public function __construct(){
+        $this->middleware('user.status');
+        $this->middleware('user.permissions');
+    }
+    
     public function getFinances($type){
         $accounts = Account::all();
         $expenses = Expense::all();

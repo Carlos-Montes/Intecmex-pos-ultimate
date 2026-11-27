@@ -124,11 +124,19 @@ document.addEventListener('DOMContentLoaded', function(){
        }) 
     }
 
-
     btn_deleted = document.getElementsByClassName("btn-deleted");
+    
     for (i = 0; i < btn_deleted.length; i++) {
         btn_deleted[i].addEventListener("click", delete_object);
     }
+
+    btn_restore = document.getElementsByClassName("btn-restored");
+
+    for (i = 0; i < btn_restore.length; i++) {
+        btn_restore[i].addEventListener("click", delete_object);
+    }
+
+
 
     btn_inactive = document.getElementsByClassName("btn-inactive");
     for (i = 0; i < btn_inactive.length; i++) {
@@ -146,25 +154,20 @@ function imageprew(input, toprew){
     render.readAsDataURL(input.files[0]);
 }
 
-
-function delete_object(e) {
-    e.preventDefault();
-    var object = this.getAttribute("data-object");
-    var action = this.getAttribute("data-action");
-    var path = this.getAttribute("data-path");
-    var url = base + "/" + path + "/" + object + "/" + action;
-
-    if (action == "delete") {
-        mdalert({
-            title: "¿Estas seguro de eliminar este objecto?",
-            type: "delete",
-            msg: "Recuerda que esta acción enviara este elemento a la papelera o lo eliminara de forma definitiva.",
-            actions: JSON.stringify([
-                { url: url, name: "Si, Eliminar", type: "danger" },
-            ]),
-        });
-    }
+function delete_object(e){
+	e.preventDefault();
+	var object = this.getAttribute('data-object');
+	var action =  this.getAttribute('data-action');
+	var path = this.getAttribute('data-path');
+	var url = base + '/' + path + '/' + object + '/'+ action;
+	if(action == "delete"){
+		mdalert({title: '¿Estas seguro de eliminar este objecto?', type: 'delete',  msg: 'Recuerda que esta acción enviara este elemento a la papelera o lo eliminara de forma definitiva.', actions: JSON.stringify([{url: url, name: 'Si, Eliminar', type: 'danger'}])});
+	}
+    if(action == "restore"){
+		mdalert({title: '¿Deseas restaurar este elemento?', type: 'restore', msg: 'Esta acción restaurara el elemento de la papelera de reciclaje.',actions: JSON.stringify([{url: url, name: 'Si, Restaurar', type: 'success'}])});
+	}
 }
+
 
 function inactive_object(e) {
     e.preventDefault();
@@ -184,4 +187,5 @@ function inactive_object(e) {
         });
     }
 }
+
 

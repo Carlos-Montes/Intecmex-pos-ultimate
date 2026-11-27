@@ -8,6 +8,12 @@ use App\Models\Weight, App\Models\Product, App\Models\User;
 
 class InventoryController extends Controller
 {
+    public function __construct(){
+        $this->middleware('user.status');
+        $this->middleware('user.permissions');
+    }
+
+
     public function getInventory($status){
         switch ($status) {
             case 'live-weight':
